@@ -5,6 +5,10 @@
   text-align: left;
 }
 
+.tab {
+  display: flex;
+}
+
 .ingridients {
   height: 720px;
   overflow-x: auto;

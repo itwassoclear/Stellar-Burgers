@@ -1,21 +1,13 @@
 import React from 'react';
 import styles from './burger-ingredients.module.css';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 
 import {
   Tab,
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-
-const burgerIngredientsPropTypes = PropTypes.arrayOf(PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-}));
+import burgerPropTypes from '../../utils/types';
 
 const BurgerIngredients = (props) => {
   const buns = props.details.filter(elem => elem.type === 'bun');
@@ -28,7 +20,7 @@ const BurgerIngredients = (props) => {
     return (
       <section className={styles.box}>
         <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
-        <div style={{ display: 'flex' }}>
+        <div className={styles.tab}>
           <Tab value="one" active={current === 'one'} onClick={setCurrent}>
             Булки
           </Tab>
@@ -99,7 +91,7 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-  details: burgerIngredientsPropTypes.isRequired,
+  details: burgerPropTypes.isRequired,
 };
 
 export default BurgerIngredients;

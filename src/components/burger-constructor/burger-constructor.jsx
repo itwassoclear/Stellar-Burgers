@@ -1,6 +1,5 @@
 import styles from './burger-constructor.module.css';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 
 import {
   DragIcon,
@@ -9,14 +8,7 @@ import {
   LockIcon,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-
-const burgerConstructorPropTypes = PropTypes.arrayOf(PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-}));
+import burgerPropTypes from '../../utils/types';
 
 const BurgerConstructor = (props) => {
 
@@ -78,7 +70,7 @@ const BurgerConstructor = (props) => {
 }
 
 BurgerConstructor.propTypes = {
-  details: burgerConstructorPropTypes.isRequired,
+  details: burgerPropTypes.isRequired,
 };
 
 export default BurgerConstructor
