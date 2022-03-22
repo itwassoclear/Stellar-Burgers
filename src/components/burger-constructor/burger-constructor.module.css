@@ -1,0 +1,64 @@
+.box {
+  display: flex;
+  flex-direction: column;
+  width: 568px;
+}
+
+.ingridient {
+  background-color: rgba(28, 28, 33, 1);
+  border-radius: 40px;
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.ingridient:first-child {
+  border-radius: 88px 88px 40px 40px;
+}
+
+.ingridient:last-child {
+  border-radius: 40px 40px 88px 88px;
+}
+
+.dragIcon {
+  position: absolute;
+  top: 27px;
+  left: -34px;
+}
+
+.image {
+  width: 80px;
+}
+
+.name {
+  width: 240px;
+  height: 48px;
+  text-align: left;
+}
+
+.priceBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 90px;
+}
+
+.totalBox {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resultIcon {
+  width: 33px;
+  height: 33px;
+  align-items: center;
+  display: flex;
+  position: relative;
+  justify-content: center;
+}

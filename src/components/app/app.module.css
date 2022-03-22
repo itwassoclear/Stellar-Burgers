@@ -1,0 +1,9 @@
+.app {
+  text-align: center;
+  background-color: rgb(19, 19, 22);
+}
+
+.appSection {
+  display: flex;
+  justify-content: center;
+}
