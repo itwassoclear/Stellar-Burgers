@@ -13,13 +13,13 @@ const detailsPropTypes = PropTypes.shape({
 
 const IngredientDetails = (props) => {
   const { details } = props;
-  console.log('details', details)
+  const image = details.image_large;
 
   const textDefaultClass = "text text_type_main-default text_color_inactive";
   const textMeduimClass = "text text_type_main-medium text_color_inactive";
   return (
     <div className={clsx(styles.modal, 'pl-10 pr-10 pt-10 pb-15')}>
-      <img style={{ width: '480px', height: '240px', backgroundImage: `url(${details.image_large})` }} alt={details.name}/>
+      <img style={{ width: '480px', height: '240px' }} alt={details.name} src={image} />
       <p className="text text_type_main-medium mt-4 mb-8">{details.name}</p>
       <div className={styles.details}>
         <p className={clsx(styles.text, textDefaultClass)}>Калории, ккал<strong className={clsx(textMeduimClass, "mt-2")}>{details.calories}</strong></p>
