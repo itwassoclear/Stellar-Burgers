@@ -1,4 +1,3 @@
-// компонент самого модального окна: шапка с заголовком и иконка закрытия.
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
@@ -49,9 +48,9 @@ const Modal = (props) => {
 }
 
 Modal.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.node.isRequired,
   header: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

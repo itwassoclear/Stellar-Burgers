@@ -7,7 +7,7 @@ import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import burgerPropTypes from '../../utils/types';
+import { burgerPropTypes } from '../../utils/types';
 
 import Modal from '../modal/modal'
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -18,7 +18,7 @@ const BurgerIngredients = (props) => {
   const mains = props.details.filter(elem => elem.type === 'main');
 
   const [visibleDetails, setVisibleDetails] = React.useState(false);
-  const [ingredientDetails, setIngredientDetails] = React.useState({});
+  const [ingredientDetails, setIngredientDetails] = React.useState(null);
 
   function handleOpenModal(elem) {
     setIngredientDetails(elem);

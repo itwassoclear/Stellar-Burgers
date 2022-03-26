@@ -8,7 +8,7 @@ import {
   Button,
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import burgerPropTypes from '../../utils/types';
+import { burgerPropTypes } from '../../utils/types';
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details';
 
@@ -53,7 +53,7 @@ const BurgerConstructor = (props) => {
         />
         {ingredients.map(elem => {
           return (
-            <div className={styles.ingridient} key={elem._id}>
+            <div className={styles.ingredient} key={elem._id}>
               <div className={styles.dragIcon}>
                 <DragIcon type="primary" />
               </div>

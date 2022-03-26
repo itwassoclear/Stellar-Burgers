@@ -5,7 +5,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import clsx from 'clsx';
 
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients'
+const API_URL = 'https://norma.nomoreparties.space/api/'
 
 function App() {
   const [data, setData] = React.useState([]);
@@ -15,22 +15,26 @@ function App() {
   React.useEffect(() => {
     const getProductData = async () => {
       try {
-        const res = await fetch(API_URL);
-        const data = await res.json()
-        setData(data.data)
+        const result = await fetch(API_URL + 'ingredients').then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          return data
+        })
+
+        setData(result.data)
         setIsLoading(false)
       } catch(error) {
         console.log('error', error);
         setIsError(true)
+        setIsLoading(false)
       }
     }
     getProductData();
   }, [])
 
   return (
-    <>
-    <div id="modal"></div>
-    <div className={clsx(appStyles.app, "mb-10")}>
+    <div className={clsx(appStyles.app, "pb-10")}>
       <AppHeader />
       <section className={appStyles.appSection}>
         {!isLoading && !isError && (
@@ -40,7 +44,7 @@ function App() {
           </>
         )}
       </section>
-    </div></>
+    </div>
   )
 }
 

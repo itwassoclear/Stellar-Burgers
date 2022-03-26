@@ -1,15 +1,7 @@
 import styles from './ingredient-details.module.css';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-
-const detailsPropTypes = PropTypes.shape({
-  image_large: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  calories: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-});
+import { detailsPropTypes } from '../../utils/types';
 
 const IngredientDetails = (props) => {
   const { details } = props;
@@ -19,7 +11,7 @@ const IngredientDetails = (props) => {
   const textMeduimClass = "text text_type_main-medium text_color_inactive";
   return (
     <div className={clsx(styles.modal, 'pl-10 pr-10 pt-10 pb-15')}>
-      <img style={{ width: '480px', height: '240px' }} alt={details.name} src={image} />
+      <img style={{ width: '480px', height: '240px' }} alt={details.name} src={image} decoding="sync" />
       <p className="text text_type_main-medium mt-4 mb-8">{details.name}</p>
       <div className={styles.details}>
         <p className={clsx(styles.text, textDefaultClass)}>Калории, ккал<strong className={clsx(textMeduimClass, "mt-2")}>{details.calories}</strong></p>
@@ -32,7 +24,7 @@ const IngredientDetails = (props) => {
 }
 
 IngredientDetails.propTypes = {
-  details: detailsPropTypes.isRequired,
+  details: PropTypes.arrayOf(detailsPropTypes).isRequired,
 };
 
 export default IngredientDetails;

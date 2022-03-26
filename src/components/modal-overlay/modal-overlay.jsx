@@ -1,4 +1,3 @@
-// фоновая подложка под модальным окном.
 import styles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
 
