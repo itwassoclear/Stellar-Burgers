@@ -21,6 +21,7 @@ function App() {
         .then((data) => {
           return data
         })
+        .catch(e => console.log(e))
 
         setData(result.data)
         setIsLoading(false)
