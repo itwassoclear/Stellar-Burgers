@@ -15,13 +15,19 @@ function App() {
   React.useEffect(() => {
     const getProductData = async () => {
       try {
-        const result = await fetch(API_URL + 'ingredients').then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          return data
-        })
-        .catch(e => console.log(e))
+        // const result = await fetch(API_URL + 'ingredients').then((response) => {
+        //   return response.json();
+        // })
+        // .then((data) => {
+        //   return data
+        // })
+        // .catch(e => console.log(e))
+
+        const response = await fetch(API_URL + 'ingredients')
+        if (!response.ok) {
+          throw new Error('Something went wrong')
+        }
+        const result = await response.json()
 
         setData(result.data)
         setIsLoading(false)
