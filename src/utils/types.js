@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const burgerPropTypes = PropTypes.arrayOf(PropTypes.shape({
+export const burgerPropTypes = PropTypes.arrayOf(PropTypes.shape({
   _id: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
@@ -8,4 +8,11 @@ const burgerPropTypes = PropTypes.arrayOf(PropTypes.shape({
   type: PropTypes.string.isRequired,
 }));
 
-export default burgerPropTypes
+export const detailsPropTypes = PropTypes.shape({
+  image_large: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  calories: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
+  fat: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
+});

@@ -4,7 +4,7 @@
   width: 568px;
 }
 
-.ingridient {
+.ingredient {
   background-color: rgba(28, 28, 33, 1);
   border-radius: 40px;
   display: flex;
@@ -12,11 +12,11 @@
   align-items: center;
 }
 
-.ingridient:first-child {
+.ingredient:first-child {
   border-radius: 88px 88px 40px 40px;
 }
 
-.ingridient:last-child {
+.ingredient:last-child {
   border-radius: 40px 40px 88px 88px;
 }
 
