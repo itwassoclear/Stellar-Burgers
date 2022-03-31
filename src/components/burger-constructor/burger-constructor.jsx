@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import styles from './burger-constructor.module.css';
 import clsx from 'clsx';
 
@@ -8,11 +8,13 @@ import {
   Button,
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { burgerPropTypes } from '../../utils/types';
+// import { burgerPropTypes } from '../../utils/types';
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details';
+import { BurgerContext } from '../../utils/burger-context';
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
+  const data = useContext(BurgerContext);
   const [visibleOrder, setVisibleOrder] = React.useState(false);
 
   function handleOpenModal() {
@@ -23,17 +25,9 @@ const BurgerConstructor = (props) => {
     setVisibleOrder(false)
   }
 
-  const ids = ['60d3b41abdacab0026a733ce', '60d3b41abdacab0026a733cb', '60d3b41abdacab0026a733d0', '60d3b41abdacab0026a733d3', '60d3b41abdacab0026a733d4']
-  const ingredients = []
-  props.details.forEach(el => {
-    ids.forEach(elem => {
-      if (el._id === elem) {
-        ingredients.push(el)
-      }
-    })
-  })
+  const ingredients = data.filter(el => el.type !== 'bun')
 
-  const bottomBun = props.details.filter(elem => elem._id === '60d3b41abdacab0026a733c6')
+  const bun = data.filter(elem => elem.type === 'bun')
   const totalPrice = ingredients.reduce((cur, acc) => acc.price + cur, 0)
 
   return (
@@ -47,9 +41,9 @@ const BurgerConstructor = (props) => {
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={`${bottomBun[0].name} (верх)`}
-          price={bottomBun[0].price}
-          thumbnail={bottomBun[0].image_mobile}
+          text={`${bun[0].name} (верх)`}
+          price={bun[0].price}
+          thumbnail={bun[0].image_mobile}
         />
         {ingredients.map(elem => {
           return (
@@ -69,15 +63,15 @@ const BurgerConstructor = (props) => {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={`${bottomBun[0].name} (низ)`}
-          price={bottomBun[0].price}
-          thumbnail={bottomBun[0].image_mobile}
+          text={`${bun[0].name} (низ)`}
+          price={bun[0].price}
+          thumbnail={bun[0].image_mobile}
         />
       </div>
 
         <div className={clsx(styles.totalBox, "mt-10")}>
           <div className={clsx(styles.total, "price pt-1 pb-1 mr-10")}>
-            <p className="text text_type_digits-medium pr-2">{totalPrice + bottomBun[0].price}</p>
+            <p className="text text_type_digits-medium pr-2">{totalPrice + (bun[0].price * 2)}</p>
             <div className={styles.resultIcon}>
               <CurrencyIcon type="primary" />
             </div>
@@ -88,8 +82,8 @@ const BurgerConstructor = (props) => {
     );
 }
 
-BurgerConstructor.propTypes = {
-  details: burgerPropTypes.isRequired,
-};
+// BurgerConstructor.propTypes = {
+//   details: burgerPropTypes.isRequired,
+// };
 
 export default BurgerConstructor
