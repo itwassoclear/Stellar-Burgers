@@ -1,11 +1,14 @@
 import React from 'react';
-import appStyles from './app.module.css';
+import clsx from 'clsx';
+
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import clsx from 'clsx';
 
-const API_URL = 'https://norma.nomoreparties.space/api/'
+import { BurgerContext } from '../../utils/burger-context';
+import { API_URL } from '../../utils/api-url';
+import Loader from '../loader/loader';
+import appStyles from './app.module.css';
 
 function App() {
   const [data, setData] = React.useState([]);
@@ -14,44 +17,46 @@ function App() {
 
   React.useEffect(() => {
     const getProductData = async () => {
+      setIsLoading(true);
       try {
-        // const result = await fetch(API_URL + 'ingredients').then((response) => {
-        //   return response.json();
-        // })
-        // .then((data) => {
-        //   return data
-        // })
-        // .catch(e => console.log(e))
-
-        const response = await fetch(API_URL + 'ingredients')
+        const response = await fetch(API_URL + 'ingredients');
         if (!response.ok) {
-          throw new Error('Something went wrong')
+          setIsError(true);
+          throw new Error('Something went wrong');
         }
-        const result = await response.json()
+        const result = await response.json();
 
-        setData(result.data)
-        setIsLoading(false)
+        setData(result.data);
+        setIsLoading(false);
       } catch(error) {
-        console.log('error', error);
-        setIsError(true)
-        setIsLoading(false)
+        setIsError(true);
+        setIsLoading(false);
       }
     }
     getProductData();
   }, [])
 
   return (
-    <div className={clsx(appStyles.app, "pb-10")}>
-      <AppHeader />
-      <section className={appStyles.appSection}>
-        {!isLoading && !isError && (
-          <>
-            <BurgerIngredients details={data} />
-            <BurgerConstructor details={data} />
-          </>
-        )}
-      </section>
-    </div>
+    <BurgerContext.Provider value={data}>
+      <div className={clsx(appStyles.app, "pb-10")}>
+        <AppHeader />
+        <section className={appStyles.appSection}>
+          {!isLoading && !isError && (
+            <>
+              <BurgerIngredients details={data} />
+              <BurgerConstructor />
+            </>
+          )}
+          {isLoading && (
+            <div className="m-30">
+              <p className="mb-20 text text_color_inactive text_type_main-medium">Подгружаем для вас самые свежие ингредиенты</p>
+              <Loader />
+            </div>
+          )}
+          {isError && <p className="m-30 text text_color_inactive text_type_main-medium">На наших межгалактических серверах что-то пошло не так :( но мы уже транспортировались для исправления ошибок</p>}
+        </section>
+      </div>
+    </BurgerContext.Provider>
   )
 }
 
