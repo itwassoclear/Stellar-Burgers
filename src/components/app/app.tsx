@@ -7,7 +7,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 import { BurgerContext } from '../../utils/burger-context';
 import { API_URL } from '../../utils/api-url';
-import loader from '../../images/loader.svg';
+import Loader from '../loader/loader';
 import appStyles from './app.module.css';
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
           {isLoading && (
             <div className="m-30">
               <p className="mb-20 text text_color_inactive text_type_main-medium">Подгружаем для вас самые свежие ингредиенты</p>
-              <img src={loader} className={appStyles.loader} alt="Идентификатор загрузки" />
+              <Loader />
             </div>
           )}
           {isError && <p className="m-30 text text_color_inactive text_type_main-medium">На наших межгалактических серверах что-то пошло не так :( но мы уже транспортировались для исправления ошибок</p>}

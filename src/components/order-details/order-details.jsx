@@ -4,13 +4,12 @@ import clsx from 'clsx';
 import styles from './order-details.module.css';
 import image from '../../images/done.png';
 import { API_URL } from '../../utils/api-url';
-import loader from '../../images/loader.svg';
+import Loader from '../loader/loader';
 
 import { BurgerContext } from '../../utils/burger-context';
 
 const OrderDetails = () => {
   const ingredients = useContext(BurgerContext);
-  const ingredientsArr = ingredients.map(el => el._id)
 
   const [data, setData] = React.useState({});
   const [isLoading, setIsLoading] = React.useState(true);
@@ -19,6 +18,7 @@ const OrderDetails = () => {
   React.useEffect(() => {
     const getProductData = async () => {
       setIsLoading(true);
+      const ingredientsArr = ingredients.map(el => el._id);
       try {
         const response = await fetch(API_URL + 'orders', {
           method: 'POST',
@@ -63,7 +63,7 @@ const OrderDetails = () => {
       {isLoading && (
         <div className="m-30">
           <p className="mb-20 text text_color_inactive text_type_main-medium">Подсчитываем стоимость и формируем заказ</p>
-          <img src={loader} className={styles.loader} alt="Идентификатор загрузки" />
+          <Loader />
         </div>
       )}
       {isError && <p className="m-30 text text_color_inactive text_type_main-medium">На наших межгалактических серверах что-то пошло не так :( но мы уже транспортировались для исправления ошибок</p>}

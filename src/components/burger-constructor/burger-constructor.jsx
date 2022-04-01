@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import clsx from 'clsx';
 
@@ -8,7 +8,6 @@ import {
   Button,
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-// import { burgerPropTypes } from '../../utils/types';
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details';
 import { BurgerContext } from '../../utils/burger-context';
@@ -18,17 +17,20 @@ const BurgerConstructor = () => {
   const [visibleOrder, setVisibleOrder] = React.useState(false);
 
   function handleOpenModal() {
-    setVisibleOrder(true)
+    setVisibleOrder(true);
   }
 
   function handleCloseModal() {
-    setVisibleOrder(false)
+    setVisibleOrder(false);
   }
 
-  const ingredients = data.filter(el => el.type !== 'bun')
+  const ingredients = data.filter(el => el.type !== 'bun');
 
-  const bun = data.filter(elem => elem.type === 'bun')
-  const totalPrice = ingredients.reduce((cur, acc) => acc.price + cur, 0)
+  const bun = data.filter(elem => elem.type === 'bun');
+  const totalPrice = useMemo(
+    () => ingredients.reduce((cur, acc) => acc.price + cur, 0) + (bun[0].price * 2),
+    [ingredients, bun]
+  );
 
   return (
     <section className={clsx(styles.box, "ml-10 mt-25 pt-4 pr-4 pl-4")}>
@@ -71,7 +73,7 @@ const BurgerConstructor = () => {
 
         <div className={clsx(styles.totalBox, "mt-10")}>
           <div className={clsx(styles.total, "price pt-1 pb-1 mr-10")}>
-            <p className="text text_type_digits-medium pr-2">{totalPrice + (bun[0].price * 2)}</p>
+            <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
             <div className={styles.resultIcon}>
               <CurrencyIcon type="primary" />
             </div>
@@ -81,9 +83,5 @@ const BurgerConstructor = () => {
       </section>
     );
 }
-
-// BurgerConstructor.propTypes = {
-//   details: burgerPropTypes.isRequired,
-// };
 
 export default BurgerConstructor
