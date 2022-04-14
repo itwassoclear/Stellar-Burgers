@@ -1,0 +1,22 @@
+.wrapper {
+  background-color: rgba(28, 28, 33, 1);
+  border-radius: 40px;
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.ingredient {
+  width: 100%;
+}
+
+.ingredientDetails {
+  display: flex;
+  width: 100%;
+}
+
+.dragIcon {
+  position: absolute;
+  top: 27px;
+  left: -34px;
+}

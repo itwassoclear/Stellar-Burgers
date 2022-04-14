@@ -1,0 +1,37 @@
+.item {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 272px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.item:nth-last-child(-n+2) {
+  margin-bottom: 0;
+}
+
+.image {
+  width: 240px;
+}
+
+.priceBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  height: 48px;
+  white-space: break-spaces;
+  text-align: center;
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  display: flex;
+  position: relative;
+  justify-content: center;
+}

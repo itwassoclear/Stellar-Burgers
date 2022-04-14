@@ -1,53 +1,16 @@
-import React, { useContext } from 'react';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 import styles from './order-details.module.css';
 import image from '../../images/done.png';
-import { API_URL } from '../../utils/api-url';
 import Loader from '../loader/loader';
 
-import { BurgerContext } from '../../utils/burger-context';
-
-const OrderDetails = () => {
-  const ingredients = useContext(BurgerContext);
-
-  const [data, setData] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isError, setIsError] = React.useState(false);
-
-  React.useEffect(() => {
-    const getProductData = async () => {
-      setIsLoading(true);
-      const ingredientsArr = ingredients.map(el => el._id);
-      try {
-        const response = await fetch(API_URL + 'orders', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({"ingredients": ingredientsArr})
-        });
-        if (!response.ok) {
-          setIsError(true);
-          throw new Error('Something went wrong');
-        }
-        const result = await response.json();
-
-        setData(result)
-        setIsLoading(false);
-      } catch(error) {
-        setIsError(true);
-        setIsLoading(false);
-      }
-    }
-    getProductData();
-  }, [])
-
+const OrderDetails = ({ order }) => {
   return (
     <div className={clsx(styles.order, 'pb-30')}>
-      {!isLoading && !isError && (
+      {order && (
         <>
-          <p className={clsx(styles.number, "text text_type_digits-large pb-8")}>{data.order.number}</p>
+          <p className={clsx(styles.number, "text text_type_digits-large pb-8")}>{order.order.number}</p>
           <p className={clsx(styles.text, "text text_type_main-medium pb-15")}>
             идентификатор заказа
           </p>
@@ -60,15 +23,22 @@ const OrderDetails = () => {
           </p>
         </>
       )}
-      {isLoading && (
+      {!order && (
         <div className="m-30">
           <p className="mb-20 text text_color_inactive text_type_main-medium">Подсчитываем стоимость и формируем заказ</p>
           <Loader />
         </div>
       )}
-      {isError && <p className="m-30 text text_color_inactive text_type_main-medium">На наших межгалактических серверах что-то пошло не так :( но мы уже транспортировались для исправления ошибок</p>}
     </div>
   )
 }
+
+OrderDetails.propTypes = {
+  order: PropTypes.shape({
+    order: PropTypes.shape({
+      number: PropTypes.number.isRequired,
+    }),
+  }),
+};
 
 export default OrderDetails;
