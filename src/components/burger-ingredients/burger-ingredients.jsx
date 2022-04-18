@@ -35,11 +35,11 @@ const BurgerIngredients = () => {
 
   function scrollToBlock(e) {
     const elem = e.target;
-    if (elem.scrollTop > 0 && elem.scrollTop < 294) {
+    if (elem.scrollTop > 0 && elem.scrollTop < 292) {
       setCurrent("one");
-    } else if (elem.scrollTop > 294 && elem.scrollTop < 820) {
+    } else if (elem.scrollTop > 292 && elem.scrollTop < 819) {
       setCurrent("two");
-    } else if (elem.scrollTop > 820) {
+    } else if (elem.scrollTop > 819) {
       setCurrent("three");
     }
   }
