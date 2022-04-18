@@ -1,62 +1,44 @@
-import React from 'react';
+import { useEffect} from 'react';
+import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import clsx from 'clsx';
+
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import { BurgerContext } from '../../utils/burger-context';
-import { API_URL } from '../../utils/api-url';
 import Loader from '../loader/loader';
 import appStyles from './app.module.css';
+import { getItems } from '../../services/actions/index';
 
 function App() {
-  const [data, setData] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isError, setIsError] = React.useState(false);
+  const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    const getProductData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(API_URL + 'ingredients');
-        if (!response.ok) {
-          setIsError(true);
-          throw new Error('Something went wrong');
-        }
-        const result = await response.json();
+  useEffect(()=> {
+    dispatch(getItems())
+  }, [dispatch]);
 
-        setData(result.data);
-        setIsLoading(false);
-      } catch(error) {
-        setIsError(true);
-        setIsLoading(false);
-      }
-    }
-    getProductData();
-  }, [])
+  const { items } = useSelector((state: RootStateOrAny) => state.items)
 
   return (
-    <BurgerContext.Provider value={data}>
       <div className={clsx(appStyles.app, "pb-10")}>
         <AppHeader />
         <section className={appStyles.appSection}>
-          {!isLoading && !isError && (
-            <>
-              <BurgerIngredients details={data} />
+          {items ? (
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients />
               <BurgerConstructor />
-            </>
-          )}
-          {isLoading && (
+            </DndProvider>
+          ) : (
             <div className="m-30">
               <p className="mb-20 text text_color_inactive text_type_main-medium">Подгружаем для вас самые свежие ингредиенты</p>
               <Loader />
             </div>
           )}
-          {isError && <p className="m-30 text text_color_inactive text_type_main-medium">На наших межгалактических серверах что-то пошло не так :( но мы уже транспортировались для исправления ошибок</p>}
         </section>
       </div>
-    </BurgerContext.Provider>
   )
 }
 

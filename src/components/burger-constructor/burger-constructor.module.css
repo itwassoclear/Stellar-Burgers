@@ -4,6 +4,10 @@
   width: 568px;
 }
 
+/* .onHover {
+  box-shadow: 0px 0px 0px 4px #4C4CFF;
+} */
+
 .ingredient {
   background-color: rgba(28, 28, 33, 1);
   border-radius: 40px;
@@ -18,12 +22,6 @@
 
 .ingredient:last-child {
   border-radius: 40px 40px 88px 88px;
-}
-
-.dragIcon {
-  position: absolute;
-  top: 27px;
-  left: -34px;
 }
 
 .image {
@@ -61,4 +59,21 @@
   display: flex;
   position: relative;
   justify-content: center;
+}
+
+.emptyItems {
+  margin-bottom: 214px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buns {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

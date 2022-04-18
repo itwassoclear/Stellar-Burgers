@@ -1,117 +1,125 @@
-import React from 'react';
-import styles from './burger-ingredients.module.css';
-import clsx from 'clsx';
-
 import {
-  Tab,
-  Counter,
-  CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { burgerPropTypes } from '../../utils/types';
+  Tab
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import clsx from "clsx";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "./burger-ingredients.module.css";
 
-import Modal from '../modal/modal'
-import IngredientDetails from '../ingredient-details/ingredient-details';
+import { CLOSE_DETAILS, SHOW_DETAILS, getDetails } from "../../services/actions/index";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import Ingredient from "../ingredient/ingredient";
+import Modal from "../modal/modal";
 
-const BurgerIngredients = (props) => {
-  const buns = props.details.filter(elem => elem.type === 'bun');
-  const sauces = props.details.filter(elem => elem.type === 'sauce');
-  const mains = props.details.filter(elem => elem.type === 'main');
+const BurgerIngredients = () => {
+  const dispatch = useDispatch();
 
-  const [visibleDetails, setVisibleDetails] = React.useState(false);
-  const [ingredientDetails, setIngredientDetails] = React.useState(null);
+  const { items } = useSelector(state => state.items);
+  const details = useSelector((state) => state.itemDetails.details);
+  const showDetails = useSelector(state => state.itemDetails.showDetails);
+
+  const buns = items.filter(elem => elem.type === "bun");
+  const sauces = items.filter(elem => elem.type === "sauce");
+  const mains = items.filter(elem => elem.type === "main");
 
   function handleOpenModal(elem) {
-    setIngredientDetails(elem);
-    setVisibleDetails(true);
+    dispatch(getDetails(elem));
+    dispatch({ type: SHOW_DETAILS });
   }
 
   function handleCloseModal() {
-    setVisibleDetails(false);
+    dispatch({ type: CLOSE_DETAILS });
   }
 
-  const ids = ['60d3b41abdacab0026a733c6', '60d3b41abdacab0026a733ce', '60d3b41abdacab0026a733cb', '60d3b41abdacab0026a733d0', '60d3b41abdacab0026a733d3', '60d3b41abdacab0026a733d4']
+  const [current, setCurrent] = React.useState("one");
 
-  const [current, setCurrent] = React.useState('one');
-    return (
-      <section className={styles.box}>
-        {visibleDetails &&
-          <Modal onClose={handleCloseModal} header="Детали ингредиента">
-            <IngredientDetails details={ingredientDetails} />
-          </Modal>
-        }
-        <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
-        <div className={styles.tab}>
-          <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-            Булки
-          </Tab>
-          <Tab value="two" active={current === 'two'} onClick={setCurrent}>
-            Соусы
-          </Tab>
-          <Tab value="three" active={current === 'three'} onClick={setCurrent}>
-            Начинки
-          </Tab>
-        </div>
-        <div className={styles.ingridients}>
+  function scrollToBlock(e) {
+    const elem = e.target;
+    if (elem.scrollTop > 0 && elem.scrollTop < 292) {
+      setCurrent("one");
+    } else if (elem.scrollTop > 292 && elem.scrollTop < 819) {
+      setCurrent("two");
+    } else if (elem.scrollTop > 819) {
+      setCurrent("three");
+    }
+  }
 
-          <p className="text text_type_main-medium pt-10 pb-6">Булки</p>
-          <div className={clsx(styles.items, "pl-4 pr-4")}>
-            {Object.values(buns).map(elem => {
-              return (<div className={styles.item} key={elem._id} onClick={e => {handleOpenModal(elem)}}>
-                <img src={elem.image} className={styles.image} alt={elem.name} />
-                <div className={clsx(styles.priceBox, "price pt-1 pb-1")}>
-                  <p className="text text_type_digits-default pr-2">{elem.price}</p>
-                  <div className={styles.icon}>
-                    <CurrencyIcon type="primary" />
-                  </div>
-                </div>
-                <p className={clsx(styles.name, "text text_type_main-default")}>{elem.name}</p>
-                {ids.includes(elem._id) && <Counter count={2} size="default" />}
-              </div>
-            )})}
-          </div>
+  const tab1 = React.useRef(null);
+  const tab2 = React.useRef(null);
+  const tab3 = React.useRef(null);
 
-          <p className="text text_type_main-medium mt-10 pb-6">Соусы</p>
-          <div className={clsx(styles.items, "pl-4 pr-4")}>
-            {Object.values(sauces).map(elem => {
-              return (<div className={clsx(styles.item, "mb-8")} key={elem._id} onClick={e => {handleOpenModal(elem)}}>
-                <img src={elem.image} className={styles.image} alt={elem.name} />
-                <div className={clsx(styles.priceBox, "price pt-1 pb-1")}>
-                  <p className="text text_type_digits-default pr-2">{elem.price}</p>
-                  <div className={styles.icon}>
-                    <CurrencyIcon type="primary" />
-                  </div>
-                </div>
-                <p className={clsx(styles.name, "text text_type_main-default")}>{elem.name}</p>
-                {ids.includes(elem._id) && <Counter count={1} size="default" />}
-              </div>
-            )})}
-          </div>
+  const executeScroll = (e) => {
+    setCurrent(e);
+    let ref = null;
+    switch (e) {
+      case 'one':
+        ref = tab1;
+        break;
+      case 'two':
+        ref = tab2;
+        break;
+      case 'three':
+        ref = tab3;
+        break;
 
-          <p className="text text_type_main-medium mt-10 pb-6">Начинки</p>
-          <div className={clsx(styles.items, "pl-4 pr-4")}>
-            {Object.values(mains).map(elem => {
-              return (<div className={clsx(styles.item, "mb-8")} key={elem._id} onClick={e => {handleOpenModal(elem)}}>
-                <img src={elem.image} className={styles.image} alt={elem.name} />
-                <div className={clsx(styles.priceBox, "price pt-1 pb-1")}>
-                  <p className="text text_type_digits-default pr-2">{elem.price}</p>
-                  <div className={styles.icon}>
-                    <CurrencyIcon type="primary" />
-                  </div>
-                </div>
-                <p className={clsx(styles.name, "text text_type_main-default")}>{elem.name}</p>
-                {ids.includes(elem._id) && <Counter count={1} size="default" />}
-              </div>
-            )})}
-          </div>
+      default:
+        break;
+    }
+    ref.current.scrollIntoView({block: "start", behavior: "smooth"});
+  }
 
+  return (
+    <section className={ styles.box } id="box">
+      { showDetails &&
+        <Modal onClose={ handleCloseModal } header='Детали ингредиента'>
+          <IngredientDetails details={ details } />
+        </Modal>
+      }
+      <h1 className='text text_type_main-large pt-10 pb-5'>Соберите бургер</h1>
+      <div className={ styles.tab }>
+        <Tab value='one' active={ current === "one" } onClick={ e => executeScroll(e) }>
+          Булки
+        </Tab>
+        <Tab value='two' active={ current === "two" } onClick={  e => executeScroll(e)  }>
+          Соусы
+        </Tab>
+        <Tab value='three' active={ current === "three" } onClick={  e => executeScroll(e)  }>
+          Начинки
+        </Tab>
+      </div>
+      <div className={ styles.ingridients } onScroll={ scrollToBlock }>
+
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab1}>Булки</p>
+        <div className={ clsx(styles.items, "pl-4 pr-4") }>
+          { Object.values(buns).map(elem => <Ingredient
+            elem={ elem }
+            key={ elem._id }
+            handleOpenModal={ handleOpenModal }
+          />) }
         </div>
 
-      </section>
-    );
-}
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab2}>Соусы</p>
+        <div className={ clsx(styles.items, "pl-4 pr-4") }>
+          { Object.values(sauces).map(elem => <Ingredient
+            elem={ elem }
+            key={ elem._id }
+            handleOpenModal={ handleOpenModal }
+          />) }
+        </div>
 
-BurgerIngredients.propTypes = {
-  details: burgerPropTypes.isRequired,
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab3}>Начинки</p>
+        <div className={ clsx(styles.items, "pl-4 pr-4") }>
+          { Object.values(mains).map(elem => <Ingredient
+            elem={ elem }
+            key={ elem._id }
+            handleOpenModal={ handleOpenModal }
+          />) }
+        </div>
+
+      </div>
+
+    </section>
+  );
 };
 
 export default BurgerIngredients;
