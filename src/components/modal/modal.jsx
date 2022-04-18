@@ -7,7 +7,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styles from "./modal.module.css";
 
-
 import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const Modal = (props) => {

@@ -44,8 +44,32 @@ const BurgerIngredients = () => {
     }
   }
 
+  const tab1 = React.useRef(null);
+  const tab2 = React.useRef(null);
+  const tab3 = React.useRef(null);
+
+  const executeScroll = (e) => {
+    setCurrent(e);
+    let ref = null;
+    switch (e) {
+      case 'one':
+        ref = tab1;
+        break;
+      case 'two':
+        ref = tab2;
+        break;
+      case 'three':
+        ref = tab3;
+        break;
+
+      default:
+        break;
+    }
+    ref.current.scrollIntoView({block: "start", behavior: "smooth"});
+  }
+
   return (
-    <section className={ styles.box }>
+    <section className={ styles.box } id="box">
       { showDetails &&
         <Modal onClose={ handleCloseModal } header='Детали ингредиента'>
           <IngredientDetails details={ details } />
@@ -53,19 +77,19 @@ const BurgerIngredients = () => {
       }
       <h1 className='text text_type_main-large pt-10 pb-5'>Соберите бургер</h1>
       <div className={ styles.tab }>
-        <Tab value='one' active={ current === "one" } onClick={ setCurrent }>
+        <Tab value='one' active={ current === "one" } onClick={ e => executeScroll(e) }>
           Булки
         </Tab>
-        <Tab value='two' active={ current === "two" } onClick={ setCurrent }>
+        <Tab value='two' active={ current === "two" } onClick={  e => executeScroll(e)  }>
           Соусы
         </Tab>
-        <Tab value='three' active={ current === "three" } onClick={ setCurrent }>
+        <Tab value='three' active={ current === "three" } onClick={  e => executeScroll(e)  }>
           Начинки
         </Tab>
       </div>
       <div className={ styles.ingridients } onScroll={ scrollToBlock }>
 
-        <p className='text text_type_main-medium pt-10 pb-6'>Булки</p>
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab1}>Булки</p>
         <div className={ clsx(styles.items, "pl-4 pr-4") }>
           { Object.values(buns).map(elem => <Ingredient
             elem={ elem }
@@ -74,7 +98,7 @@ const BurgerIngredients = () => {
           />) }
         </div>
 
-        <p className='text text_type_main-medium mt-10 pb-6'>Соусы</p>
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab2}>Соусы</p>
         <div className={ clsx(styles.items, "pl-4 pr-4") }>
           { Object.values(sauces).map(elem => <Ingredient
             elem={ elem }
@@ -83,7 +107,7 @@ const BurgerIngredients = () => {
           />) }
         </div>
 
-        <p className='text text_type_main-medium mt-10 pb-6'>Начинки</p>
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab3}>Начинки</p>
         <div className={ clsx(styles.items, "pl-4 pr-4") }>
           { Object.values(mains).map(elem => <Ingredient
             elem={ elem }
