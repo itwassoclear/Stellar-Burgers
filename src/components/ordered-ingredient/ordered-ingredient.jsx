@@ -1,28 +1,28 @@
-import { useRef } from 'react';
-import clsx from 'clsx';
-import { useDrop, useDrag } from 'react-dnd';
-import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import styles from './ordered-ingredient.module.css';
-
 import {
-  DragIcon,
   ConstructorElement,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+  DragIcon
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import clsx from "clsx";
+import PropTypes from "prop-types";
+import { useRef } from "react";
+import { useDrag, useDrop } from "react-dnd";
+import { useDispatch } from "react-redux";
+import styles from "./ordered-ingredient.module.css";
 
-import { DELETE_INGREDIENT } from '../../services/actions/index';
-import { itemPropTypes } from '../../utils/types';
+
+import { DELETE_INGREDIENT } from "../../services/actions/index";
+import { itemPropTypes } from "../../utils/types";
 
 export default function OrderedIngredient({ item, index, moveCard }) {
   const dispatch = useDispatch();
   const ingredient = item.payload;
 
   const [{ handlerId }, drop] = useDrop({
-    accept: 'item',
+    accept: "item",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId()
-      }
+      };
     },
     hover(item, monitor) {
       if (!ref.current) {
@@ -51,14 +51,14 @@ export default function OrderedIngredient({ item, index, moveCard }) {
 
       item.index = hoverIndex;
     }
-  })
+  });
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'item',
+    type: "item",
     item: { index },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+      isDragging: monitor.isDragging()
+    })
   });
 
   const ref = useRef(null);
@@ -72,35 +72,35 @@ export default function OrderedIngredient({ item, index, moveCard }) {
     dispatch({
       type: DELETE_INGREDIENT,
       index,
-      id,
+      id
     });
   };
 
   return (
-    <div className={clsx(styles.ingredient, styles.wrapper)}
-      key={ingredient._id}
-      ref={blockRef}
-      style={{ opacity }}
-      onDrop={preventDefault}
-      data-handler-id={handlerId}
+    <div className={ clsx(styles.ingredient, styles.wrapper) }
+      key={ ingredient._id }
+      ref={ blockRef }
+      style={ { opacity } }
+      onDrop={ preventDefault }
+      data-handler-id={ handlerId }
     >
-      <div className={styles.dragIcon}>
-        <DragIcon type="primary" />
+      <div className={ styles.dragIcon }>
+        <DragIcon type='primary' />
       </div>
-      <div className={styles.ingredientDetails}>
+      <div className={ styles.ingredientDetails }>
         <ConstructorElement
-          text={ingredient.name}
-          price={ingredient.price}
-          thumbnail={ingredient.image_mobile}
-          handleClose={e => deleteItem(e.target)}
+          text={ ingredient.name }
+          price={ ingredient.price }
+          thumbnail={ ingredient.image_mobile }
+          handleClose={ e => deleteItem(e.target) }
         />
       </div>
     </div>
-  )
+  );
 }
 
 OrderedIngredient.propTypes = {
   item: itemPropTypes.isRequired,
   index: PropTypes.number.isRequired,
-  moveCard: PropTypes.func.isRequired,
+  moveCard: PropTypes.func.isRequired
 };

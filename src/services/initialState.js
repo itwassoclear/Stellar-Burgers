@@ -13,5 +13,5 @@ export const initialState = {
   order: null, // объект созданного заказа
   orderRequest: false,
   orderFailed: false,
-  showOrder: false,
+  showOrder: false
 };

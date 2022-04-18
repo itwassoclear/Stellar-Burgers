@@ -1,20 +1,19 @@
-import { useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useDrop } from 'react-dnd';
-import { v4 as uuid } from 'uuid';
-import styles from './burger-constructor.module.css';
-import clsx from 'clsx';
-
 import {
-  CurrencyIcon,
   Button,
   ConstructorElement,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+  CurrencyIcon
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import clsx from "clsx";
+import { useMemo } from "react";
+import { useDrop } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuid } from "uuid";
+import styles from "./burger-constructor.module.css";
 
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
-import ConstructorIngredientsList from '../constructor-ingredients-list/constructor-ingredients-list';
-import { SHOW_ORDER, CLOSE_ORDER, RESET, ADD_BUN, ADD_INGREDIENT, getOrder } from '../../services/actions/index';
+import { ADD_BUN, ADD_INGREDIENT, CLOSE_ORDER, RESET, SHOW_ORDER, getOrder } from "../../services/actions/index";
+import ConstructorIngredientsList from "../constructor-ingredients-list/constructor-ingredients-list";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const BurgerConstructor = () => {
   const showOrder = useSelector(state => state.orderDetails.showOrder);
   const order = useSelector(state => state.orderDetails.order);
   const storeItems = useSelector(state => state.items.items);
-  const types = ['sauce', 'main'];
+  const types = ["sauce", "main"];
 
   function handleOpenModal() {
     const itemsForOrder = ingredients.map((item) => item._id);
@@ -36,7 +35,7 @@ const BurgerConstructor = () => {
   }
 
   const [{ isHoverBun }, drop] = useDrop({
-    accept: 'bun',
+    accept: "bun",
     collect: monitor => ({
       isHoverBun: monitor.isOver()
     }),
@@ -46,9 +45,9 @@ const BurgerConstructor = () => {
         item: {
           ...item,
           payload: storeItems.find(el => el._id === item._id),
-          dragId: uuid(),
+          dragId: uuid()
         }
-      })
+      });
     }
   });
 
@@ -63,77 +62,82 @@ const BurgerConstructor = () => {
         item: {
           ...item,
           payload: storeItems.find(el => el._id === item._id),
-          dragId: uuid(),
+          dragId: uuid()
         }
-      })
+      });
     }
   });
 
-  const border = isHover || isHoverBun ? '0px 0px 0px 4px #4C4CFF' : 'none';
+  const border = isHover || isHoverBun ? "0px 0px 0px 4px #4C4CFF" : "none";
 
   const totalPrice = useMemo(() => {
     let itemsPrice = ingredients.length > 0 ? ingredients.reduce((cur, acc) => acc.payload.price + cur, 0) : 0;
     let bunPrice = bun ? bun.payload.price * 2 : 0;
-    return itemsPrice + bunPrice
+    return itemsPrice + bunPrice;
   }, [ingredients, bun]);
 
   const disabledButton = !bun;
 
-  return (<section className={clsx(styles.box, isHover ? styles.onHover : '', "ml-10 mt-25 pt-4 pr-4 pl-4")}>
-    {showOrder &&
-      <Modal onClose={handleCloseModal}>
-        <OrderDetails order={order} />
+  return (<section className={ clsx(styles.box, isHover ? styles.onHover : "", "ml-10 mt-25 pt-4 pr-4 pl-4") }>
+    { showOrder &&
+      <Modal onClose={ handleCloseModal }>
+        <OrderDetails order={ order } />
       </Modal>
     }
 
-    <div className={clsx(styles.buns, 'ml-8')} style={{ boxShadow: border }} ref={drop}>
-      {bun ? (
+    <div className={ clsx(styles.buns, "ml-8") } style={ { boxShadow: border } } ref={ drop }>
+      { bun ? (
         <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={`${bun.payload.name} (верх)`}
-          price={bun.payload.price}
-          thumbnail={bun.payload.image_mobile}
-        />) : (
-        <div className="m-20">
-          <p className={clsx("text text_color_inactive text_type_main-medium")}>Перетащи сюда булку</p>
-        </div>
-      )}
-    </div>
-
-    <div className={clsx(styles.items, 'ml-8')} style={{ boxShadow: border }} ref={dropTargerRef}>
-      {ingredients.length > 0 ? (
-        <ConstructorIngredientsList ingredients={ingredients} />
+          type='top'
+          isLocked={ true }
+          text={ `${bun.payload.name} (верх)` }
+          price={ bun.payload.price }
+          thumbnail={ bun.payload.image_mobile }
+        />
       ) : (
-        <div className="m-20">
-          <p className={clsx(styles.emptyItems, "text text_color_inactive text_type_main-medium")}>Пока здесь пусто. Перетаскивай сюда игредиенты</p>
+        <div className='m-20'>
+          <p className={ clsx("text text_color_inactive text_type_main-medium") }>Перетащи сюда булку</p>
         </div>
-      )}
+      ) }
     </div>
 
-    {bun && (
-      <div style={{ marginTop: '10px' }} className='ml-8'>
+    <div className={ clsx(styles.items, "ml-8") } style={ { boxShadow: border } } ref={ dropTargerRef }>
+      { ingredients.length > 0 ? (
+        <ConstructorIngredientsList ingredients={ ingredients } />
+      ) : (
+        <div className='m-20'>
+          <p className={ clsx(styles.emptyItems, "text text_color_inactive text_type_main-medium") }>
+            Пока здесь пусто. Перетаскивай сюда игредиенты
+          </p>
+        </div>
+      ) }
+    </div>
+
+    { bun && (
+      <div style={ { marginTop: "10px" } } className='ml-8'>
         <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={`${bun.payload.name} (низ)`}
-          price={bun.payload.price}
-          thumbnail={bun.payload.image_mobile}
+          type='bottom'
+          isLocked={ true }
+          text={ `${bun.payload.name} (низ)` }
+          price={ bun.payload.price }
+          thumbnail={ bun.payload.image_mobile }
         />
       </div>
-      )
+    )
     }
 
-      <div className={clsx(styles.totalBox, "mt-10")}>
-        <div className={clsx(styles.total, "price pt-1 pb-1 mr-10")}>
-          <p className="text text_type_digits-medium pr-2">{totalPrice}</p>
-          <div className={styles.resultIcon}>
-            <CurrencyIcon type="primary" />
-          </div>
+    <div className={ clsx(styles.totalBox, "mt-10") }>
+      <div className={ clsx(styles.total, "price pt-1 pb-1 mr-10") }>
+        <p className='text text_type_digits-medium pr-2'>{ totalPrice }</p>
+        <div className={ styles.resultIcon }>
+          <CurrencyIcon type='primary' />
         </div>
-        <Button type="primary" size="medium" onClick={handleOpenModal} disabled={disabledButton}>Оформить заказ</Button>
       </div>
-    </section>)
-}
+      <Button type='primary' size='medium' onClick={ handleOpenModal } disabled={ disabledButton }>
+        Оформить заказ
+      </Button>
+    </div>
+  </section>);
+};
 
-export default BurgerConstructor
+export default BurgerConstructor;
