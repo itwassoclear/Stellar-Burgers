@@ -1,26 +1,31 @@
-import {
-  Tab
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
 import React from "react";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./burger-ingredients.module.css";
 
-import { CLOSE_DETAILS, SHOW_DETAILS, getDetails } from "../../services/actions/index";
+import {
+  CLOSE_DETAILS,
+  SHOW_DETAILS,
+  getDetails,
+} from "../../services/actions/index";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const history = useHistory();
 
-  const { items } = useSelector(state => state.items);
+  const { items } = useSelector((state) => state.items);
   const details = useSelector((state) => state.itemDetails.details);
-  const showDetails = useSelector(state => state.itemDetails.showDetails);
+  const showDetails = useSelector((state) => state.itemDetails.showDetails);
 
-  const buns = items.filter(elem => elem.type === "bun");
-  const sauces = items.filter(elem => elem.type === "sauce");
-  const mains = items.filter(elem => elem.type === "main");
+  const buns = items.filter((elem) => elem.type === "bun");
+  const sauces = items.filter((elem) => elem.type === "sauce");
+  const mains = items.filter((elem) => elem.type === "main");
 
   function handleOpenModal(elem) {
     dispatch(getDetails(elem));
@@ -29,6 +34,7 @@ const BurgerIngredients = () => {
 
   function handleCloseModal() {
     dispatch({ type: CLOSE_DETAILS });
+    history.goBack();
   }
 
   const [current, setCurrent] = React.useState("one");
@@ -52,72 +58,108 @@ const BurgerIngredients = () => {
     setCurrent(e);
     let ref = null;
     switch (e) {
-      case 'one':
+      case "one":
         ref = tab1;
         break;
-      case 'two':
+      case "two":
         ref = tab2;
         break;
-      case 'three':
+      case "three":
         ref = tab3;
         break;
 
       default:
         break;
     }
-    ref.current.scrollIntoView({block: "start", behavior: "smooth"});
-  }
+    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
 
   return (
-    <section className={ styles.box } id="box">
-      { showDetails &&
-        <Modal onClose={ handleCloseModal } header='Детали ингредиента'>
-          <IngredientDetails details={ details } />
+    <section className={styles.box} id='box'>
+      {showDetails && (
+        <Modal onClose={handleCloseModal} header='Детали ингредиента'>
+          <IngredientDetails details={details} />
         </Modal>
-      }
+      )}
       <h1 className='text text_type_main-large pt-10 pb-5'>Соберите бургер</h1>
-      <div className={ styles.tab }>
-        <Tab value='one' active={ current === "one" } onClick={ e => executeScroll(e) }>
+      <div className={styles.tab}>
+        <Tab
+          value='one'
+          active={current === "one"}
+          onClick={(e) => executeScroll(e)}
+        >
           Булки
         </Tab>
-        <Tab value='two' active={ current === "two" } onClick={  e => executeScroll(e)  }>
+        <Tab
+          value='two'
+          active={current === "two"}
+          onClick={(e) => executeScroll(e)}
+        >
           Соусы
         </Tab>
-        <Tab value='three' active={ current === "three" } onClick={  e => executeScroll(e)  }>
+        <Tab
+          value='three'
+          active={current === "three"}
+          onClick={(e) => executeScroll(e)}
+        >
           Начинки
         </Tab>
       </div>
-      <div className={ styles.ingridients } onScroll={ scrollToBlock }>
-
-        <p className='text text_type_main-medium pt-10 pb-6' ref={tab1}>Булки</p>
-        <div className={ clsx(styles.items, "pl-4 pr-4") }>
-          { Object.values(buns).map(elem => <Ingredient
-            elem={ elem }
-            key={ elem._id }
-            handleOpenModal={ handleOpenModal }
-          />) }
+      <div className={styles.ingridients} onScroll={scrollToBlock}>
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab1}>
+          Булки
+        </p>
+        <div className={clsx(styles.items, "pl-4 pr-4")}>
+          {Object.values(buns).map((elem) => (
+            <Link
+              key={elem._id}
+              to={{
+                pathname: `ingredients/${elem._id}`,
+                state: { main: location },
+              }}
+              className={styles.link}
+            >
+              <Ingredient elem={elem} handleOpenModal={handleOpenModal} />
+            </Link>
+          ))}
         </div>
 
-        <p className='text text_type_main-medium pt-10 pb-6' ref={tab2}>Соусы</p>
-        <div className={ clsx(styles.items, "pl-4 pr-4") }>
-          { Object.values(sauces).map(elem => <Ingredient
-            elem={ elem }
-            key={ elem._id }
-            handleOpenModal={ handleOpenModal }
-          />) }
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab2}>
+          Соусы
+        </p>
+        <div className={clsx(styles.items, "pl-4 pr-4")}>
+          {Object.values(sauces).map((elem) => (
+            <Link
+              key={elem._id}
+              to={{
+                pathname: `ingredients/${elem._id}`,
+                state: { main: location },
+              }}
+              className={styles.link}
+            >
+              <Ingredient elem={elem} handleOpenModal={handleOpenModal} />
+            </Link>
+          ))}
         </div>
 
-        <p className='text text_type_main-medium pt-10 pb-6' ref={tab3}>Начинки</p>
-        <div className={ clsx(styles.items, "pl-4 pr-4") }>
-          { Object.values(mains).map(elem => <Ingredient
-            elem={ elem }
-            key={ elem._id }
-            handleOpenModal={ handleOpenModal }
-          />) }
+        <p className='text text_type_main-medium pt-10 pb-6' ref={tab3}>
+          Начинки
+        </p>
+        <div className={clsx(styles.items, "pl-4 pr-4")}>
+          {Object.values(mains).map((elem) => (
+            <Link
+              key={elem._id}
+              to={{
+                pathname: `ingredients/${elem._id}`,
+                state: { main: location },
+              }}
+              className={styles.link}
+            >
+              <Ingredient elem={elem} handleOpenModal={handleOpenModal} />
+            </Link>
+          ))}
         </div>
-
       </div>
-
     </section>
   );
 };
