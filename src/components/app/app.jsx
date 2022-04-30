@@ -33,6 +33,8 @@ function App() {
     dispatch(getUser());
   }, [dispatch]);
 
+  const isUser = useSelector((store) => store.user.isUser);
+
   const { items } = useSelector((state: RootStateOrAny) => state.items);
 
   return (

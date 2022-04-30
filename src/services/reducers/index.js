@@ -9,7 +9,6 @@ import { loginReducer } from "./login";
 import { logoutReducer } from "./logout";
 import { userReducer } from "./user";
 import { userUpdateReducer } from "./userUpdate";
-import { tokenReducer } from "./token";
 import { forgotPassReducer } from "./forgotPass";
 import { resetPassReducer } from "./resetPass";
 
@@ -24,7 +23,6 @@ export const rootReducer = combineReducers({
   logout: logoutReducer, // выход
   user: userReducer, // данные о юзере
   updateUser: userUpdateReducer, // обновление юзера
-  token: tokenReducer, // токен
   forgotPass: forgotPassReducer, // восстановление пароля
   resetPass: resetPassReducer, // обновление пароля
 });

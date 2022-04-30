@@ -122,100 +122,139 @@ export function getOrder(arr) {
   };
 }
 
-export function getUser() {
-  return function (dispatch) {
+const getUserRequest = async () => {
+  const res = await fetch(API_URL + "auth/user", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: getCookie("accessToken"),
+    },
+  });
+
+  return checkResponse(res);
+};
+
+const getUpdateUserRequest = async (form) => {
+  const res = await fetch(API_URL + "auth/user", {
+    method: "PATCH",
+    body: JSON.stringify(form),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: getCookie("accessToken"),
+    },
+  });
+
+  return checkResponse(res);
+};
+
+const refreshToken = async (token) => {
+  return await fetch(API_URL + "auth/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: JSON.stringify({ token }),
+    }),
+  }).then(checkResponse);
+};
+
+export const getUser = () => {
+  return async function (dispatch) {
     dispatch({
       type: GET_USER_REQUEST,
     });
-
-    fetch(API_URL + "auth/user", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: getCookie("accessToken"),
-      },
-    })
-      .then(checkResponse)
-      .then((data) => {
+    try {
+      const res = await getUserRequest();
+      if (res && res.success) {
         dispatch({
           type: GET_USER_SUCCESS,
-          form: data.user,
+          form: res.user,
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(getCookie("refreshToken"));
-        if (getCookie("refreshToken")) {
+        dispatch({
+          type: UPDATE_USER_SUCCESS,
+          form: res.user,
+        });
+      }
+    } catch (err) {
+      try {
+        if (err.message === "jwt expired") {
           deleteCookie("accessToken");
-          dispatch(updateToken());
+          const refreshToken = getCookie("refreshToken");
+          const data = refreshToken(refreshToken);
+          if (data.success) {
+            setCookie("accessToken", data.accessToken);
+            setCookie("refreshToken", data.refreshToken);
+          }
+
+          const res = await getUserRequest();
+          if (res.success) {
+            dispatch({
+              type: GET_USER_SUCCESS,
+              form: res.user,
+            });
+            dispatch({
+              type: UPDATE_USER_SUCCESS,
+              form: res.user,
+            });
+          }
         } else {
           dispatch({
             type: GET_USER_FAILED,
           });
         }
-      });
+      } catch (err) {
+        dispatch({
+          type: GET_USER_FAILED,
+        });
+      }
+    }
   };
-}
+};
 
 export function updateUser(form) {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({
       type: UPDATE_USER_REQUEST,
     });
 
-    fetch(API_URL + "auth/user", {
-      method: "PATCH",
-      body: JSON.stringify(form),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: getCookie("accessToken"),
-      },
-    })
-      .then(checkResponse)
-      .then((data) => {
-        dispatch({
-          type: SET_USER,
-          form: data.user,
-        });
+    try {
+      const res = await getUpdateUserRequest(form);
+      if (res && res.success) {
         dispatch({
           type: UPDATE_USER_SUCCESS,
+          form: res.user,
         });
-        dispatch({
-          type: GET_USER_SUCCESS,
-        });
-      })
-      .catch((err) => {
+      }
+    } catch (err) {
+      try {
+        if (err.message === "jwt expired") {
+          deleteCookie("accessToken");
+          const refreshToken = getCookie("refreshToken");
+          const data = refreshToken(refreshToken);
+          if (data.success) {
+            setCookie("accessToken", data.accessToken);
+            setCookie("refreshToken", data.refreshToken);
+          }
+
+          const res = await getUpdateUserRequest(form);
+          if (res && res.success) {
+            dispatch({
+              type: UPDATE_USER_SUCCESS,
+              form: res.user,
+            });
+            dispatch({
+              type: GET_USER_SUCCESS,
+            });
+          }
+        }
+      } catch (err) {
         console.log(err);
         dispatch({
           type: UPDATE_USER_FAILED,
         });
-      });
-  };
-}
-
-export function updateToken() {
-  return function (dispatch) {
-    dispatch({
-      type: GET_TOKEN_REQUEST,
-    });
-
-    fetch(API_URL + "auth/token", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        token: `{{ ${getCookie("refreshToken")} }}`,
-      }),
-    })
-      .then(checkResponse)
-      .then((data) => {
-        setCookie("accessToken", data.accessToken);
-        dispatch({ type: GET_TOKEN_SUCCESS });
-      })
-      .catch((err) => {
-        dispatch({ type: GET_TOKEN_FAILED });
-      });
+      }
+    }
   };
 }
 

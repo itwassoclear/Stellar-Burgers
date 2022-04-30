@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
+import { useHistory } from "react-router-dom";
 
-import { getUser, logout } from "../services/actions";
-import clsx from "clsx";
+import { getUser } from "../services/actions";
+import { ProfileMenu } from "../components/profile-menu";
 
 export function OrdersPage() {
   const useStyles = makeStyles(() => ({
@@ -13,77 +14,24 @@ export function OrdersPage() {
       textAlign: "left",
       display: "flex",
     },
-    links: { display: "flex", flexDirection: "column", width: "320px" },
-    link: {
-      textDecoration: "none",
-      color: "#8585AD",
-      height: "64px",
-      display: "flex",
-      alignItems: "center",
-    },
-    button: {
-      height: "64px",
-      padding: 0,
-      background: "none",
-      border: "none",
-      color: "#8585AD",
-      textAlign: "left",
-    },
-    activeLink: {
-      textDecoration: "none",
-      color: "#fff",
-      height: "64px",
-      display: "flex",
-      alignItems: "center",
-    },
-    form: {
-      width: "480px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-end",
-    },
-    buttons: {
-      display: "flex",
-    },
   }));
 
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-
   const isUser = useSelector((store) => store.user.isUser);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
 
   if (!isUser) {
     history.push("/login");
   }
 
-  const logoutUser = () => {
-    dispatch(logout());
-    dispatch(getUser());
-  };
-
   return (
     <div className={classes.wrapper}>
-      <div className={clsx(classes.links, "mr-15")}>
-        <Link
-          to='/profile'
-          className={clsx(classes.link, "text text_type_main-medium")}
-        >
-          Профиль
-        </Link>
-        <Link
-          to='/profile/orders'
-          className={clsx(classes.activeLink, "text text_type_main-medium")}
-        >
-          История заказов
-        </Link>
-        <button
-          onClick={logoutUser}
-          className={clsx(classes.button, "text text_type_main-medium")}
-        >
-          Выход
-        </button>
-      </div>
+      <ProfileMenu activeLink={"history"} />
     </div>
   );
 }

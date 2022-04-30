@@ -34,8 +34,7 @@ export function ForgotPasswordPage() {
     e.preventDefault();
     dispatch(forgotPassword(form));
     dispatch(getUser());
-    console.log("isUser", isUser);
-    if (!forgotPassFailed && isUser) {
+    if (!forgotPassFailed) {
       history.push("/reset-password");
     } else {
       setError(true);

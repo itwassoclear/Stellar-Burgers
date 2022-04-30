@@ -7,7 +7,7 @@ import { getUser } from "../../services/actions";
 export function ProtectedRoute({ children, ...rest }) {
   const isUser = useSelector((store) => store.user.isUser);
   const [isUserLoaded, setUserLoaded] = useState(false);
-  console.log("isUser", isUser);
+
   const init = async () => {
     await getUser();
     setUserLoaded(true);
@@ -24,7 +24,13 @@ export function ProtectedRoute({ children, ...rest }) {
   return (
     <Route
       {...rest}
-      render={() => (isUser ? children : <Redirect to='/login' />)}
+      render={({ location }) =>
+        isUser ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: "/login", state: { from: location } }} />
+        )
+      }
     />
   );
 }

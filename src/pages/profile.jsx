@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   Input,
   Button,
@@ -8,7 +8,7 @@ import {
 import { makeStyles } from "@mui/styles";
 
 import { SET_USER, updateUser, getUser, logout } from "../services/actions";
-import clsx from "clsx";
+import { ProfileMenu } from "../components/profile-menu";
 
 export function ProfilePage() {
   const useStyles = makeStyles(() => ({
@@ -17,29 +17,6 @@ export function ProfilePage() {
       margin: "120px auto 0",
       textAlign: "left",
       display: "flex",
-    },
-    links: { display: "flex", flexDirection: "column", width: "320px" },
-    link: {
-      textDecoration: "none",
-      color: "#8585AD",
-      height: "64px",
-      display: "flex",
-      alignItems: "center",
-    },
-    button: {
-      height: "64px",
-      padding: 0,
-      background: "none",
-      border: "none",
-      color: "#8585AD",
-      textAlign: "left",
-    },
-    activeLink: {
-      textDecoration: "none",
-      color: "#fff",
-      height: "64px",
-      display: "flex",
-      alignItems: "center",
     },
     form: {
       width: "480px",
@@ -71,6 +48,10 @@ export function ProfilePage() {
   const refName = useRef(null);
   const refEmail = useRef(null);
   const refPass = useRef(null);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
 
   if (!isUser) {
     history.push("/login");
@@ -107,37 +88,9 @@ export function ProfilePage() {
     setSaveButton(false);
   };
 
-  const logoutUser = () => {
-    dispatch(logout());
-    dispatch(getUser());
-  };
-
   return (
     <div className={classes.wrapper}>
-      <div className={clsx(classes.links, "mr-15")}>
-        <Link
-          to='/profile'
-          className={clsx(classes.activeLink, "text text_type_main-medium")}
-        >
-          Профиль
-        </Link>
-        <Link
-          to='/profile/orders'
-          className={clsx(classes.link, "text text_type_main-medium")}
-        >
-          История заказов
-        </Link>
-        <button
-          onClick={logoutUser}
-          className={clsx(classes.button, "text text_type_main-medium")}
-        >
-          Выход
-        </button>
-
-        <p className='text text_type_main-default text_color_inactive mt-20'>
-          В этом разделе вы можете изменить свои персональные данные
-        </p>
-      </div>
+      <ProfileMenu activeLink={"profile"} />
 
       <form className={classes.form} onSubmit={(e) => submitForm(e)}>
         <div className='mb-6'>

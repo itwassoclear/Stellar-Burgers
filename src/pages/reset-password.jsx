@@ -86,10 +86,6 @@ export function ResetPasswordPage() {
           </Link>
         </p>
       </form>
-      ) : (
-      <h1 className='text text_type_main-medium mb-6'>
-        Пароль успешно изменён!
-      </h1>
     </div>
   );
 }
