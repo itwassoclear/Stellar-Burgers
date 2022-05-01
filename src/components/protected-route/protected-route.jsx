@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { getUser } from "../../services/actions";
+import { getCookie } from "../../utils/cookie";
 
 export function ProtectedRoute({ children, ...rest }) {
   const isUser = useSelector((store) => store.user.isUser);
+  const isToken = getCookie("accessToken");
   const [isUserLoaded, setUserLoaded] = useState(false);
 
   const init = async () => {
@@ -21,18 +23,23 @@ export function ProtectedRoute({ children, ...rest }) {
     return null;
   }
 
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isUser ? (
-          children
-        ) : (
-          <Redirect to={{ pathname: "/login", state: { from: location } }} />
-        )
-      }
-    />
-  );
+  if (!isUser && !isToken) {
+    return (
+      <Route
+        {...rest}
+        render={({ location }) => (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )}
+      />
+    );
+  }
+
+  return <Route {...rest} render={({ location }) => children} />;
 }
 
 ProtectedRoute.propTypes = {

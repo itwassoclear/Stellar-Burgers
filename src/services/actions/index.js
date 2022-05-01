@@ -147,14 +147,14 @@ const getUpdateUserRequest = async (form) => {
   return checkResponse(res);
 };
 
-const refreshToken = async (token) => {
+const updateToken = async (token) => {
   return await fetch(API_URL + "auth/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      token: JSON.stringify({ token }),
+      token: token,
     }),
   }).then(checkResponse);
 };
@@ -177,11 +177,15 @@ export const getUser = () => {
         });
       }
     } catch (err) {
+      console.log(err);
       try {
-        if (err.message === "jwt expired") {
+        if (
+          err.message === "jwt expired" ||
+          err.message === "Token is invalid"
+        ) {
           deleteCookie("accessToken");
           const refreshToken = getCookie("refreshToken");
-          const data = refreshToken(refreshToken);
+          const data = await updateToken(refreshToken);
           if (data.success) {
             setCookie("accessToken", data.accessToken);
             setCookie("refreshToken", data.refreshToken);
@@ -202,8 +206,10 @@ export const getUser = () => {
           dispatch({
             type: GET_USER_FAILED,
           });
+          return Promise.reject(err);
         }
       } catch (err) {
+        console.log(err);
         dispatch({
           type: GET_USER_FAILED,
         });
@@ -227,11 +233,15 @@ export function updateUser(form) {
         });
       }
     } catch (err) {
+      console.log(err);
       try {
-        if (err.message === "jwt expired") {
+        if (
+          err.message === "jwt expired" ||
+          err.message === "Token is invalid"
+        ) {
           deleteCookie("accessToken");
           const refreshToken = getCookie("refreshToken");
-          const data = refreshToken(refreshToken);
+          const data = await updateToken(refreshToken);
           if (data.success) {
             setCookie("accessToken", data.accessToken);
             setCookie("refreshToken", data.refreshToken);
@@ -247,6 +257,11 @@ export function updateUser(form) {
               type: GET_USER_SUCCESS,
             });
           }
+        } else {
+          dispatch({
+            type: UPDATE_USER_FAILED,
+          });
+          return Promise.reject(err);
         }
       } catch (err) {
         console.log(err);
@@ -371,7 +386,6 @@ export function forgotPassword(form) {
     })
       .then(checkResponse)
       .then((data) => {
-        console.log(data.user);
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
           form: data.user,

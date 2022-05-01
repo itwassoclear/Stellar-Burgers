@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import {
   Input,
   PasswordInput,
@@ -11,13 +11,9 @@ import styles from "./login.module.css";
 
 export function LoginPage() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const location = useLocation();
   const form = useSelector((store) => store.login.form);
   const isUser = useSelector((store) => store.user.isUser);
-
-  if (isUser) {
-    history.push("/");
-  }
 
   function fillField(e) {
     dispatch({
@@ -29,7 +25,11 @@ export function LoginPage() {
   function submitForm(e) {
     e.preventDefault();
     dispatch(login(form));
-    history.push("/");
+  }
+
+  if (isUser) {
+    const { from } = location.state || { from: { pathname: "/" } };
+    return <Redirect to={from} />;
   }
 
   return (

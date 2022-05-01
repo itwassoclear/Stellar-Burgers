@@ -37,10 +37,8 @@ export function ResetPasswordPage() {
   function submitForm(e) {
     e.preventDefault();
     dispatch(resetPassword(form));
-    dispatch(getUser());
-    console.log("isUser", isUser);
     if (isPassReseted) {
-      history.push("/reset-password");
+      history.push("/login");
     } else {
       setError(true);
     }
@@ -71,11 +69,7 @@ export function ResetPasswordPage() {
           />
         </div>
         <div className='mb-20'>
-          <Button
-            type='primary'
-            size='medium'
-            onClick={(e) => updatePassword(e)}
-          >
+          <Button type='primary' size='medium'>
             Восстановить
           </Button>
         </div>

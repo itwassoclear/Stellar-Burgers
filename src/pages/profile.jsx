@@ -40,8 +40,8 @@ export function ProfilePage() {
   const [saveButton, setSaveButton] = useState(false);
 
   const [userData, setUserData] = useState({
-    name: form ? form.name : updatedForm.name,
-    email: form ? form.email : updatedForm.email,
+    name: form ? updatedForm.name : form.name,
+    email: form ? updatedForm.email : form.email,
     password: pass ? pass : "",
   });
 
@@ -51,7 +51,7 @@ export function ProfilePage() {
 
   useEffect(() => {
     dispatch(getUser());
-  }, []);
+  }, [dispatch]);
 
   if (!isUser) {
     history.push("/login");
