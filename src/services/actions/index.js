@@ -401,12 +401,12 @@ export function forgotPassword(form) {
 }
 
 export function resetPassword(form) {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({
       type: RESET_PASSWORD_REQUEST,
     });
 
-    fetch(API_URL + "password-reset/reset", {
+    await fetch(API_URL + "password-reset/reset", {
       method: "POST",
       body: JSON.stringify(form),
       headers: {

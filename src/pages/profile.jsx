@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { makeStyles } from "@mui/styles";
 
-import { SET_USER, updateUser, getUser, logout } from "../services/actions";
+import { SET_USER, updateUser, getUser } from "../services/actions";
 import { ProfileMenu } from "../components/profile-menu";
 
 export function ProfilePage() {
@@ -31,18 +31,18 @@ export function ProfilePage() {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const form = useSelector((store) => store.user.form);
   const pass = useSelector((store) => store.login.form.password);
+  const isUpdated = useSelector((store) => store.updateUser.isUpdated);
 
   const isUser = useSelector((store) => store.user.isUser);
   const updatedForm = useSelector((store) => store.updateUser.form);
   const [saveButton, setSaveButton] = useState(false);
 
   const [userData, setUserData] = useState({
-    name: form ? updatedForm.name : form.name,
-    email: form ? updatedForm.email : form.email,
-    password: pass ? pass : "",
+    name: isUpdated ? updatedForm?.name : form?.name,
+    email: isUpdated ? updatedForm?.email : form?.email,
+    password: isUpdated ? pass : "",
   });
 
   const refName = useRef(null);
@@ -54,7 +54,7 @@ export function ProfilePage() {
   }, [dispatch]);
 
   if (!isUser) {
-    history.push("/login");
+    return <Redirect to='/login' />;
   }
 
   function fillField(e) {
@@ -66,9 +66,9 @@ export function ProfilePage() {
     });
   }
 
-  function submitForm(e) {
+  async function submitForm(e) {
     e.preventDefault();
-    dispatch(updateUser(userData));
+    dispatch(await updateUser(userData));
   }
 
   const onIconClickName = () => {

@@ -13,6 +13,7 @@ const initialState = {
   },
   getUserRequest: false,
   getUserFailed: false,
+  isUpdated: false,
 };
 
 export const userUpdateReducer = (state = initialState, action) => {
@@ -24,10 +25,12 @@ export const userUpdateReducer = (state = initialState, action) => {
       };
     }
     case UPDATE_USER_SUCCESS: {
+      console.log(state.form, action.form);
       return {
         ...state,
         getUserRequest: false,
         form: { ...state.form, ...action.form },
+        isUpdated: true,
       };
     }
     case UPDATE_USER_FAILED: {
@@ -35,9 +38,11 @@ export const userUpdateReducer = (state = initialState, action) => {
         ...state,
         getUserRequest: false,
         getUserFailed: true,
+        isUpdated: false,
       };
     }
     case SET_USER: {
+      console.log(state.form, action.payload);
       return {
         ...state,
         form: { ...state.form, ...action.payload },

@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./reset-password.module.css";
-import { SET_PASSWORD, resetPassword, getUser } from "../services/actions";
+import { SET_PASSWORD, resetPassword } from "../services/actions";
 
 export function ResetPasswordPage() {
   const dispatch = useDispatch();
@@ -34,9 +34,9 @@ export function ResetPasswordPage() {
     });
   }
 
-  function submitForm(e) {
+  async function submitForm(e) {
     e.preventDefault();
-    dispatch(resetPassword(form));
+    dispatch(await resetPassword(form));
     if (isPassReseted) {
       history.push("/login");
     } else {

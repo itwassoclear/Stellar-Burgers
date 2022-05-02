@@ -24,6 +24,7 @@ export const resetPassReducer = (state = initialState, action) => {
       };
     }
     case RESET_PASSWORD_SUCCESS: {
+      console.log(567576576);
       return {
         ...state,
         isPassReseted: true,
