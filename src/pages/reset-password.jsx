@@ -36,7 +36,7 @@ export function ResetPasswordPage() {
 
   async function submitForm(e) {
     e.preventDefault();
-    dispatch(await resetPassword(form));
+    dispatch(resetPassword(form));
     if (isPassReseted) {
       history.push("/login");
     } else {

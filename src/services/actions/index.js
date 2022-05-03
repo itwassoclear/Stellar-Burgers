@@ -177,7 +177,6 @@ export const getUser = () => {
         });
       }
     } catch (err) {
-      console.log(err);
       try {
         if (
           err.message === "jwt expired" ||
