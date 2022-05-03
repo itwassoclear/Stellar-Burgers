@@ -25,9 +25,17 @@
 }
 
 .appHeaderButton:hover {
-  opacity: .8;
+  opacity: 0.8;
 }
 
 .appHeaderLogo:hover {
-  opacity: .8;
+  opacity: 0.8;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.activeLink {
+  color: #fff;
 }
