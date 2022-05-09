@@ -3,7 +3,7 @@
 
 ## What is this?
 
-App where you can pick burgers using grag&drop 
+App where you can pick burgers using drag&drop 
 
 ## Stack
 
