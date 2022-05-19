@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   Button,
   ConstructorElement,
@@ -5,11 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
 import { useMemo } from "react";
-import { useDrop } from "react-dnd";
+import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import styles from "./burger-constructor.module.css";
+import { TRootState } from "../../services/reducers";
 
 import {
   ADD_BUN,
@@ -22,21 +24,26 @@ import {
 import ConstructorIngredientsList from "../constructor-ingredients-list/constructor-ingredients-list";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import { TElement } from "../../utils/types";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isUser = useSelector((store) => store.user.isUser);
-  const { bun, ingredients } = useSelector((state) => state.constructorItems);
-  const showOrder = useSelector((state) => state.orderDetails.showOrder);
-  const order = useSelector((state) => state.orderDetails.order);
-  const storeItems = useSelector((state) => state.items.items);
+  const isUser = useSelector((state: TRootState) => state.user.isUser);
+  const { bun, ingredients } = useSelector(
+    (state: TRootState) => state.constructorItems
+  );
+  const showOrder = useSelector(
+    (state: TRootState) => state.orderDetails.showOrder
+  );
+  const order = useSelector((state: TRootState) => state.orderDetails.order);
+  const storeItems = useSelector((state: TRootState) => state.items.items);
   const types = ["sauce", "main"];
 
   function handleOpenModal() {
     if (isUser) {
-      const itemsForOrder = ingredients.map((item) => item._id);
+      const itemsForOrder = ingredients.map((item: TElement) => item._id);
       dispatch(getOrder(itemsForOrder));
       dispatch({ type: SHOW_ORDER });
     } else {
@@ -51,15 +58,15 @@ const BurgerConstructor = () => {
 
   const [{ isHoverBun }, drop] = useDrop({
     accept: "bun",
-    collect: (monitor) => ({
+    collect: (monitor: DropTargetMonitor) => ({
       isHoverBun: monitor.isOver(),
     }),
-    drop(item) {
+    drop(item: { _id: string }) {
       dispatch({
         type: ADD_BUN,
         item: {
           ...item,
-          payload: storeItems.find((el) => el._id === item._id),
+          payload: storeItems.find((el: TElement) => el._id === item._id),
           dragId: uuid(),
         },
       });
@@ -68,27 +75,31 @@ const BurgerConstructor = () => {
 
   const [{ isHover }, dropTargerRef] = useDrop({
     accept: types,
-    collect: (monitor) => ({
+    collect: (monitor: DropTargetMonitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item) {
+    drop(item: { _id: string }) {
       dispatch({
         type: ADD_INGREDIENT,
         item: {
           ...item,
-          payload: storeItems.find((el) => el._id === item._id),
+          payload: storeItems.find((el: TElement) => el._id === item._id),
           dragId: uuid(),
         },
       });
     },
   });
 
-  const border = isHover || isHoverBun ? "0px 0px 0px 4px #4C4CFF" : "none";
+  const border: string =
+    isHover || isHoverBun ? "0px 0px 0px 4px #4C4CFF" : "none";
 
   const totalPrice = useMemo(() => {
     let itemsPrice =
       ingredients.length > 0
-        ? ingredients.reduce((cur, acc) => acc.payload.price + cur, 0)
+        ? ingredients.reduce(
+            (cur: number, acc: any) => acc.payload.price + cur,
+            0
+          )
         : 0;
     let bunPrice = bun ? bun.payload.price * 2 : 0;
     return itemsPrice + bunPrice;

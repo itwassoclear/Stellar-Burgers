@@ -3,42 +3,40 @@ import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Input,
-  PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./reset-password.module.css";
-import { SET_PASSWORD, resetPassword } from "../services/actions";
+import styles from "./forgot-password.module.css";
+import { RESET_PASSWORD, forgotPassword, getUser } from "../services/actions";
+import { TRootState } from "../services/reducers";
 
-export function ResetPasswordPage() {
+export function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const form = useSelector((store) => store.resetPass.form);
-  const forgotPassForm = useSelector((store) => store.forgotPass.form.email);
-  const isPassReseted = useSelector((store) => store.resetPass.isPassReseted);
-  const isUser = useSelector((store) => store.user.isUser);
+  const form = useSelector((store: TRootState) => store.forgotPass.form);
+  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const forgotPassFailed = useSelector(
+    (store: TRootState) => store.forgotPass.forgotPassFailed
+  );
   const [error, setError] = useState(false);
 
   if (isUser) {
     history.push("/");
   }
 
-  if (forgotPassForm.length === 0) {
-    history.push("forgot-password");
-  }
-
-  function fillField(e) {
+  function fillField(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch({
-      type: SET_PASSWORD,
+      type: RESET_PASSWORD,
       payload: { ...form, [e.target.name]: e.target.value },
     });
   }
 
-  async function submitForm(e) {
+  function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(resetPassword(form));
-    if (isPassReseted) {
-      history.push("/login");
+    dispatch(forgotPassword(form));
+    dispatch(getUser());
+    if (!forgotPassFailed) {
+      history.push("/reset-password");
     } else {
       setError(true);
     }
@@ -48,24 +46,15 @@ export function ResetPasswordPage() {
     <div className={styles.wrapper}>
       <form onSubmit={(e) => submitForm(e)} className={styles.form}>
         <h1 className='text text_type_main-medium mb-6'>
-          {!error ? "Восстановление пароля" : "Попробуйте ещё раз :("}
+          {!error ? "Восстановление пароля" : "Такой почты у нас нет :("}
         </h1>
         <div className='mb-6'>
-          <PasswordInput
-            type='password'
-            placeholder='Введите новый пароль'
-            name='password'
-            onChange={(e) => fillField(e)}
-            value={form.password}
-          />
-        </div>
-        <div className='mb-6'>
           <Input
-            type='text'
-            placeholder='Введите код из письма'
-            name='token'
+            type='email'
+            placeholder='Укажите e-mail'
+            name='email'
+            value={form.email}
             onChange={(e) => fillField(e)}
-            value={form.token}
           />
         </div>
         <div className='mb-20'>

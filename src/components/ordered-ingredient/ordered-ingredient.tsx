@@ -1,19 +1,46 @@
+import { BaseSyntheticEvent, FC, SyntheticEvent } from "react";
 import {
   ConstructorElement,
-  DragIcon
+  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import { DropTargetMonitor, useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import styles from "./ordered-ingredient.module.css";
 
-
 import { DELETE_INGREDIENT } from "../../services/actions/index";
-import { itemPropTypes } from "../../utils/types";
+import { TElement } from "../../utils/types";
 
-export default function OrderedIngredient({ item, index, moveCard }) {
+type TItemPropTypes = {
+  _id: string;
+  dragId: string;
+  payload: TElement;
+};
+
+type TOrderedIngredient = {
+  item: TItemPropTypes;
+  index: number;
+  moveCard: void;
+};
+
+type TClientOffset = {
+  x: number;
+  y: number;
+};
+
+type TDragItem = {
+  index: number;
+  id: string;
+  type: string;
+};
+
+const OrderedIngredient: FC<TOrderedIngredient> = ({
+  item,
+  index,
+  moveCard,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const ingredient = item.payload;
 
@@ -21,10 +48,10 @@ export default function OrderedIngredient({ item, index, moveCard }) {
     accept: "item",
     collect(monitor) {
       return {
-        handlerId: monitor.getHandlerId()
+        handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: TDragItem, monitor: DropTargetMonitor) {
       if (!ref.current) {
         return;
       }
@@ -36,8 +63,9 @@ export default function OrderedIngredient({ item, index, moveCard }) {
       }
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset() as TClientOffset;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -50,57 +78,53 @@ export default function OrderedIngredient({ item, index, moveCard }) {
       moveCard(dragIndex, hoverIndex);
 
       item.index = hoverIndex;
-    }
+    },
   });
 
   const [{ isDragging }, drag] = useDrag({
     type: "item",
     item: { index },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging()
-    })
+      isDragging: monitor.isDragging(),
+    }),
   });
 
-  const ref = useRef(null);
   const blockRef = drag(drop(ref));
 
   const opacity = isDragging ? 0.5 : 1;
-  const preventDefault = (e) => e.preventDefault();
+  const preventDefault = (e: BaseSyntheticEvent) => e.preventDefault();
 
   const deleteItem = () => {
     const id = ingredient._id;
     dispatch({
       type: DELETE_INGREDIENT,
       index,
-      id
+      id,
     });
   };
 
   return (
-    <div className={ clsx(styles.ingredient, styles.wrapper) }
-      key={ ingredient._id }
-      ref={ blockRef }
-      style={ { opacity } }
-      onDrop={ preventDefault }
-      data-handler-id={ handlerId }
+    <div
+      className={clsx(styles.ingredient, styles.wrapper)}
+      key={ingredient._id}
+      ref={blockRef}
+      style={{ opacity }}
+      onDrop={preventDefault}
+      data-handler-id={handlerId}
     >
-      <div className={ styles.dragIcon }>
+      <div className={styles.dragIcon}>
         <DragIcon type='primary' />
       </div>
-      <div className={ styles.ingredientDetails }>
+      <div className={styles.ingredientDetails}>
         <ConstructorElement
-          text={ ingredient.name }
-          price={ ingredient.price }
-          thumbnail={ ingredient.image_mobile }
-          handleClose={ e => deleteItem(e.target) }
+          text={ingredient.name}
+          price={ingredient.price}
+          thumbnail={ingredient.image_mobile}
+          handleClose={() => deleteItem()}
         />
       </div>
     </div>
   );
-}
-
-OrderedIngredient.propTypes = {
-  item: itemPropTypes.isRequired,
-  index: PropTypes.number.isRequired,
-  moveCard: PropTypes.func.isRequired
 };
+
+export default OrderedIngredient;

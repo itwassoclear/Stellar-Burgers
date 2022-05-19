@@ -1,4 +1,4 @@
-export function NotFoundPage() {
+export const NotFoundPage = () => {
   return (
     <div>
       <p className='className="text text_type_main-large'>404</p>
@@ -7,4 +7,4 @@ export function NotFoundPage() {
       </p>
     </div>
   );
-}
+};

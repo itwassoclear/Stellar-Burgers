@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 
 import { getUser, logout } from "../services/actions";
+import { TRootState } from "../services/reducers";
 import clsx from "clsx";
+import { TProfileMenu } from "../utils/types";
 
-export function ProfileMenu({ activeLink }) {
+export const ProfileMenu: FC<TProfileMenu> = ({ activeLink }) => {
   const useStyles = makeStyles(() => ({
     links: { display: "flex", flexDirection: "column", width: "320px" },
     link: {
@@ -38,11 +40,11 @@ export function ProfileMenu({ activeLink }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isUser = useSelector((store) => store.user.isUser);
+  const isUser = useSelector((store: TRootState) => store.user.isUser);
 
   useEffect(() => {
     dispatch(getUser());
-  }, []);
+  }, [dispatch]);
 
   if (!isUser) {
     history.push("/login");
@@ -54,7 +56,7 @@ export function ProfileMenu({ activeLink }) {
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div>
       <div className={clsx(classes.links, "mr-15")}>
         <Link
           to='/profile'
@@ -87,4 +89,4 @@ export function ProfileMenu({ activeLink }) {
       </div>
     </div>
   );
-}
+};

@@ -1,8 +1,9 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Location } from "history";
 import styles from "./burger-ingredients.module.css";
 
 import {
@@ -10,24 +11,33 @@ import {
   SHOW_DETAILS,
   getDetails,
 } from "../../services/actions/index";
+import { TRootState } from "../../services/reducers";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
+import { TElement } from "../../utils/types";
+
+type TLocationState = {
+  main?: Location<TLocationState>;
+  from?: { pathname: string };
+};
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation<TLocationState>();
   const history = useHistory();
 
-  const { items } = useSelector((state) => state.items);
-  const details = useSelector((state) => state.itemDetails.details);
-  const showDetails = useSelector((state) => state.itemDetails.showDetails);
+  const { items } = useSelector((store: TRootState) => store.items);
+  const details = useSelector((store: TRootState) => store.itemDetails.details);
+  const showDetails = useSelector(
+    (store: TRootState) => store.itemDetails.showDetails
+  );
 
-  const buns = items.filter((elem) => elem.type === "bun");
-  const sauces = items.filter((elem) => elem.type === "sauce");
-  const mains = items.filter((elem) => elem.type === "main");
+  const buns = items.filter((elem: TElement) => elem.type === "bun");
+  const sauces = items.filter((elem: TElement) => elem.type === "sauce");
+  const mains = items.filter((elem: TElement) => elem.type === "main");
 
-  function handleOpenModal(elem) {
+  function handleOpenModal(elem: TElement) {
     dispatch(getDetails(elem));
     dispatch({ type: SHOW_DETAILS });
   }
@@ -37,9 +47,9 @@ const BurgerIngredients = () => {
     history.goBack();
   }
 
-  const [current, setCurrent] = React.useState("one");
+  const [current, setCurrent] = useState<string>("one");
 
-  function scrollToBlock(e) {
+  function scrollToBlock(e: any) {
     const elem = e.target;
     if (elem.scrollTop > 0 && elem.scrollTop < 292) {
       setCurrent("one");
@@ -54,9 +64,9 @@ const BurgerIngredients = () => {
   const tab2 = React.useRef(null);
   const tab3 = React.useRef(null);
 
-  const executeScroll = (e) => {
+  const executeScroll = (e: React.SetStateAction<string>): void => {
     setCurrent(e);
-    let ref = null;
+    let ref: any = null;
     switch (e) {
       case "one":
         ref = tab1;
@@ -110,7 +120,7 @@ const BurgerIngredients = () => {
           Булки
         </p>
         <div className={clsx(styles.items, "pl-4 pr-4")}>
-          {Object.values(buns).map((elem) => (
+          {buns.map((elem: TElement) => (
             <Link
               key={elem._id}
               to={{
@@ -128,7 +138,7 @@ const BurgerIngredients = () => {
           Соусы
         </p>
         <div className={clsx(styles.items, "pl-4 pr-4")}>
-          {Object.values(sauces).map((elem) => (
+          {sauces.map((elem: TElement) => (
             <Link
               key={elem._id}
               to={{
@@ -146,7 +156,7 @@ const BurgerIngredients = () => {
           Начинки
         </p>
         <div className={clsx(styles.items, "pl-4 pr-4")}>
-          {Object.values(mains).map((elem) => (
+          {mains.map((elem: TElement) => (
             <Link
               key={elem._id}
               to={{

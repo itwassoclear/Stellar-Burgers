@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   BurgerIcon,
   ListIcon,
@@ -8,7 +9,7 @@ import { Link } from "react-router-dom";
 import clsx from "clsx";
 import headerStyles from "./app-header.module.css";
 
-function AppHeader() {
+const AppHeader: FC = () => {
   return (
     <header className={clsx(headerStyles.appHeader, "pt-4 pb-4")}>
       <div className={headerStyles.appHeaderLeftButtons}>
@@ -22,7 +23,7 @@ function AppHeader() {
           )}
         >
           <div className='mr-2'>
-            <BurgerIcon type='primary' className='m-2' />
+            <BurgerIcon type='primary' />
           </div>
           <p className='text text_type_main-default'>Конструктор</p>
         </Link>
@@ -35,7 +36,7 @@ function AppHeader() {
           )}
         >
           <div className='mr-2'>
-            <ListIcon type='secondary' className='m-2' />
+            <ListIcon type='secondary' />
           </div>
           <p className='text text_type_main-default text_color_inactive'>
             Лента заказов
@@ -67,6 +68,6 @@ function AppHeader() {
       </Link>
     </header>
   );
-}
+};
 
 export default AppHeader;

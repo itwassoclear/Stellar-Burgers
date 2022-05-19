@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./main.module.css";
@@ -6,7 +7,13 @@ import Loader from "../components/loader/loader";
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 
-export function MainPage({ items }) {
+import { TElement } from "../utils/types";
+
+type TItems = {
+  items: { [key: string]: TElement };
+};
+
+export const MainPage: FC<TItems> = ({ items }) => {
   return (
     <section className={styles.appSection}>
       {items ? (
@@ -24,4 +31,4 @@ export function MainPage({ items }) {
       )}
     </section>
   );
-}
+};
