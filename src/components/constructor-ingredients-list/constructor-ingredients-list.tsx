@@ -32,14 +32,18 @@ const ConstructorIngredientsList: FC<TIngredientProps> = ({ ingredients }) => {
     [ingredients, dispatch]
   );
 
-  return ingredients.map((item: TElement, index: number) => (
-    <OrderedIngredient
-      key={item.dragId}
-      index={index}
-      item={item}
-      moveCard={moveCard}
-    />
-  ));
+  return (
+    <>
+      {ingredients.map((item: TElement, index: number) => (
+        <OrderedIngredient
+          key={item.dragId}
+          index={index}
+          item={item}
+          moveCard={moveCard}
+        />
+      ))}
+    </>
+  );
 };
 
 export default ConstructorIngredientsList;
