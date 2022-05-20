@@ -12,7 +12,7 @@ type TElement = {
 };
 
 type TIngredientProps = {
-  ingredients: { [key: string]: TElement };
+  ingredients: TElement[];
 };
 
 const ConstructorIngredientsList: FC<TIngredientProps> = ({ ingredients }) => {

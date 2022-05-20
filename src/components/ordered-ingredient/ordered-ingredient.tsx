@@ -1,11 +1,11 @@
-import { BaseSyntheticEvent, FC, SyntheticEvent } from "react";
+import { BaseSyntheticEvent, FC } from "react";
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
 import { useRef } from "react";
-import { DropTargetMonitor, useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import styles from "./ordered-ingredient.module.css";
 
@@ -21,7 +21,7 @@ type TItemPropTypes = {
 type TOrderedIngredient = {
   item: TItemPropTypes;
   index: number;
-  moveCard: void;
+  moveCard: (dragIndex: number, hoverIndex: number) => void;
 };
 
 type TClientOffset = {
@@ -44,14 +44,9 @@ const OrderedIngredient: FC<TOrderedIngredient> = ({
   const dispatch = useDispatch();
   const ingredient = item.payload;
 
-  const [{ handlerId }, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: "item",
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
-    },
-    hover(item: TDragItem, monitor: DropTargetMonitor) {
+    hover(item: TDragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -89,7 +84,7 @@ const OrderedIngredient: FC<TOrderedIngredient> = ({
     }),
   });
 
-  const blockRef = drag(drop(ref));
+  drag(drop(ref));
 
   const opacity = isDragging ? 0.5 : 1;
   const preventDefault = (e: BaseSyntheticEvent) => e.preventDefault();
@@ -107,10 +102,9 @@ const OrderedIngredient: FC<TOrderedIngredient> = ({
     <div
       className={clsx(styles.ingredient, styles.wrapper)}
       key={ingredient._id}
-      ref={blockRef}
+      ref={ref}
       style={{ opacity }}
       onDrop={preventDefault}
-      data-handler-id={handlerId}
     >
       <div className={styles.dragIcon}>
         <DragIcon type='primary' />
