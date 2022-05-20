@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
   Input,
   Button,
@@ -9,8 +9,9 @@ import { makeStyles } from "@mui/styles";
 
 import { SET_USER, updateUser, getUser } from "../services/actions";
 import { ProfileMenu } from "../components/profile-menu";
+import { TRootState } from "../services/reducers";
 
-export function ProfilePage() {
+export const ProfilePage = () => {
   const useStyles = makeStyles(() => ({
     wrapper: {
       width: "860px",
@@ -31,12 +32,14 @@ export function ProfilePage() {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const form = useSelector((store) => store.user.form);
-  const pass = useSelector((store) => store.login.form.password);
-  const isUpdated = useSelector((store) => store.updateUser.isUpdated);
+  const form = useSelector((store: TRootState) => store.user.form);
+  const pass = useSelector((store: TRootState) => store.login.form.password);
+  const isUpdated = useSelector(
+    (store: TRootState) => store.updateUser.isUpdated
+  );
 
-  const isUser = useSelector((store) => store.user.isUser);
-  const updatedForm = useSelector((store) => store.updateUser.form);
+  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const updatedForm = useSelector((store: TRootState) => store.updateUser.form);
   const [saveButton, setSaveButton] = useState(false);
 
   const [userData, setUserData] = useState({
@@ -45,9 +48,9 @@ export function ProfilePage() {
     password: isUpdated ? pass : "",
   });
 
-  const refName = useRef(null);
-  const refEmail = useRef(null);
-  const refPass = useRef(null);
+  const refName = useRef<HTMLInputElement>(null);
+  const refEmail = useRef<HTMLInputElement>(null);
+  const refPass = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     dispatch(getUser());
@@ -57,7 +60,7 @@ export function ProfilePage() {
     return <Redirect to='/login' />;
   }
 
-  function fillField(e) {
+  function fillField(e: React.ChangeEvent<HTMLInputElement>) {
     setSaveButton(true);
     setUserData({ ...userData, [e.target.name]: e.target.value });
     dispatch({
@@ -66,22 +69,22 @@ export function ProfilePage() {
     });
   }
 
-  async function submitForm(e) {
+  async function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(await updateUser(userData));
   }
 
   const onIconClickName = () => {
-    setTimeout(() => refName.current.focus(), 0);
+    setTimeout(() => refName?.current?.focus(), 0);
   };
   const onIconClickEmail = () => {
-    setTimeout(() => refEmail.current.focus(), 0);
+    setTimeout(() => refEmail?.current?.focus(), 0);
   };
   const onIconClickPassword = () => {
-    setTimeout(() => refPass.current.focus(), 0);
+    setTimeout(() => refPass?.current?.focus(), 0);
   };
 
-  const cancelEdit = (e) => {
+  const cancelEdit = (e: React.SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     dispatch(getUser());
     setUserData({ ...form, password: pass });
@@ -148,4 +151,4 @@ export function ProfilePage() {
       </form>
     </div>
   );
-}
+};

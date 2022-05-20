@@ -5,8 +5,9 @@ import { useHistory } from "react-router-dom";
 
 import { getUser } from "../services/actions";
 import { ProfileMenu } from "../components/profile-menu";
+import { TRootState } from "../services/reducers";
 
-export function OrderInfoPage() {
+export const OrderInfoPage = () => {
   const useStyles = makeStyles(() => ({
     wrapper: {
       width: "860px",
@@ -19,11 +20,11 @@ export function OrderInfoPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const isUser = useSelector((store) => store.user.isUser);
+  const isUser = useSelector((store: TRootState) => store.user.isUser);
 
   useEffect(() => {
     dispatch(getUser());
-  }, []);
+  }, [dispatch]);
 
   if (!isUser) {
     history.push("/login");
@@ -31,7 +32,7 @@ export function OrderInfoPage() {
 
   return (
     <div className={classes.wrapper}>
-      <ProfileMenu />
+      <ProfileMenu activeLink={"order-info"} />
     </div>
   );
-}
+};

@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
@@ -20,20 +21,20 @@ import {
 import appStyles from "./app.module.css";
 import { getItems, getUser } from "../../services/actions/index";
 import { ProtectedRoute } from "../protected-route/protected-route";
+import { TLocationState } from "../../utils/types";
 
-function App() {
+const App: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  let location = useLocation();
-  const action = history.action === "PUSH" || history.action === "REPLACE";
-  let main = action && location.state && location.state.main;
+  const location = useLocation<TLocationState>();
+  const action: boolean =
+    history.action === "PUSH" || history.action === "REPLACE";
+  const main = action && location.state && location.state.main;
 
   useEffect(() => {
     dispatch(getItems());
     dispatch(getUser());
   }, [dispatch]);
-
-  const isUser = useSelector((store) => store.user.isUser);
 
   const { items } = useSelector((state: RootStateOrAny) => state.items);
 
@@ -84,6 +85,6 @@ function App() {
       </>
     </div>
   );
-}
+};
 
 export default App;

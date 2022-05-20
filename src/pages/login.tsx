@@ -1,28 +1,27 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import {
   Input,
-  PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import { TRootState } from "../services/reducers";
 import { login, SET_AUTH } from "../services/actions";
 import styles from "./login.module.css";
 
-export function LoginPage() {
+export const LoginPage = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const form = useSelector((store) => store.login.form);
-  const isUser = useSelector((store) => store.user.isUser);
+  const location = useLocation<{ from: string }>();
+  const form = useSelector((store: TRootState) => store.login.form);
+  const isUser = useSelector((store: TRootState) => store.user.isUser);
 
-  function fillField(e) {
+  function fillField(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch({
       type: SET_AUTH,
       payload: { ...form, [e.target.name]: e.target.value },
     });
   }
 
-  function submitForm(e) {
+  function submitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(login(form));
   }
@@ -46,7 +45,7 @@ export function LoginPage() {
           />
         </div>
         <div className='mb-6'>
-          <PasswordInput
+          <Input
             type='password'
             placeholder='Пароль'
             name='password'
@@ -74,4 +73,4 @@ export function LoginPage() {
       </form>
     </div>
   );
-}
+};

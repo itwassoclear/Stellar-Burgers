@@ -26,3 +26,5 @@ export const rootReducer = combineReducers({
   forgotPass: forgotPassReducer, // восстановление пароля
   resetPass: resetPassReducer, // обновление пароля
 });
+
+export type TRootState = ReturnType<typeof rootReducer>;

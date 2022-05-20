@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -9,8 +9,10 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    // "include": ["src", "declaration.d.ts"],
     "module": "esnext",
     "moduleResolution": "node",
+    "plugins": [{ "name": "typescript-plugin-css-modules" }],
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,

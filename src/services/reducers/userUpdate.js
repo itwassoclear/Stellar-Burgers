@@ -25,7 +25,6 @@ export const userUpdateReducer = (state = initialState, action) => {
       };
     }
     case UPDATE_USER_SUCCESS: {
-      console.log(state.form, action.form);
       return {
         ...state,
         getUserRequest: false,
