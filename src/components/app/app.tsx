@@ -55,10 +55,6 @@ const App: FC = () => {
           <Route path='/reset-password' exact={true}>
             <ResetPasswordPage />
           </Route>
-          <Route path='/reset-password' exact={true}>
-            <LoginPage />
-          </Route>
-
           <ProtectedRoute path='/profile' exact={true}>
             <ProfilePage />
           </ProtectedRoute>
@@ -68,10 +64,6 @@ const App: FC = () => {
           <ProtectedRoute path='/profile/orders/:id' exact={true}>
             <OrderInfoPage />
           </ProtectedRoute>
-
-          <Route path='/profile' exact={true}>
-            <ProfilePage />
-          </Route>
           <Route path='/ingredients/:id' exact={true}>
             <IngredientPage />
           </Route>
