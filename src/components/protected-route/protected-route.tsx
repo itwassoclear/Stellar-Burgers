@@ -6,11 +6,7 @@ import { getUser } from "../../services/actions";
 import { getCookie } from "../../utils/cookie";
 import { TRootState } from "../../services/reducers";
 
-type TProtectedRoute = {
-  children: RouteProps;
-};
-
-export const ProtectedRoute: FC<TProtectedRoute> = ({ children, ...rest }) => {
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const isUser = useSelector((store: TRootState) => store.user.isUser);
   const isToken = getCookie("accessToken");
   const [isUserLoaded, setUserLoaded] = useState(false);
