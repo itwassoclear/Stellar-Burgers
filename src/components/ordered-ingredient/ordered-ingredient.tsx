@@ -9,7 +9,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import styles from "./ordered-ingredient.module.css";
 
-import { DELETE_INGREDIENT } from "../../services/actions/index";
+import { DELETE_INGREDIENT } from "../../services/actions/constructor";
 import { TElement } from "../../utils/types";
 
 type TItemPropTypes = {

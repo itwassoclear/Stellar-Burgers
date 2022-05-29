@@ -14,12 +14,16 @@ import {
   ProfilePage,
   NotFoundPage,
   IngredientPage,
+  FeedPage,
+  FeedInfoPage,
   OrdersPage,
   OrderInfoPage,
 } from "../../pages";
 
 import appStyles from "./app.module.css";
-import { getItems, getUser } from "../../services/actions/index";
+import { getUser } from "../../services/actions/user";
+import { getItems } from "../../services/actions/items";
+
 import { ProtectedRoute } from "../protected-route/protected-route";
 import { TLocationState } from "../../utils/types";
 
@@ -54,6 +58,12 @@ const App: FC = () => {
           </Route>
           <Route path='/reset-password' exact={true}>
             <ResetPasswordPage />
+          </Route>
+          <Route path='/feed' exact={true}>
+            <FeedPage />
+          </Route>
+          <Route path='/feed/:id' exact={true}>
+            <FeedInfoPage />
           </Route>
           <ProtectedRoute path='/profile' exact={true}>
             <ProfilePage />

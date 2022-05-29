@@ -1,23 +1,13 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from "@mui/styles";
 import { useHistory } from "react-router-dom";
 
-import { getUser } from "../services/actions";
+import { getUser } from "../services/actions/user";
 import { ProfileMenu } from "../components/profile-menu";
 import { TRootState } from "../services/reducers";
+import styles from "./pages.module.css";
 
 export const OrderInfoPage = () => {
-  const useStyles = makeStyles(() => ({
-    wrapper: {
-      width: "860px",
-      margin: "120px auto 0",
-      textAlign: "left",
-      display: "flex",
-    },
-  }));
-
-  const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
   const isUser = useSelector((store: TRootState) => store.user.isUser);
@@ -31,7 +21,7 @@ export const OrderInfoPage = () => {
   }
 
   return (
-    <div className={classes.wrapper}>
+    <div className={styles.orderWrapper}>
       <ProfileMenu activeLink={"order-info"} />
     </div>
   );

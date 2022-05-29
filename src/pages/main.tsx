@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import styles from "./main.module.css";
+import styles from "./pages.module.css";
 
 import Loader from "../components/loader/loader";
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";

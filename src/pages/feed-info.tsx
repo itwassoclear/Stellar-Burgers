@@ -7,7 +7,7 @@ import { ProfileMenu } from "../components/profile-menu";
 import { TRootState } from "../services/reducers";
 import styles from "./pages.module.css";
 
-export const OrdersPage = () => {
+export const FeedInfoPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const isUser = useSelector((store: TRootState) => store.user.isUser);

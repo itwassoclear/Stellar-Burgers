@@ -2,15 +2,26 @@ import {
   GET_ITEMS_FAILED,
   GET_ITEMS_REQUEST,
   GET_ITEMS_SUCCESS,
-} from "../actions/index.js";
+} from "../actions/items";
+import type { TItemsActions } from "../actions/items";
+import { TIngredients } from "../../utils/types";
 
-const initialState = {
-  items: null,
+type TItemsState = {
+  items: Array<TIngredients>;
+  itemsRequest: boolean;
+  itemsFailed: boolean;
+};
+
+const initialState: TItemsState = {
+  items: [],
   itemsRequest: false,
   itemsFailed: false,
 };
 
-export const itemsReducer = (state = initialState, action) => {
+export const itemsReducer = (
+  state = initialState,
+  action: TItemsActions
+): TItemsState => {
   switch (action.type) {
     case GET_ITEMS_REQUEST:
       return {

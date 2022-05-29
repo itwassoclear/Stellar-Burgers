@@ -7,8 +7,7 @@ import { orderDetailsReducer } from "./order";
 import { registrationReducer } from "./registration";
 import { loginReducer } from "./login";
 import { logoutReducer } from "./logout";
-import { userReducer } from "./user";
-import { userUpdateReducer } from "./userUpdate";
+import { userReducer, userUpdateReducer } from "./user";
 import { forgotPassReducer } from "./forgotPass";
 import { resetPassReducer } from "./resetPass";
 

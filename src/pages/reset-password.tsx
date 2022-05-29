@@ -6,9 +6,9 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./reset-password.module.css";
-import { SET_PASSWORD, resetPassword } from "../services/actions";
+import { SET_PASSWORD, resetPassword } from "../services/actions/resetPass";
 import { TRootState } from "../services/reducers";
+import styles from "./pages.module.css";
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export const ResetPasswordPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <form onSubmit={(e) => submitForm(e)} className={styles.form}>
+      <form onSubmit={(e) => submitForm(e)}>
         <h1 className='text text_type_main-medium mb-6'>
           {!error ? "Восстановление пароля" : "Попробуйте ещё раз :("}
         </h1>

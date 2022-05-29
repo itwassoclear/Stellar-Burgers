@@ -1,0 +1,70 @@
+.wrapper {
+  width: 480px;
+  margin: 180px auto 0;
+}
+
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+  cursor: pointer;
+}
+
+.appSection {
+  display: flex;
+  justify-content: center;
+}
+
+.orderWrapper {
+  width: 860px;
+  margin: 120px auto 0;
+  text-align: left;
+  display: flex;
+}
+
+.form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.buttons {
+  display: flex;
+}
+
+.feedBox {
+  margin: 40px auto;
+  text-align: left;
+  max-width: 1240px;
+}
+
+.feed {
+  display: flex;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  text-align: left;
+  height: 720px;
+  overflow-x: auto;
+}
+
+.orders {
+  width: 584px;
+}
+
+.ordersTable {
+  display: flex;
+}
+
+.readyNumber {
+  color: #00cccc;
+  width: 272px;
+}
+
+.inProgressNumber {
+  color: #fff;
+  width: 272px;
+}

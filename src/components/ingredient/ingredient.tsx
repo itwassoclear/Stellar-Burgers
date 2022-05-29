@@ -8,11 +8,11 @@ import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import styles from "./ingredient.module.css";
 import { TRootState } from "../../services/reducers";
-import { TElement } from "../../utils/types";
+import { TIngredients } from "../../utils/types";
 
 type TIngredientProps = {
-  readonly elem: TElement;
-  readonly handleOpenModal: (elem: TElement) => void;
+  readonly elem: TIngredients;
+  readonly handleOpenModal: (elem: TIngredients) => void;
 };
 
 const Ingredient: FC<TIngredientProps> = ({ elem, handleOpenModal }) => {

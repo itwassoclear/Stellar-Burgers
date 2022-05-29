@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getUser } from "../../services/actions";
+import { getUser } from "../../services/actions/user";
 import { getCookie } from "../../utils/cookie";
 import { TRootState } from "../../services/reducers";
 

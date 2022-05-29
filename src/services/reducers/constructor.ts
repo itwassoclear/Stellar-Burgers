@@ -5,15 +5,29 @@ import {
   DELETE_INGREDIENT,
   MOVE_INGREDIENT,
   RESET,
-} from "../actions/index.js";
+} from "../actions/constructor.ts";
+import type { TConstructorActions } from "../actions/constructor";
 
-const initialState = {
+import { TIngredients } from "../../utils/types";
+
+type TConstructorState = {
+  ingredients: Array<TIngredients>;
+  bun: TIngredients | null;
+  totalPrice: number;
+  constructorIngredients: Array<TIngredients>;
+};
+
+const initialState: TConstructorState = {
   bun: null,
   ingredients: [],
   totalPrice: 0,
+  constructorIngredients: [],
 };
 
-export const constructorItemsReducer = (state = initialState, action) => {
+export const constructorItemsReducer = (
+  state = initialState,
+  action: TConstructorActions
+): TConstructorState => {
   switch (action.type) {
     case ADD_BUN:
       return {

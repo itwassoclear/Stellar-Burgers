@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 
-import { getUser, logout } from "../services/actions";
+import { getUser } from "../services/actions/user";
+import { logout } from "../services/actions/logout";
 import { TRootState } from "../services/reducers";
 import clsx from "clsx";
 import { TProfileMenu } from "../utils/types";

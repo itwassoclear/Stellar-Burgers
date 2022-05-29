@@ -5,8 +5,8 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { register, SET_REGISTRATION } from "../services/actions";
-import styles from "./register.module.css";
+import { register, SET_REGISTRATION } from "../services/actions/registration";
+import styles from "./pages.module.css";
 import { TRootState } from "../services/reducers";
 
 export const RegisterPage = () => {

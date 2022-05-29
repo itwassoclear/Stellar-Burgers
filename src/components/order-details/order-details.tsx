@@ -7,7 +7,7 @@ import Loader from "../loader/loader";
 import { TOrder } from "../../utils/types";
 
 type TOrderProps = {
-  order: TOrder;
+  order: TOrder | null;
 };
 
 const OrderDetails: FC<TOrderProps> = ({ order }) => {

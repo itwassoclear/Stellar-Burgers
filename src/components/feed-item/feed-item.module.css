@@ -1,0 +1,108 @@
+.box {
+  background: #1c1c21;
+  border-radius: 40px;
+}
+
+.number {
+  color: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.name {
+  color: white;
+}
+
+.ingredients {
+  display: flex;
+}
+
+.item {
+  position: relative;
+  width: 64px;
+  background-color: #131316;
+  border-radius: 100px;
+  margin-left: -16px;
+}
+
+.status {
+  color: white;
+}
+
+.item:first-of-type {
+  z-index: 7;
+  margin-left: 0;
+}
+
+.item:nth-child(2) {
+  z-index: 6;
+}
+
+.item:nth-child(3) {
+  z-index: 5;
+}
+
+.item:nth-child(4) {
+  z-index: 4;
+}
+
+.item:nth-child(5) {
+  z-index: 3;
+}
+
+.item:nth-child(6) {
+  z-index: 2;
+}
+
+.item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 100%;
+  padding: 2px;
+  background: linear-gradient(to right, #801ab2, #4c4cff);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.image {
+  width: 110px;
+  margin-left: -22px;
+  margin-top: 5px;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lastItemsNumber {
+  color: white;
+  position: absolute;
+  top: 21px;
+  left: 23px;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.itemBg {
+  background: #00000063;
+  width: 60px;
+  height: 60px;
+  top: 2px;
+  left: 2px;
+  border-radius: 100%;
+  position: absolute;
+}

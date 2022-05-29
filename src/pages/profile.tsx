@@ -5,32 +5,13 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { makeStyles } from "@mui/styles";
+import styles from "./pages.module.css";
 
-import { SET_USER, updateUser, getUser } from "../services/actions";
+import { SET_USER, updateUser, getUser } from "../services/actions/user";
 import { ProfileMenu } from "../components/profile-menu";
 import { TRootState } from "../services/reducers";
 
 export const ProfilePage = () => {
-  const useStyles = makeStyles(() => ({
-    wrapper: {
-      width: "860px",
-      margin: "120px auto 0",
-      textAlign: "left",
-      display: "flex",
-    },
-    form: {
-      width: "480px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-end",
-    },
-    buttons: {
-      display: "flex",
-    },
-  }));
-
-  const classes = useStyles();
   const dispatch = useDispatch();
   const form = useSelector((store: TRootState) => store.user.form);
   const pass = useSelector((store: TRootState) => store.login.form.password);
@@ -92,10 +73,10 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={styles.orderWrapper}>
       <ProfileMenu activeLink={"profile"} />
 
-      <form className={classes.form} onSubmit={(e) => submitForm(e)}>
+      <form className={styles.form} onSubmit={(e) => submitForm(e)}>
         <div className='mb-6'>
           <Input
             type='text'
@@ -132,7 +113,7 @@ export const ProfilePage = () => {
             ref={refPass}
           />
         </div>
-        <div className={classes.buttons}>
+        <div className={styles.buttons}>
           {saveButton && (
             <div className='mr-4'>
               <Button

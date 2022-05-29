@@ -6,8 +6,9 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./forgot-password.module.css";
-import { RESET_PASSWORD, forgotPassword, getUser } from "../services/actions";
+import styles from "./pages.module.css";
+import { RESET_PASSWORD, forgotPassword } from "../services/actions/forgotPass";
+import { getUser } from "../services/actions/user";
 import { TRootState } from "../services/reducers";
 
 export function ForgotPasswordPage() {
@@ -44,7 +45,7 @@ export function ForgotPasswordPage() {
 
   return (
     <div className={styles.wrapper}>
-      <form onSubmit={(e) => submitForm(e)} className={styles.form}>
+      <form onSubmit={(e) => submitForm(e)}>
         <h1 className='text text_type_main-medium mb-6'>
           {!error ? "Восстановление пароля" : "Такой почты у нас нет :("}
         </h1>

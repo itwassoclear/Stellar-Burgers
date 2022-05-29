@@ -5,8 +5,8 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TRootState } from "../services/reducers";
-import { login, SET_AUTH } from "../services/actions";
-import styles from "./login.module.css";
+import { login, SET_AUTH } from "../services/actions/login";
+import styles from "./pages.module.css";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export const LoginPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <form className={styles.form} onSubmit={(e) => submitForm(e)}>
+      <form onSubmit={(e) => submitForm(e)}>
         <h1 className='text text_type_main-medium mb-6'>Вход</h1>
         <div className='mb-6'>
           <Input

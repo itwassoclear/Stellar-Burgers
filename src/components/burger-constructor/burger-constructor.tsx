@@ -14,17 +14,19 @@ import styles from "./burger-constructor.module.css";
 import { TRootState } from "../../services/reducers";
 
 import {
+  SHOW_ORDER,
+  CLOSE_ORDER,
+  getOrder,
+} from "../../services/actions/order";
+import {
   ADD_BUN,
   ADD_INGREDIENT,
-  CLOSE_ORDER,
   RESET,
-  SHOW_ORDER,
-  getOrder,
-} from "../../services/actions/index";
+} from "../../services/actions/constructor";
 import ConstructorIngredientsList from "../constructor-ingredients-list/constructor-ingredients-list";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { TElement } from "../../utils/types";
+import { TIngredients } from "../../utils/types";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -43,7 +45,7 @@ const BurgerConstructor: FC = () => {
 
   function handleOpenModal() {
     if (isUser) {
-      const itemsForOrder = ingredients.map((item: TElement) => item._id);
+      const itemsForOrder = ingredients.map((item) => item._id);
       dispatch(getOrder(itemsForOrder));
       dispatch({ type: SHOW_ORDER });
     } else {
@@ -66,7 +68,7 @@ const BurgerConstructor: FC = () => {
         type: ADD_BUN,
         item: {
           ...item,
-          payload: storeItems.find((el: TElement) => el._id === item._id),
+          payload: storeItems.find((el: TIngredients) => el._id === item._id),
           dragId: uuid(),
         },
       });
@@ -83,7 +85,7 @@ const BurgerConstructor: FC = () => {
         type: ADD_INGREDIENT,
         item: {
           ...item,
-          payload: storeItems.find((el: TElement) => el._id === item._id),
+          payload: storeItems.find((el: TIngredients) => el._id === item._id),
           dragId: uuid(),
         },
       });

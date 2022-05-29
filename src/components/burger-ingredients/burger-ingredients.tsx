@@ -10,12 +10,12 @@ import {
   CLOSE_DETAILS,
   SHOW_DETAILS,
   getDetails,
-} from "../../services/actions/index";
+} from "../../services/actions/details";
 import { TRootState } from "../../services/reducers";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
-import { TElement } from "../../utils/types";
+import { TIngredients } from "../../utils/types";
 
 type TLocationState = {
   main?: Location<TLocationState>;
@@ -33,11 +33,11 @@ const BurgerIngredients = () => {
     (store: TRootState) => store.itemDetails.showDetails
   );
 
-  const buns = items.filter((elem: TElement) => elem.type === "bun");
-  const sauces = items.filter((elem: TElement) => elem.type === "sauce");
-  const mains = items.filter((elem: TElement) => elem.type === "main");
+  const buns = items.filter((elem: TIngredients) => elem.type === "bun");
+  const sauces = items.filter((elem: TIngredients) => elem.type === "sauce");
+  const mains = items.filter((elem: TIngredients) => elem.type === "main");
 
-  function handleOpenModal(elem: TElement) {
+  function handleOpenModal(elem: TIngredients) {
     dispatch(getDetails(elem));
     dispatch({ type: SHOW_DETAILS });
   }
@@ -120,7 +120,7 @@ const BurgerIngredients = () => {
           Булки
         </p>
         <div className={clsx(styles.items, "pl-4 pr-4")}>
-          {buns.map((elem: TElement) => (
+          {buns.map((elem: TIngredients) => (
             <Link
               key={elem._id}
               to={{
@@ -138,7 +138,7 @@ const BurgerIngredients = () => {
           Соусы
         </p>
         <div className={clsx(styles.items, "pl-4 pr-4")}>
-          {sauces.map((elem: TElement) => (
+          {sauces.map((elem: TIngredients) => (
             <Link
               key={elem._id}
               to={{
@@ -156,7 +156,7 @@ const BurgerIngredients = () => {
           Начинки
         </p>
         <div className={clsx(styles.items, "pl-4 pr-4")}>
-          {mains.map((elem: TElement) => (
+          {mains.map((elem: TIngredients) => (
             <Link
               key={elem._id}
               to={{

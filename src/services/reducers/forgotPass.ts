@@ -3,9 +3,18 @@ import {
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILED,
   RESET_PASSWORD,
-} from "../actions/index.js";
+} from "../actions/forgotPass";
+import type { TForgotPassActions } from "../actions/forgotPass";
 
-const initialState = {
+type TForgotPassState = {
+  form: {
+    email: string;
+  };
+  forgotPassRequest: boolean;
+  forgotPassFailed: boolean;
+};
+
+const initialState: TForgotPassState = {
   form: {
     email: "",
   },
@@ -13,7 +22,10 @@ const initialState = {
   forgotPassFailed: false,
 };
 
-export const forgotPassReducer = (state = initialState, action) => {
+export const forgotPassReducer = (
+  state = initialState,
+  action: TForgotPassActions
+): TForgotPassState => {
   switch (action.type) {
     case FORGOT_PASSWORD_REQUEST: {
       return {

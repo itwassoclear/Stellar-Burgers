@@ -1,6 +1,6 @@
 import { useCallback, FC } from "react";
 import { useDispatch } from "react-redux";
-import { MOVE_INGREDIENT } from "../../services/actions/index";
+import { MOVE_INGREDIENT } from "../../services/actions/constructor";
 
 import OrderedIngredient from "../ordered-ingredient/ordered-ingredient";
 import { TElement as TElementDetails } from "../../utils/types";
