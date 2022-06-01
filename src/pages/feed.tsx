@@ -53,9 +53,9 @@ export const FeedPage = () => {
   useEffect(() => {
     dispatch(getUser());
     dispatch(wsConnectionAllStart());
-    return () => {
-      dispatch(wsConnectionClosed());
-    };
+    // return () => {
+    //   dispatch(wsConnectionClosed());
+    // };
   }, [dispatch]);
 
   const doneOrders = data
@@ -160,7 +160,7 @@ export const FeedPage = () => {
                 "text text_type_digits-large"
               )}
             >
-              1234567890
+              {total}
             </p>
           </div>
           <div className={clsx(styles.ordersToday, "mt-15")}>
@@ -173,7 +173,7 @@ export const FeedPage = () => {
                 "text text_type_digits-large"
               )}
             >
-              1234567890
+              {totalToday}
             </p>
           </div>
         </div>

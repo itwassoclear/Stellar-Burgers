@@ -1,25 +1,25 @@
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 import styles from "./pages.module.css";
 import OrderInfo from "../components/order-info/order-info";
 import { TRootState } from "../services/types/index";
-import { responseData } from "../utils/data";
-import { FC } from "react";
+import { getUser } from "../services/actions/user";
+import { wsConnectionAllStart } from "../services/actions/websocket";
 
-// import { TIngredients } from "../services/types/data";
+export function FeedInfoPage() {
+  const dispatch = useDispatch();
+  const data = useSelector((store: TRootState) => store.ws.messages);
 
-export const FeedInfoPage: FC = () => {
-  const items = useSelector((store: TRootState) => store.items.items);
-  const history = useHistory();
-  const id = history.location.pathname.replace("/ingredients/", "");
-  const details = responseData.data.orders;
+  useEffect(() => {
+    dispatch(getUser());
+    dispatch(wsConnectionAllStart());
+  }, [dispatch]);
 
+  console.log(77777, data);
   return (
     <div className={styles.orderDetails}>
-      {items && (
-        <OrderInfo details={details.filter((el) => el._id === id)[0]} />
-      )}
+      {data && <OrderInfo details={data} />}
     </div>
   );
-};
+}

@@ -2,29 +2,35 @@ import clsx from "clsx";
 import styles from "./order-info.module.css";
 import { TOrders } from "../../services/types/data";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { TRootState } from "../../services/types/index";
 import { useMemo } from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { dateCalc } from "../../utils/data";
+import { TElement } from "../../services/types/data";
 
 type TDetails = {
-  details: TOrders[] | null;
+  details: TOrders;
 };
 
 export const OrderInfo = ({ details }: TDetails) => {
-  const data = details[3];
+  const history = useHistory();
   const items = useSelector((store: TRootState) => store.items.items);
+  const id = history.location.pathname.replace("/feed/", "");
+  const data = details.filter((el: TOrders) => el._id === id)[0];
+  console.log("1111111", details);
+
   const ingredients = useMemo(() => {
     return data.ingredients
-      .map((id) => {
+      .map((id: string) => {
         return items.find((item) => item._id === id);
       })
-      .filter((data) => data !== undefined)
-      .slice(0, 5);
+      .filter((data: TOrders) => data !== undefined);
+    // .slice(0, 5);
   }, [items, data.ingredients]);
 
   const orderStatus: string =
-    data.status === "done"
+    data?.status === "done"
       ? "Выполнен"
       : data.status === "pending"
       ? "Готовится"
@@ -34,7 +40,7 @@ export const OrderInfo = ({ details }: TDetails) => {
 
   const totalPrice = useMemo(() => {
     let total = 0;
-    data.ingredients.map((el) => {
+    data.ingredients.map((el: string) => {
       const orderedItems = items.find((data) => data._id === el);
       if (orderedItems) {
         total += orderedItems.price || 0;
@@ -45,7 +51,7 @@ export const OrderInfo = ({ details }: TDetails) => {
   }, [data.ingredients, items]);
 
   return (
-    <div className={clsx(styles.modal, "pl-10 pr-10 pt-10 pb-15")}>
+    <div className={clsx(styles.modal, "ml-10 mr-10 mt-10 mb-15")}>
       <p className={clsx(styles.number, "text text_type_digits-default mb-10")}>
         #{data.number}
       </p>
@@ -59,7 +65,7 @@ export const OrderInfo = ({ details }: TDetails) => {
         Состав:
       </p>
       <div className={styles.ingredients}>
-        {ingredients.map((data) => {
+        {ingredients.map((data: TElement) => {
           return (
             <div className={clsx(styles.item, "mb-4")}>
               <div className={styles.itemDetails}>

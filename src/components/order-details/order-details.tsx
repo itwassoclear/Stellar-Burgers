@@ -11,7 +11,6 @@ type TOrderProps = {
 };
 
 const OrderDetails: FC<TOrderProps> = ({ order }) => {
-  console.log(order);
   return (
     <div className={clsx(styles.order, "pb-30")}>
       {order && (

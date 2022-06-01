@@ -1,5 +1,6 @@
 import { API_URL } from "../../utils/api-url";
 import { checkResponse } from "../../utils/checkResponse";
+import { getCookie } from "../../utils/cookie";
 import { TOrder } from "../types/data";
 import { AppDispatch, AppThunk } from "../types/index";
 
@@ -47,6 +48,7 @@ export const getOrder: AppThunk = (arr: string[]) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: getCookie("accessToken") as string,
       },
       body: JSON.stringify({ ingredients: arr }),
     })
