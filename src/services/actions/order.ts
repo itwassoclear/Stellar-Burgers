@@ -1,6 +1,7 @@
 import { API_URL } from "../../utils/api-url";
 import { checkResponse } from "../../utils/checkResponse";
-import { TOrder, AppDispatch, AppThunk } from "../../utils/types";
+import { TOrder } from "../types/data";
+import { AppDispatch, AppThunk } from "../types/index";
 
 export const GET_ORDER_REQUEST: "GET_ORDER_REQUEST" = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";

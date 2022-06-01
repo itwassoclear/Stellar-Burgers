@@ -1,6 +1,7 @@
 import { API_URL } from "../../utils/api-url";
 import { checkResponse } from "../../utils/checkResponse";
-import { TIngredients, AppDispatch, AppThunk } from "../../utils/types";
+import { AppDispatch, AppThunk } from "../types/index";
+import { TIngredients } from "../types/data";
 
 export const GET_ITEMS_REQUEST: "GET_ITEMS_REQUEST" = "GET_ITEMS_REQUEST";
 export const GET_ITEMS_SUCCESS: "GET_ITEMS_SUCCESS" = "GET_ITEMS_SUCCESS";

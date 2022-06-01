@@ -8,7 +8,7 @@ import {
 } from "../actions/constructor.ts";
 import type { TConstructorActions } from "../actions/constructor";
 
-import { TIngredients } from "../../utils/types";
+import { TIngredients } from "../types/data";
 
 type TConstructorState = {
   ingredients: Array<TIngredients>;

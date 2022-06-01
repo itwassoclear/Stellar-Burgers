@@ -2,7 +2,8 @@ import { API_URL } from "../../utils/api-url";
 import { setCookie, getCookie } from "../../utils/cookie";
 import { checkResponse } from "../../utils/checkResponse";
 import { getUser } from "./user";
-import type { TLoginForm, AppThunk } from "../../utils/types";
+import type { TLoginForm } from "../types/data";
+import type { AppThunk } from "../types/index";
 
 export const GET_AUTH_REQUEST: "GET_AUTH_REQUEST" = "GET_AUTH_REQUEST";
 export const GET_AUTH_SUCCESS: "GET_AUTH_SUCCESS" = "GET_AUTH_SUCCESS";

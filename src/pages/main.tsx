@@ -7,7 +7,7 @@ import Loader from "../components/loader/loader";
 import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../components/burger-constructor/burger-constructor";
 
-import { TElement } from "../utils/types";
+import { TElement } from "../services/types/data";
 
 type TItems = {
   items: { [key: string]: TElement };

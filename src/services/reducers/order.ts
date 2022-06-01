@@ -6,7 +6,7 @@ import {
   CLOSE_ORDER,
 } from "../actions/order";
 import type { TOrderActions } from "../actions/order";
-import { TOrder } from "../../utils/types";
+import { TOrder } from "../types/data";
 
 type TDetailsState = {
   order: TOrder | null;

@@ -25,7 +25,7 @@ import { getUser } from "../../services/actions/user";
 import { getItems } from "../../services/actions/items";
 
 import { ProtectedRoute } from "../protected-route/protected-route";
-import { TLocationState } from "../../utils/types";
+import { TLocationState } from "../../services/types/data";
 
 const App: FC = () => {
   const dispatch = useDispatch();

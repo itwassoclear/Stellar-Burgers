@@ -11,11 +11,11 @@ import {
   SHOW_DETAILS,
   getDetails,
 } from "../../services/actions/details";
-import { TRootState } from "../../services/reducers";
+import { TRootState } from "../../services/types/index";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
-import { TIngredients } from "../../utils/types";
+import { TIngredients } from "../../services/types/data";
 
 type TLocationState = {
   main?: Location<TLocationState>;

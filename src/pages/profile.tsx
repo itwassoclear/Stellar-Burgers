@@ -9,7 +9,12 @@ import styles from "./pages.module.css";
 
 import { SET_USER, updateUser, getUser } from "../services/actions/user";
 import { ProfileMenu } from "../components/profile-menu";
-import { TRootState } from "../services/reducers";
+import { TRootState } from "../services/types/index";
+import {
+  wsConnectionStart,
+  wsConnectionClosed,
+} from "../services/actions/websocket";
+import { getCookie } from "../utils/cookie";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -36,6 +41,19 @@ export const ProfilePage = () => {
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (form.name && form.email) {
+      const token = getCookie("accessToken")?.split("Bearer ")[1];
+      if (token) {
+        dispatch(wsConnectionStart(token));
+
+        return () => {
+          dispatch(wsConnectionClosed());
+        };
+      }
+    }
+  }, [dispatch, form]);
 
   if (!isUser) {
     return <Redirect to='/login' />;

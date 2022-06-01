@@ -9,7 +9,7 @@ import {
 import styles from "./pages.module.css";
 import { RESET_PASSWORD, forgotPassword } from "../services/actions/forgotPass";
 import { getUser } from "../services/actions/user";
-import { TRootState } from "../services/reducers";
+import { TRootState } from "../services/types/index";
 
 export function ForgotPasswordPage() {
   const dispatch = useDispatch();

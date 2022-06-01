@@ -1,124 +1,90 @@
 import styles from "./feed-item.module.css";
 import { FC, useMemo } from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "../../utils/types";
-// import { ImageFeed } from "../image-feed/image-feed";
-// import { getDateOrder } from "../../utils/data";
-// import { TOrder } from "../../utils/types";
-import { TRootState } from "../../services/reducers";
+import { useSelector } from "react-redux";
+import { TRootState } from "../../services/types/index";
 import clsx from "clsx";
+import { useLocation } from "react-router-dom";
+import { dateCalc } from "../../utils/data";
+import { TOrders } from "../../services/types/data";
 
-// type TOrder = {
-//   success: boolean;
-//   orders: [
-//     {
-//       ingredients: string[];
-//       _id: string;
-//       status: string;
-//       number: number;
-//       createdAt: string;
-//       updatedAt: string;
-//     }
-//   ];
-//   total: number;
-//   _id: number;
-//   totalToday: number;
-// };
+type TFeedItem = {
+  status?: string;
+  data: TOrders;
+  handleOpenModal: (elem: TOrders) => void;
+};
 
-// type TFeedItem = {
-//   status?: string;
-//   data: TOrder;
-// };
-
-export const FeedItem: FC = () => {
+export const FeedItem: FC<TFeedItem> = ({ data, handleOpenModal }) => {
+  const location = useLocation();
   const items = useSelector((store: TRootState) => store.items.items);
-  const data = {
-    success: true,
-    orders: [
-      {
-        ingredients: [
-          "60d3b41abdacab0026a733c6",
-          "60d3b41abdacab0026a733c7",
-          "60d3b41abdacab0026a733c6",
-          "60d3b41abdacab0026a733c7",
-          "60d3b41abdacab0026a733c6",
-          "60d3b41abdacab0026a733c7",
-          "60d3b41abdacab0026a733c6",
-          "60d3b41abdacab0026a733c7",
-        ],
-        _id: "",
-        status: "pending",
-        number: 0,
-        name: "Бургер",
-        createdAt: "2021-06-23T14:43:22.587Z",
-        updatedAt: "2021-06-23T14:43:22.603Z",
-      },
-    ],
-    total: 1,
-    _id: 1,
-    totalToday: 1,
-  };
 
   const orderStatus: string =
-    data.orders[0].status === "done"
+    data.status === "done"
       ? "Выполнен"
-      : data.orders[0].status === "pending"
+      : data.status === "pending"
       ? "Готовится"
-      : data.orders[0].status === "created"
+      : data.status === "created"
       ? "Создан"
       : "";
 
-  const style = { width: orderStatus ? 536 : 796 };
+  const style = { width: location.pathname === "/feed" ? 532 : 796 };
 
   const ingredients = useMemo(() => {
-    return data.orders[0].ingredients
+    return data.ingredients
       .map((id) => {
         return items.find((item) => item._id === id);
       })
       .filter((data) => data !== undefined)
       .slice(0, 5);
-  }, [items]);
+  }, [items, data.ingredients]);
 
   const otherIngredients =
-    data.orders[0].ingredients.slice(5).length !== 0
+    data.ingredients.slice(5).length !== 0
       ? {
-          number: data.orders[0].ingredients.slice(5).length,
-          id: data.orders[0].ingredients.slice(5),
+          number: data.ingredients.slice(5).length,
+          id: data.ingredients.slice(5),
         }
       : null;
 
-  const lastIngredientImage = items.find(
-    (item) => item._id === otherIngredients.id[0]
-  );
+  const lastIngredientImage = otherIngredients
+    ? items.find((item) => item._id === otherIngredients.id[0])
+    : null;
 
   const totalPrice = useMemo(() => {
     let total = 0;
-    data.orders[0].ingredients.map((el) => {
+    data.ingredients.map((el) => {
       const orderedItems = items.find((data) => data._id === el);
       if (orderedItems) {
         total += orderedItems.price || 0;
       }
+      return total;
     });
     return total;
-  }, [ingredients]);
+  }, [data.ingredients, items]);
 
   return (
-    <div className={clsx(styles.box, "p-6 mb-4")} style={style}>
+    <div
+      className={clsx(styles.box, "p-6 mb-4")}
+      style={style}
+      key={data._id}
+      onClick={() => handleOpenModal(data)}
+    >
       <div className={clsx(styles.header, "mb-6")}>
         <p className={clsx(styles.number, "text text_type_digits-default")}>
-          #{data.orders[0].number}
+          #{data.number}
         </p>
         <p className='text text_type_main-default text_color_inactive'>
-          {data.orders[0].createdAt}
+          {dateCalc(data.createdAt)}
         </p>
       </div>
 
       <p className={clsx(styles.name, "text text_type_main-medium")}>
-        {data.orders[0].name}
+        {data.name}
       </p>
 
-      <p className={clsx(styles.status, "mt-2")}>{orderStatus}</p>
-      {/* нужен только в orders/:id */}
+      {location.pathname !== "/feed" && (
+        <p className={clsx(styles.status, "mt-2")}>{orderStatus}</p>
+      )}
 
       <div className={clsx(styles.details, "mt-6")}>
         <div className={styles.ingredients}>
@@ -150,7 +116,7 @@ export const FeedItem: FC = () => {
               {data && (
                 <img
                   className={styles.image}
-                  src={lastIngredientImage.image}
+                  src={lastIngredientImage?.image}
                   alt='Ингредиент бургера'
                 />
               )}

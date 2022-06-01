@@ -1,19 +1,12 @@
-import { Action, ActionCreator } from "redux";
-import { ThunkAction } from "redux-thunk";
 import {
-  TypedUseSelectorHook,
-  useDispatch as dispatchHook,
-  useSelector as selectorHook,
-} from "react-redux";
-import { store } from "../services/store";
-import { TRootState } from "../services/reducers/index";
-
-import { TConstructorActions } from "../services/actions/constructor";
-import { TDetailsActions } from "../services/actions/details";
-import { TItemsActions } from "../services/actions/items";
-import { TLoginActions } from "../services/actions/login";
-import { TOrderActions } from "../services/actions/order";
-import { TRegistrationActions } from "../services/actions/registration";
+  WS_CONNECTION_USER_ORDERS_START,
+  WS_CONNECTION_ALL_ORDERS_START,
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSED,
+  WS_GET_USER_MESSAGE,
+  WS_GET_ALL_MESSAGE,
+} from "../actions/websocket";
 
 export type TElement = {
   type: "bun" | "sauce" | "main";
@@ -73,6 +66,25 @@ export type TOrder = {
   success: boolean;
 };
 
+export type TOrders = {
+  createdAt: string;
+  ingredients: Array<string>;
+  name: string;
+  number: number;
+  owner: object;
+  price: number;
+  status: string;
+  updatedAt: string;
+  _id: string;
+};
+
+export type TAllOrders = {
+  readonly orders: Array<TOrders>;
+  readonly success: boolean;
+  readonly total: number;
+  readonly totalToday: number;
+};
+
 export type TProfileMenu = {
   activeLink: string;
 };
@@ -86,18 +98,11 @@ export type TRegisterForm = TLoginForm & {
   name: string;
 };
 
-export type TAppActions =
-  | TConstructorActions
-  | TDetailsActions
-  | TItemsActions
-  | TLoginActions
-  | TOrderActions
-  | TRegistrationActions;
-
-export type AppDispatch = typeof store.dispatch;
-export type AppThunk<ReturnType = void> = ActionCreator<
-  ThunkAction<ReturnType, Action, TRootState, TAppActions>
->;
-
-export const useSelector: TypedUseSelectorHook<TRootState> = selectorHook;
-export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
+export type TWSAction = {
+  readonly wsUserOrdersInit?: typeof WS_CONNECTION_USER_ORDERS_START;
+  readonly wsAllOrdersInit?: typeof WS_CONNECTION_ALL_ORDERS_START;
+  readonly onOpen: typeof WS_CONNECTION_SUCCESS;
+  readonly onClose: typeof WS_CONNECTION_CLOSED;
+  readonly onError: typeof WS_CONNECTION_ERROR;
+  readonly onMessage: typeof WS_GET_USER_MESSAGE | typeof WS_GET_ALL_MESSAGE;
+};

@@ -8,7 +8,7 @@ import {
   UPDATE_USER_FAILED,
 } from "../actions/user";
 import type { TGetUserActions, TUpdateUserActions } from "../actions/user";
-import type { TRegisterForm } from "../../utils/types";
+import type { TRegisterForm } from "../types/data";
 
 type TUserState = {
   user: null;

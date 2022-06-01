@@ -1,6 +1,6 @@
 import { API_URL } from "../../utils/api-url";
 import { checkResponse } from "../../utils/checkResponse";
-import { AppDispatch, AppThunk } from "../../utils/types";
+import { AppDispatch, AppThunk } from "../types/index";
 
 export const FORGOT_PASSWORD_REQUEST: "FORGOT_PASSWORD_REQUEST" =
   "FORGOT_PASSWORD_REQUEST";

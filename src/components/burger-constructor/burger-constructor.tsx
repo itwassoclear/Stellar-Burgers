@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import styles from "./burger-constructor.module.css";
-import { TRootState } from "../../services/reducers";
+import { TRootState } from "../../services/types/index";
 
 import {
   SHOW_ORDER,
@@ -26,7 +26,7 @@ import {
 import ConstructorIngredientsList from "../constructor-ingredients-list/constructor-ingredients-list";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { TIngredients } from "../../utils/types";
+import { TIngredients } from "../../services/types/data";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();

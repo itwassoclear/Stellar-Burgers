@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { MOVE_INGREDIENT } from "../../services/actions/constructor";
 
 import OrderedIngredient from "../ordered-ingredient/ordered-ingredient";
-import { TElement as TElementDetails } from "../../utils/types";
+import { TElement as TElementDetails } from "../../services/types/data";
 
 type TElement = {
   _id: string;

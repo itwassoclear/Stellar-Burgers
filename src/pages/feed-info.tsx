@@ -1,28 +1,25 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { getUser } from "../services/actions/user";
-import { ProfileMenu } from "../components/profile-menu";
-import { TRootState } from "../services/reducers";
 import styles from "./pages.module.css";
+import OrderInfo from "../components/order-info/order-info";
+import { TRootState } from "../services/types/index";
+import { responseData } from "../utils/data";
+import { FC } from "react";
 
-export const FeedInfoPage = () => {
-  const dispatch = useDispatch();
+// import { TIngredients } from "../services/types/data";
+
+export const FeedInfoPage: FC = () => {
+  const items = useSelector((store: TRootState) => store.items.items);
   const history = useHistory();
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
-
-  if (!isUser) {
-    history.push("/login");
-  }
+  const id = history.location.pathname.replace("/ingredients/", "");
+  const details = responseData.data.orders;
 
   return (
-    <div className={styles.orderWrapper}>
-      <ProfileMenu activeLink={"history"} />
+    <div className={styles.orderDetails}>
+      {items && (
+        <OrderInfo details={details.filter((el) => el._id === id)[0]} />
+      )}
     </div>
   );
 };

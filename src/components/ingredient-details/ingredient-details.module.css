@@ -1,5 +1,6 @@
 .modal {
   text-align: center;
+  z-index: 8;
 }
 
 .details {

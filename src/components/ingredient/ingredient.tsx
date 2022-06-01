@@ -7,8 +7,8 @@ import clsx from "clsx";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import styles from "./ingredient.module.css";
-import { TRootState } from "../../services/reducers";
-import { TIngredients } from "../../utils/types";
+import { TRootState } from "../../services/types/index";
+import { TIngredients } from "../../services/types/data";
 
 type TIngredientProps = {
   readonly elem: TIngredients;

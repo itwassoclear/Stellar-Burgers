@@ -4,7 +4,7 @@ import clsx from "clsx";
 import styles from "./order-details.module.css";
 import image from "../../images/done.png";
 import Loader from "../loader/loader";
-import { TOrder } from "../../utils/types";
+import { TOrder } from "../../services/types/data";
 
 type TOrderProps = {
   order: TOrder | null;

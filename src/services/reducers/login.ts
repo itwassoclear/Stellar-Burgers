@@ -5,7 +5,7 @@ import {
   SET_AUTH,
 } from "../actions/login";
 import type { TLoginActions } from "../actions/login";
-import { TLoginForm } from "../../utils/types";
+import { TLoginForm } from "../types/data";
 
 type TLoginState = {
   form: TLoginForm;

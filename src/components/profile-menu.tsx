@@ -5,9 +5,9 @@ import { makeStyles } from "@mui/styles";
 
 import { getUser } from "../services/actions/user";
 import { logout } from "../services/actions/logout";
-import { TRootState } from "../services/reducers";
+import { TRootState } from "../services/types/index";
 import clsx from "clsx";
-import { TProfileMenu } from "../utils/types";
+import { TProfileMenu } from "../services/types/data";
 
 export const ProfileMenu: FC<TProfileMenu> = ({ activeLink }) => {
   const useStyles = makeStyles(() => ({

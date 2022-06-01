@@ -1,4 +1,5 @@
-import { TIngredientDetails, AppDispatch, AppThunk } from "../../utils/types";
+import { AppDispatch, AppThunk } from "../types/index";
+import { TIngredientDetails } from "../types/data";
 
 export const GET_DETAILS_REQUEST: "GET_DETAILS_REQUEST" = "GET_DETAILS_REQUEST";
 export const SHOW_DETAILS: "SHOW_DETAILS" = "SHOW_DETAILS";

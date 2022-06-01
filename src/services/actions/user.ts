@@ -1,7 +1,8 @@
 import { API_URL } from "../../utils/api-url";
 import { getCookie, setCookie, deleteCookie } from "../../utils/cookie";
 import { checkResponse } from "../../utils/checkResponse";
-import type { AppDispatch, AppThunk, TRegisterForm } from "../../utils/types";
+import type { TRegisterForm } from "../types/data";
+import type { AppDispatch, AppThunk } from "../types/index";
 
 export const GET_USER_REQUEST: "GET_USER_REQUEST" = "GET_USER_REQUEST"; // userReducer
 export const GET_USER_SUCCESS: "GET_USER_SUCCESS" = "GET_USER_SUCCESS";

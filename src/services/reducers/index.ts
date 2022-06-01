@@ -10,6 +10,7 @@ import { logoutReducer } from "./logout";
 import { userReducer, userUpdateReducer } from "./user";
 import { forgotPassReducer } from "./forgotPass";
 import { resetPassReducer } from "./resetPass";
+import { wsReducer } from "./websocket";
 
 export const rootReducer = combineReducers({
   items: itemsReducer, // все ингредиенты
@@ -24,6 +25,5 @@ export const rootReducer = combineReducers({
   updateUser: userUpdateReducer, // обновление юзера
   forgotPass: forgotPassReducer, // восстановление пароля
   resetPass: resetPassReducer, // обновление пароля
+  ws: wsReducer, // вебсокет
 });
-
-export type TRootState = ReturnType<typeof rootReducer>;

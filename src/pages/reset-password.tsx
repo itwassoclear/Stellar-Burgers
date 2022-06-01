@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { SET_PASSWORD, resetPassword } from "../services/actions/resetPass";
-import { TRootState } from "../services/reducers";
+import { TRootState } from "../services/types/index";
 import styles from "./pages.module.css";
 
 export const ResetPasswordPage = () => {

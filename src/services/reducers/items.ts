@@ -4,7 +4,7 @@ import {
   GET_ITEMS_SUCCESS,
 } from "../actions/items";
 import type { TItemsActions } from "../actions/items";
-import { TIngredients } from "../../utils/types";
+import { TIngredients } from "../types/data";
 
 type TItemsState = {
   items: Array<TIngredients>;

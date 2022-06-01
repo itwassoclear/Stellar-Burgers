@@ -1,7 +1,8 @@
 import { API_URL } from "../../utils/api-url";
 import { checkResponse } from "../../utils/checkResponse";
 import { setCookie } from "../../utils/cookie";
-import type { TRegisterForm, AppDispatch, AppThunk } from "../../utils/types";
+import type { TRegisterForm } from "../types/data";
+import type { AppDispatch, AppThunk } from "../types/index";
 
 export const GET_REGISTRATION_REQUEST: "GET_REGISTRATION_REQUEST" =
   "GET_REGISTRATION_REQUEST";

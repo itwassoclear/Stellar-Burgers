@@ -1,7 +1,7 @@
 import { API_URL } from "../../utils/api-url";
 import { getCookie, deleteCookie } from "../../utils/cookie";
 import { checkResponse } from "../../utils/checkResponse";
-import type { AppDispatch } from "../../utils/types";
+import type { AppDispatch } from "../types/index";
 
 export const GET_LOGOUT_REQUEST: "GET_LOGOUT_REQUEST" = "GET_LOGOUT_REQUEST";
 export const GET_LOGOUT_SUCCESS: "GET_LOGOUT_SUCCESS" = "GET_LOGOUT_SUCCESS";

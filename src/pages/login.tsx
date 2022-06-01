@@ -4,7 +4,7 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TRootState } from "../services/reducers";
+import { TRootState } from "../services/types/index";
 import { login, SET_AUTH } from "../services/actions/login";
 import styles from "./pages.module.css";
 

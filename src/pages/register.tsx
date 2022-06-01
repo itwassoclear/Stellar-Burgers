@@ -7,7 +7,7 @@ import {
 
 import { register, SET_REGISTRATION } from "../services/actions/registration";
 import styles from "./pages.module.css";
-import { TRootState } from "../services/reducers";
+import { TRootState } from "../services/types/index";
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();

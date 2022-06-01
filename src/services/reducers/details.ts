@@ -4,7 +4,7 @@ import {
   CLOSE_DETAILS,
 } from "../actions/details";
 import type { TDetailsActions } from "../actions/details";
-import { TIngredientDetails } from "../../utils/types";
+import { TIngredientDetails } from "../types/data";
 
 type TDetailsState = {
   details: TIngredientDetails | null;

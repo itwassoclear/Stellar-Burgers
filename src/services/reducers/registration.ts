@@ -5,7 +5,7 @@ import {
   SET_REGISTRATION,
 } from "../actions/registration";
 import type { TRegistrationActions } from "../actions/registration";
-import type { TRegisterForm } from "../../utils/types";
+import type { TRegisterForm } from "../types/data";
 
 type TRegistrationState = {
   form: TRegisterForm;

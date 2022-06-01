@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 
 import styles from "./pages.module.css";
 import IngredientDetails from "../components/ingredient-details/ingredient-details";
-import { TRootState } from "../services/reducers";
+import { TRootState } from "../services/types/index";
 
-import { TIngredients } from "../utils/types";
+import { TIngredients } from "../services/types/data";
 
 export function IngredientPage() {
   const items = useSelector((store: TRootState) => store.items.items);

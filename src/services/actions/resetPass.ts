@@ -1,6 +1,7 @@
 import { API_URL } from "../../utils/api-url";
 import { checkResponse } from "../../utils/checkResponse";
-import { AppDispatch, AppThunk, TRegisterForm } from "../../utils/types";
+import { TRegisterForm } from "../types/data";
+import type { AppDispatch, AppThunk } from "../types/index";
 
 // export const GET_TOKEN_REQUEST = "GET_TOKEN_REQUEST"; // токен
 // export const GET_TOKEN_SUCCESS = "GET_TOKEN_SUCCESS";

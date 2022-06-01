@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getUser } from "../../services/actions/user";
 import { getCookie } from "../../utils/cookie";
-import { TRootState } from "../../services/reducers";
+import { TRootState } from "../../services/types/index";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const isUser = useSelector((store: TRootState) => store.user.isUser);
