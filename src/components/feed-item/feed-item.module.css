@@ -28,10 +28,6 @@
   margin-left: -16px;
 }
 
-.status {
-  color: white;
-}
-
 .item:first-of-type {
   z-index: 7;
   margin-left: 0;

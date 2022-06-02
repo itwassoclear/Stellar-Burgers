@@ -1,127 +1,55 @@
+// import clsx from "clsx";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
+import { Location } from "history";
+import { FeedItem } from "../components/feed-item/feed-item";
+import OrderInfo from "../components/order-info/order-info";
 
 import { getUser } from "../services/actions/user";
 import { ProfileMenu } from "../components/profile-menu";
 import { TRootState } from "../services/types/index";
-// import { FeedItem } from "../components/feed-item/feed-item";
 import styles from "./pages.module.css";
+import { wsConnectionStart } from "../services/actions/websocket";
+
+import {
+  CLOSE_DETAILS,
+  SHOW_DETAILS,
+  getDetails,
+} from "../services/actions/details";
+import Modal from "../components/modal/modal";
+import { TOrders } from "../services/types/data";
+import { getCookie } from "../utils/cookie";
+
+type TLocationState = {
+  main?: Location<TLocationState>;
+  from?: { pathname: string };
+};
 
 export const OrdersPage = () => {
   const dispatch = useDispatch();
+  const location = useLocation<TLocationState>();
   const history = useHistory();
-  const location = useLocation();
+  const data = useSelector((store: TRootState) => store.ws.messages);
   const isUser = useSelector((store: TRootState) => store.user.isUser);
-  const data = [
-    {
-      success: true,
-      orders: [
-        {
-          ingredients: [
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-          ],
-          _id: "",
-          status: "pending",
-          number: 0,
-          name: "Бургер",
-          createdAt: "2021-06-23T14:43:22.587Z",
-          updatedAt: "2021-06-23T14:43:22.603Z",
-        },
-      ],
-      total: 1,
-      _id: 1,
-      totalToday: 1,
-    },
-    {
-      success: true,
-      orders: [
-        {
-          ingredients: [
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-          ],
-          _id: "",
-          status: "pending",
-          number: 0,
-          name: "Бургер",
-          createdAt: "2021-06-23T14:43:22.587Z",
-          updatedAt: "2021-06-23T14:43:22.603Z",
-        },
-      ],
-      total: 1,
-      _id: 1,
-      totalToday: 1,
-    },
-    {
-      success: true,
-      orders: [
-        {
-          ingredients: [
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-          ],
-          _id: "",
-          status: "pending",
-          number: 0,
-          name: "Бургер",
-          createdAt: "2021-06-23T14:43:22.587Z",
-          updatedAt: "2021-06-23T14:43:22.603Z",
-        },
-      ],
-      total: 1,
-      _id: 1,
-      totalToday: 1,
-    },
-    {
-      success: true,
-      orders: [
-        {
-          ingredients: [
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-            "60d3b41abdacab0026a733c6",
-            "60d3b41abdacab0026a733c7",
-          ],
-          _id: "",
-          status: "pending",
-          number: 0,
-          name: "Бургер",
-          createdAt: "2021-06-23T14:43:22.587Z",
-          updatedAt: "2021-06-23T14:43:22.603Z",
-        },
-      ],
-      total: 1,
-      _id: 1,
-      totalToday: 1,
-    },
-  ];
+
+  const showDetails = useSelector(
+    (store: TRootState) => store.itemDetails.showDetails
+  );
+
+  function handleOpenModal(data: TOrders) {
+    dispatch(getDetails(data));
+    dispatch({ type: SHOW_DETAILS });
+  }
+
+  function handleCloseModal() {
+    dispatch({ type: CLOSE_DETAILS });
+    history.goBack();
+  }
 
   useEffect(() => {
     dispatch(getUser());
+    dispatch(wsConnectionStart(getCookie("accessToken") as string));
   }, [dispatch]);
 
   if (!isUser) {
@@ -129,26 +57,31 @@ export const OrdersPage = () => {
   }
 
   return (
-    <div className={styles.orderWrapper}>
+    <section className={styles.orderWrapper}>
+      {showDetails && (
+        <Modal onClose={handleCloseModal} header=''>
+          <OrderInfo details={data} />
+        </Modal>
+      )}
       <ProfileMenu activeLink={"history"} />
       <div className={styles.items} style={{ width: "864px" }}>
-        {data.length !== 0
+        {data && data.length !== 0
           ? data?.map((data) => {
               return (
                 <Link
                   key={data._id}
                   className={styles.link}
                   to={{
-                    pathname: `/orders/${data._id}`,
+                    pathname: `/profile/orders/${data._id}`,
                     state: { main: location },
                   }}
                 >
-                  {/* <FeedItem data={data} /> */}
+                  <FeedItem data={data} handleOpenModal={handleOpenModal} />
                 </Link>
               );
             })
           : null}
       </div>
-    </div>
+    </section>
   );
 };

@@ -46,8 +46,8 @@ const BurgerConstructor: FC = () => {
   function handleOpenModal() {
     if (isUser) {
       const itemsForOrder: string[] = ingredients.map((item) => item._id);
-      itemsForOrder.unshift(bun?._id);
-      itemsForOrder.push(bun?._id);
+      itemsForOrder.unshift(bun?._id as string);
+      itemsForOrder.push(bun?._id as string);
       dispatch(getOrder(itemsForOrder));
       dispatch({ type: SHOW_ORDER });
     } else {

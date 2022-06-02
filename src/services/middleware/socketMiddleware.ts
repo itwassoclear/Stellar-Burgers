@@ -22,7 +22,6 @@ export const createSocketMiddleware = (
         onMessage,
       } = wsActions;
       if (type === wsAllOrdersInit) {
-        console.log(1);
         socket = new WebSocket(`${wsUrl}/all`);
       } else if (type === wsUserOrdersInit) {
         socket = new WebSocket(

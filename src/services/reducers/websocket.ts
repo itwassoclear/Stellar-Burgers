@@ -57,7 +57,7 @@ export const wsReducer = (
     case WS_GET_USER_MESSAGE:
       return {
         ...state,
-        orders: action.payload.orders,
+        messages: action.payload.orders,
       };
 
     default:

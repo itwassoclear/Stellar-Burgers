@@ -6,13 +6,9 @@ import { Location } from "history";
 import { FeedItem } from "../components/feed-item/feed-item";
 import OrderInfo from "../components/order-info/order-info";
 
-import { getUser } from "../services/actions/user";
 import { TRootState } from "../services/types/index";
 import styles from "./pages.module.css";
-import {
-  wsConnectionAllStart,
-  wsConnectionClosed,
-} from "../services/actions/websocket";
+import { wsConnectionAllStart } from "../services/actions/websocket";
 
 import {
   CLOSE_DETAILS,
@@ -34,7 +30,6 @@ export const FeedPage = () => {
   const data = useSelector((store: TRootState) => store.ws.messages);
   const total = useSelector((store: TRootState) => store.ws.total);
   const totalToday = useSelector((store: TRootState) => store.ws.totalToday);
-  console.log(6666666, data, total, totalToday);
 
   const showDetails = useSelector(
     (store: TRootState) => store.itemDetails.showDetails
@@ -51,11 +46,7 @@ export const FeedPage = () => {
   }
 
   useEffect(() => {
-    dispatch(getUser());
     dispatch(wsConnectionAllStart());
-    // return () => {
-    //   dispatch(wsConnectionClosed());
-    // };
   }, [dispatch]);
 
   const doneOrders = data

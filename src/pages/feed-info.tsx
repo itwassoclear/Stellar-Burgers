@@ -16,7 +16,6 @@ export function FeedInfoPage() {
     dispatch(wsConnectionAllStart());
   }, [dispatch]);
 
-  console.log(77777, data);
   return (
     <div className={styles.orderDetails}>
       {data && <OrderInfo details={data} />}

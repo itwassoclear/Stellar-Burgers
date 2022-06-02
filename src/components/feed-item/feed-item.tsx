@@ -83,7 +83,12 @@ export const FeedItem: FC<TFeedItem> = ({ data, handleOpenModal }) => {
       </p>
 
       {location.pathname !== "/feed" && (
-        <p className={clsx(styles.status, "mt-2")}>{orderStatus}</p>
+        <p
+          className={clsx(styles.status, "mt-2")}
+          style={{ color: data.status === "done" ? "#00CCCC" : "white" }}
+        >
+          {orderStatus}
+        </p>
       )}
 
       <div className={clsx(styles.details, "mt-6")}>
@@ -91,7 +96,7 @@ export const FeedItem: FC<TFeedItem> = ({ data, handleOpenModal }) => {
           {data &&
             ingredients.map((data) => {
               return (
-                <div className={styles.item}>
+                <div className={styles.item} key={Math.random()}>
                   {data && (
                     <img
                       className={styles.image}

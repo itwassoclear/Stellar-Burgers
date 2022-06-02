@@ -1,24 +1,25 @@
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 import styles from "./pages.module.css";
-import IngredientDetails from "../components/ingredient-details/ingredient-details";
+import OrderInfo from "../components/order-info/order-info";
 import { TRootState } from "../services/types/index";
-
-import { TIngredients } from "../services/types/data";
+import { getUser } from "../services/actions/user";
+import { wsConnectionStart } from "../services/actions/websocket";
+import { getCookie } from "../utils/cookie";
 
 export function OrderInfoPage() {
-  const items = useSelector((store: TRootState) => store.items.items);
-  const history = useHistory();
-  const id = history.location.pathname.replace("/ingredients/", "");
+  const dispatch = useDispatch();
+  const data = useSelector((store: TRootState) => store.ws.messages);
+
+  useEffect(() => {
+    dispatch(getUser());
+    dispatch(wsConnectionStart(getCookie("accessToken") as string));
+  }, [dispatch]);
 
   return (
-    <div className={styles.wrapper}>
-      {items && (
-        <IngredientDetails
-          details={items.filter((el: TIngredients) => el._id === id)[0]}
-        />
-      )}
+    <div className={styles.orderDetails}>
+      {data && <OrderInfo details={data} />}
     </div>
   );
 }
