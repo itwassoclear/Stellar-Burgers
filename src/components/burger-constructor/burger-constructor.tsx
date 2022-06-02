@@ -7,11 +7,10 @@ import {
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "../../services/types/index";
 import { useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import styles from "./burger-constructor.module.css";
-import { TRootState } from "../../services/types/index";
 
 import {
   SHOW_ORDER,
@@ -32,15 +31,11 @@ const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isUser = useSelector((state: TRootState) => state.user.isUser);
-  const { bun, ingredients } = useSelector(
-    (state: TRootState) => state.constructorItems
-  );
-  const showOrder = useSelector(
-    (state: TRootState) => state.orderDetails.showOrder
-  );
-  const order = useSelector((state: TRootState) => state.orderDetails.order);
-  const storeItems = useSelector((state: TRootState) => state.items.items);
+  const isUser = useSelector((state) => state.user.isUser);
+  const { bun, ingredients } = useSelector((state) => state.constructorItems);
+  const showOrder = useSelector((state) => state.orderDetails.showOrder);
+  const order = useSelector((state) => state.orderDetails.order);
+  const storeItems = useSelector((state) => state.items.items);
   const types = ["sauce", "main"];
 
   function handleOpenModal() {

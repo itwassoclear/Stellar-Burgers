@@ -1,6 +1,5 @@
-// import clsx from "clsx";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { Location } from "history";
 import { FeedItem } from "../components/feed-item/feed-item";
@@ -8,9 +7,11 @@ import OrderInfo from "../components/order-info/order-info";
 
 import { getUser } from "../services/actions/user";
 import { ProfileMenu } from "../components/profile-menu";
-import { TRootState } from "../services/types/index";
 import styles from "./pages.module.css";
-import { wsConnectionStart } from "../services/actions/websocket";
+import {
+  wsConnectionClosed,
+  wsConnectionStart,
+} from "../services/actions/websocket";
 
 import {
   CLOSE_DETAILS,
@@ -30,12 +31,10 @@ export const OrdersPage = () => {
   const dispatch = useDispatch();
   const location = useLocation<TLocationState>();
   const history = useHistory();
-  const data = useSelector((store: TRootState) => store.ws.messages);
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const data = useSelector((store) => store.ws.messages);
+  const isUser = useSelector((store) => store.user.isUser);
 
-  const showDetails = useSelector(
-    (store: TRootState) => store.itemDetails.showDetails
-  );
+  const showDetails = useSelector((store) => store.itemDetails.showDetails);
 
   function handleOpenModal(data: TOrders) {
     dispatch(getDetails(data));
@@ -50,6 +49,9 @@ export const OrdersPage = () => {
   useEffect(() => {
     dispatch(getUser());
     dispatch(wsConnectionStart(getCookie("accessToken") as string));
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
   }, [dispatch]);
 
   if (!isUser) {

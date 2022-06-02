@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { Redirect } from "react-router-dom";
 import {
   Input,
@@ -9,7 +9,6 @@ import styles from "./pages.module.css";
 
 import { SET_USER, updateUser, getUser } from "../services/actions/user";
 import { ProfileMenu } from "../components/profile-menu";
-import { TRootState } from "../services/types/index";
 import {
   wsConnectionStart,
   wsConnectionClosed,
@@ -18,14 +17,12 @@ import { getCookie } from "../utils/cookie";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
-  const form = useSelector((store: TRootState) => store.user.form);
-  const pass = useSelector((store: TRootState) => store.login.form.password);
-  const isUpdated = useSelector(
-    (store: TRootState) => store.updateUser.isUpdated
-  );
+  const form = useSelector((store) => store.user.form);
+  const pass = useSelector((store) => store.login.form.password);
+  const isUpdated = useSelector((store) => store.updateUser.isUpdated);
 
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
-  const updatedForm = useSelector((store: TRootState) => store.updateUser.form);
+  const isUser = useSelector((store) => store.user.isUser);
+  const updatedForm = useSelector((store) => store.updateUser.form);
   const [saveButton, setSaveButton] = useState(false);
 
   const [userData, setUserData] = useState({

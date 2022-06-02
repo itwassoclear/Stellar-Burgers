@@ -12,23 +12,17 @@ export const createSocketMiddleware = (
 
     return (next) => (action) => {
       const { dispatch } = store;
-      const { type } = action;
-      const {
-        wsAllOrdersInit,
-        wsUserOrdersInit,
-        onOpen,
-        onClose,
-        onError,
-        onMessage,
-      } = wsActions;
-      if (type === wsAllOrdersInit) {
-        socket = new WebSocket(`${wsUrl}/all`);
-      } else if (type === wsUserOrdersInit) {
+      const { type, payload } = action;
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
+
+      if (type === wsInit && payload?.token) {
         socket = new WebSocket(
           `${wsUrl}?token=${getCookie("accessToken")
             ?.split("Bearer ")
             .join("")}`
         );
+      } else if (type === wsInit) {
+        socket = new WebSocket(`${wsUrl}/all`);
       }
 
       if (socket) {

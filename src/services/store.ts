@@ -3,10 +3,7 @@ import thunk from "redux-thunk";
 import { rootReducer } from "./reducers/index";
 
 import { createSocketMiddleware } from "./middleware/socketMiddleware";
-import {
-  wsOrdersActions,
-  wsUserOrdersActions,
-} from "../services/actions/websocket";
+import { wsActions } from "../services/actions/websocket";
 
 const wsUrl = "wss://norma.nomoreparties.space/orders";
 
@@ -22,10 +19,6 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(
-    thunk,
-    createSocketMiddleware(wsUrl, wsOrdersActions),
-    createSocketMiddleware(wsUrl, wsUserOrdersActions)
-  )
+  applyMiddleware(thunk, createSocketMiddleware(wsUrl, wsActions))
 );
 export const store = createStore(rootReducer, enhancer);

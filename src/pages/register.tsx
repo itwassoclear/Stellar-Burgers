@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { Link, useHistory } from "react-router-dom";
 import {
   Input,
@@ -7,13 +7,12 @@ import {
 
 import { register, SET_REGISTRATION } from "../services/actions/registration";
 import styles from "./pages.module.css";
-import { TRootState } from "../services/types/index";
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const form = useSelector((store: TRootState) => store.registration.form);
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const form = useSelector((store) => store.registration.form);
+  const isUser = useSelector((store) => store.user.isUser);
 
   if (isUser) {
     history.push("/");

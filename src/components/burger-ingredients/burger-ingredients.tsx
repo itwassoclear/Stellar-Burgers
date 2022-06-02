@@ -2,7 +2,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
 import React, { useState } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/index";
 import { Location } from "history";
 import styles from "./burger-ingredients.module.css";
 
@@ -11,7 +11,6 @@ import {
   SHOW_DETAILS,
   getDetails,
 } from "../../services/actions/details";
-import { TRootState } from "../../services/types/index";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Ingredient from "../ingredient/ingredient";
 import Modal from "../modal/modal";
@@ -27,11 +26,9 @@ const BurgerIngredients = () => {
   const location = useLocation<TLocationState>();
   const history = useHistory();
 
-  const { items } = useSelector((store: TRootState) => store.items);
-  const details = useSelector((store: TRootState) => store.itemDetails.details);
-  const showDetails = useSelector(
-    (store: TRootState) => store.itemDetails.showDetails
-  );
+  const { items } = useSelector((store) => store.items);
+  const details = useSelector((store) => store.itemDetails.details);
+  const showDetails = useSelector((store) => store.itemDetails.showDetails);
 
   const buns = items.filter((elem: TIngredients) => elem.type === "bun");
   const sauces = items.filter((elem: TIngredients) => elem.type === "sauce");

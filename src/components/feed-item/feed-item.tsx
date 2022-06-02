@@ -1,8 +1,7 @@
 import styles from "./feed-item.module.css";
 import { FC, useMemo } from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
-import { TRootState } from "../../services/types/index";
+import { useSelector } from "../../services/types/index";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
 import { dateCalc } from "../../utils/data";
@@ -16,7 +15,7 @@ type TFeedItem = {
 
 export const FeedItem: FC<TFeedItem> = ({ data, handleOpenModal }) => {
   const location = useLocation();
-  const items = useSelector((store: TRootState) => store.items.items);
+  const items = useSelector((store) => store.items.items);
 
   const orderStatus: string =
     data.status === "done"

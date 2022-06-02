@@ -1,6 +1,5 @@
 import {
-  WS_CONNECTION_USER_ORDERS_START,
-  WS_CONNECTION_ALL_ORDERS_START,
+  WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
@@ -99,8 +98,7 @@ export type TRegisterForm = TLoginForm & {
 };
 
 export type TWSAction = {
-  readonly wsUserOrdersInit?: typeof WS_CONNECTION_USER_ORDERS_START;
-  readonly wsAllOrdersInit?: typeof WS_CONNECTION_ALL_ORDERS_START;
+  readonly wsInit: typeof WS_CONNECTION_START;
   readonly onOpen: typeof WS_CONNECTION_SUCCESS;
   readonly onClose: typeof WS_CONNECTION_CLOSED;
   readonly onError: typeof WS_CONNECTION_ERROR;

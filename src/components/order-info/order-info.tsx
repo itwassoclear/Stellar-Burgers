@@ -1,9 +1,8 @@
 import clsx from "clsx";
 import styles from "./order-info.module.css";
-import { TOrders } from "../../services/types/data";
-import { useSelector } from "react-redux";
+import { TIngredients, TOrders } from "../../services/types/data";
+import { useSelector } from "../../services/types/index";
 import { useHistory } from "react-router-dom";
-import { TRootState } from "../../services/types/index";
 import { useMemo } from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { dateCalc } from "../../utils/data";
@@ -14,7 +13,7 @@ type TDetails = {
 
 export const OrderInfo = ({ details }: TDetails) => {
   const history = useHistory();
-  const items = useSelector((store: TRootState) => store.items.items);
+  const items = useSelector((store) => store.items.items);
   const id = history.location.pathname.replace(
     RegExp("^/[a-z]+/[a-z]+/|^/[a-z]+/"),
     ""
@@ -23,11 +22,22 @@ export const OrderInfo = ({ details }: TDetails) => {
 
   const ingredients = useMemo(() => {
     return data?.ingredients
-      .map((id: string) => {
-        return items.find((item) => item._id === id);
+      .map((elem) => {
+        return { elem: elem, count: 1 };
       })
-      .filter((data) => data !== undefined);
-  }, [items, data?.ingredients]);
+      .reduce((a: any, b: { elem: string; count: number }) => {
+        console.log(a, b);
+        a[b.elem] = (a[b.elem] || 0) + b.count;
+        return a;
+      }, {});
+  }, [data?.ingredients]);
+
+  const countedItems: {
+    item: TIngredients | undefined;
+    count: number | unknown;
+  }[] = Object.entries(ingredients).map(([key, value]) => {
+    return { item: items.find((item) => item._id === key), count: value };
+  });
 
   const orderStatus: string =
     data?.status === "done"
@@ -65,14 +75,14 @@ export const OrderInfo = ({ details }: TDetails) => {
         Состав:
       </p>
       <div className={styles.ingredients}>
-        {ingredients?.map((data) => {
+        {countedItems.map((data) => {
           return (
             <div className={clsx(styles.item, "mb-4")} key={Math.random()}>
               <div className={styles.itemDetails}>
                 <div className={styles.itemImage}>
                   <img
                     className={clsx(styles.image)}
-                    src={data?.image}
+                    src={data?.item?.image}
                     alt='Ингредиент бургера'
                   />
                 </div>
@@ -83,7 +93,7 @@ export const OrderInfo = ({ details }: TDetails) => {
                     "text text_type_main-default mr-4"
                   )}
                 >
-                  {data?.name}
+                  {data?.item?.name}
                 </p>
               </div>
 
@@ -94,7 +104,7 @@ export const OrderInfo = ({ details }: TDetails) => {
                     "text text_type_digits-default"
                   )}
                 >
-                  1 x {data?.price}
+                  {data.count} x {data?.item?.price}
                 </span>
                 <div className='ml-2'>
                   <CurrencyIcon type='primary' />

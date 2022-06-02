@@ -1,13 +1,12 @@
 import { FC } from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/types/index";
 import { getUser } from "../../services/actions/user";
 import { getCookie } from "../../utils/cookie";
-import { TRootState } from "../../services/types/index";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const isUser = useSelector((store) => store.user.isUser);
   const isToken = getCookie("accessToken");
   const [isUserLoaded, setUserLoaded] = useState(false);
 

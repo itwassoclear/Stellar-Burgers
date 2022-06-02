@@ -3,10 +3,6 @@ import { checkResponse } from "../../utils/checkResponse";
 import { TRegisterForm } from "../types/data";
 import type { AppDispatch, AppThunk } from "../types/index";
 
-// export const GET_TOKEN_REQUEST = "GET_TOKEN_REQUEST"; // токен
-// export const GET_TOKEN_SUCCESS = "GET_TOKEN_SUCCESS";
-// export const GET_TOKEN_FAILED = "GET_TOKEN_FAILED";
-
 export const RESET_PASSWORD_REQUEST: "RESET_PASSWORD_REQUEST" =
   "RESET_PASSWORD_REQUEST";
 export const RESET_PASSWORD_SUCCESS: "RESET_PASSWORD_SUCCESS" =

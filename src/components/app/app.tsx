@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useEffect } from "react";
-import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
+import { RootStateOrAny } from "react-redux";
+import { useSelector, useDispatch } from "../../services/types/index";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import clsx from "clsx";
 

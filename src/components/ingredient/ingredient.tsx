@@ -5,9 +5,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/types/index";
 import styles from "./ingredient.module.css";
-import { TRootState } from "../../services/types/index";
 import { TIngredients } from "../../services/types/data";
 
 type TIngredientProps = {
@@ -18,9 +17,9 @@ type TIngredientProps = {
 const Ingredient: FC<TIngredientProps> = ({ elem, handleOpenModal }) => {
   const { _id, name, price, image, type } = elem;
   const ingredients = useSelector(
-    (store: TRootState) => store.constructorItems.ingredients
+    (store) => store.constructorItems.ingredients
   );
-  const bun = useSelector((store: TRootState) => store.constructorItems.bun);
+  const bun = useSelector((store) => store.constructorItems.bun);
   const allItems = [bun, bun, ...ingredients];
   const amount = allItems.filter((item) => item?._id === _id).length;
 

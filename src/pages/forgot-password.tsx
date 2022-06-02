@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import {
   Input,
   Button,
@@ -9,15 +9,14 @@ import {
 import styles from "./pages.module.css";
 import { RESET_PASSWORD, forgotPassword } from "../services/actions/forgotPass";
 import { getUser } from "../services/actions/user";
-import { TRootState } from "../services/types/index";
 
 export function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const form = useSelector((store: TRootState) => store.forgotPass.form);
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const form = useSelector((store) => store.forgotPass.form);
+  const isUser = useSelector((store) => store.user.isUser);
   const forgotPassFailed = useSelector(
-    (store: TRootState) => store.forgotPass.forgotPassFailed
+    (store) => store.forgotPass.forgotPassFailed
   );
   const [error, setError] = useState(false);
 

@@ -1,20 +1,25 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { useEffect } from "react";
 
 import styles from "./pages.module.css";
 import OrderInfo from "../components/order-info/order-info";
-import { TRootState } from "../services/types/index";
 import { getUser } from "../services/actions/user";
-import { wsConnectionStart } from "../services/actions/websocket";
+import {
+  wsConnectionClosed,
+  wsConnectionStart,
+} from "../services/actions/websocket";
 import { getCookie } from "../utils/cookie";
 
 export function OrderInfoPage() {
   const dispatch = useDispatch();
-  const data = useSelector((store: TRootState) => store.ws.messages);
+  const data = useSelector((store) => store.ws.messages);
 
   useEffect(() => {
     dispatch(getUser());
     dispatch(wsConnectionStart(getCookie("accessToken") as string));
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
   }, [dispatch]);
 
   return (

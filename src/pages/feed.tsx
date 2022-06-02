@@ -1,14 +1,17 @@
 import clsx from "clsx";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { Location } from "history";
 import { FeedItem } from "../components/feed-item/feed-item";
 import OrderInfo from "../components/order-info/order-info";
 
-import { TRootState } from "../services/types/index";
+import {} from "../services/types/index";
 import styles from "./pages.module.css";
-import { wsConnectionAllStart } from "../services/actions/websocket";
+import {
+  wsConnectionStart,
+  wsConnectionClosed,
+} from "../services/actions/websocket";
 
 import {
   CLOSE_DETAILS,
@@ -27,13 +30,11 @@ export const FeedPage = () => {
   const dispatch = useDispatch();
   const location = useLocation<TLocationState>();
   const history = useHistory();
-  const data = useSelector((store: TRootState) => store.ws.messages);
-  const total = useSelector((store: TRootState) => store.ws.total);
-  const totalToday = useSelector((store: TRootState) => store.ws.totalToday);
+  const data = useSelector((store) => store.ws.messages);
+  const total = useSelector((store) => store.ws.total);
+  const totalToday = useSelector((store) => store.ws.totalToday);
 
-  const showDetails = useSelector(
-    (store: TRootState) => store.itemDetails.showDetails
-  );
+  const showDetails = useSelector((store) => store.itemDetails.showDetails);
 
   function handleOpenModal(data: TOrders) {
     dispatch(getDetails(data));
@@ -46,7 +47,10 @@ export const FeedPage = () => {
   }
 
   useEffect(() => {
-    dispatch(wsConnectionAllStart());
+    dispatch(wsConnectionStart());
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
   }, [dispatch]);
 
   const doneOrders = data

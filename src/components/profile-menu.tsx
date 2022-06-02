@@ -1,11 +1,10 @@
 import { useEffect, FC } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
 
 import { getUser } from "../services/actions/user";
 import { logout } from "../services/actions/logout";
-import { TRootState } from "../services/types/index";
 import clsx from "clsx";
 import { TProfileMenu } from "../services/types/data";
 
@@ -41,7 +40,9 @@ export const ProfileMenu: FC<TProfileMenu> = ({ activeLink }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const isUser = useSelector(
+    (store: { user: { isUser: boolean } }) => store.user.isUser
+  );
 
   useEffect(() => {
     dispatch(getUser());

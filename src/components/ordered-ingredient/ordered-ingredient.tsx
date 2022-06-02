@@ -6,7 +6,7 @@ import {
 import clsx from "clsx";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/types/index";
 import styles from "./ordered-ingredient.module.css";
 
 import { DELETE_INGREDIENT } from "../../services/actions/constructor";
