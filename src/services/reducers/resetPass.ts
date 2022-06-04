@@ -3,9 +3,20 @@ import {
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILED,
   SET_PASSWORD,
-} from "../actions/index.js";
+} from "../actions/resetPass";
+import type { TResetPassActions } from "../actions/resetPass";
 
-const initialState = {
+type TResetPassState = {
+  form: {
+    password: string;
+    token: string;
+  };
+  isPassReseted: boolean;
+  resetPassRequest: boolean;
+  resetPassFailed: boolean;
+};
+
+const initialState: TResetPassState = {
   form: {
     password: "",
     token: "",
@@ -15,7 +26,10 @@ const initialState = {
   resetPassFailed: false,
 };
 
-export const resetPassReducer = (state = initialState, action) => {
+export const resetPassReducer = (
+  state = initialState,
+  action: TResetPassActions
+): TResetPassState => {
   switch (action.type) {
     case RESET_PASSWORD_REQUEST: {
       return {

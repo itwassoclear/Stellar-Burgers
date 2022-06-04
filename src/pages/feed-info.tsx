@@ -8,15 +8,14 @@ import {
   wsConnectionClosed,
   wsConnectionStart,
 } from "../services/actions/websocket";
-import { getCookie } from "../utils/cookie";
 
-export function OrderInfoPage() {
+export function FeedInfoPage() {
   const dispatch = useDispatch();
   const data = useSelector((store) => store.ws.messages);
 
   useEffect(() => {
     dispatch(getUser());
-    dispatch(wsConnectionStart(getCookie("accessToken") as string));
+    dispatch(wsConnectionStart());
     return () => {
       dispatch(wsConnectionClosed());
     };

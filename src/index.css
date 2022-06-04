@@ -21,3 +21,7 @@ code {
 .input_size_default {
   width: 480px !important;
 }
+
+.input__container {
+  margin: 0 auto;
+}

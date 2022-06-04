@@ -7,43 +7,42 @@ import {
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "../../services/types/index";
 import { useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import styles from "./burger-constructor.module.css";
-import { TRootState } from "../../services/reducers";
 
+import {
+  SHOW_ORDER,
+  CLOSE_ORDER,
+  getOrder,
+} from "../../services/actions/order";
 import {
   ADD_BUN,
   ADD_INGREDIENT,
-  CLOSE_ORDER,
   RESET,
-  SHOW_ORDER,
-  getOrder,
-} from "../../services/actions/index";
+} from "../../services/actions/constructor";
 import ConstructorIngredientsList from "../constructor-ingredients-list/constructor-ingredients-list";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { TElement } from "../../utils/types";
+import { TIngredients } from "../../services/types/data";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const isUser = useSelector((state: TRootState) => state.user.isUser);
-  const { bun, ingredients } = useSelector(
-    (state: TRootState) => state.constructorItems
-  );
-  const showOrder = useSelector(
-    (state: TRootState) => state.orderDetails.showOrder
-  );
-  const order = useSelector((state: TRootState) => state.orderDetails.order);
-  const storeItems = useSelector((state: TRootState) => state.items.items);
+  const isUser = useSelector((state) => state.user.isUser);
+  const { bun, ingredients } = useSelector((state) => state.constructorItems);
+  const showOrder = useSelector((state) => state.orderDetails.showOrder);
+  const order = useSelector((state) => state.orderDetails.order);
+  const storeItems = useSelector((state) => state.items.items);
   const types = ["sauce", "main"];
 
   function handleOpenModal() {
     if (isUser) {
-      const itemsForOrder = ingredients.map((item: TElement) => item._id);
+      const itemsForOrder: string[] = ingredients.map((item) => item._id);
+      itemsForOrder.unshift(bun?._id as string);
+      itemsForOrder.push(bun?._id as string);
       dispatch(getOrder(itemsForOrder));
       dispatch({ type: SHOW_ORDER });
     } else {
@@ -66,7 +65,7 @@ const BurgerConstructor: FC = () => {
         type: ADD_BUN,
         item: {
           ...item,
-          payload: storeItems.find((el: TElement) => el._id === item._id),
+          payload: storeItems.find((el: TIngredients) => el._id === item._id),
           dragId: uuid(),
         },
       });
@@ -83,7 +82,7 @@ const BurgerConstructor: FC = () => {
         type: ADD_INGREDIENT,
         item: {
           ...item,
-          payload: storeItems.find((el: TElement) => el._id === item._id),
+          payload: storeItems.find((el: TIngredients) => el._id === item._id),
           dragId: uuid(),
         },
       });

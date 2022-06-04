@@ -4,14 +4,13 @@ import clsx from "clsx";
 import styles from "./order-details.module.css";
 import image from "../../images/done.png";
 import Loader from "../loader/loader";
-import { TOrder } from "../../utils/types";
+import { TOrder } from "../../services/types/data";
 
 type TOrderProps = {
-  order: TOrder;
+  order: TOrder | null;
 };
 
 const OrderDetails: FC<TOrderProps> = ({ order }) => {
-  console.log(order);
   return (
     <div className={clsx(styles.order, "pb-30")}>
       {order && (

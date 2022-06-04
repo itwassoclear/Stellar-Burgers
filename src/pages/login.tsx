@@ -1,18 +1,17 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TRootState } from "../services/reducers";
-import { login, SET_AUTH } from "../services/actions";
-import styles from "./login.module.css";
+import { login, SET_AUTH } from "../services/actions/login";
+import styles from "./pages.module.css";
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
   const location = useLocation<{ from: string }>();
-  const form = useSelector((store: TRootState) => store.login.form);
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const form = useSelector((store) => store.login.form);
+  const isUser = useSelector((store) => store.user.isUser);
 
   function fillField(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch({
@@ -33,7 +32,7 @@ export const LoginPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <form className={styles.form} onSubmit={(e) => submitForm(e)}>
+      <form onSubmit={(e) => submitForm(e)}>
         <h1 className='text text_type_main-medium mb-6'>Вход</h1>
         <div className='mb-6'>
           <Input

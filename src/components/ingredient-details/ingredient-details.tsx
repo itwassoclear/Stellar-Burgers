@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import styles from "./ingredient-details.module.css";
-import { TIngredientDetails } from "../../utils/types";
+import { TIngredientDetails } from "../../services/types/data";
 
-type IDetails = {
-  details: TIngredientDetails | undefined;
+type TDetails = {
+  details: TIngredientDetails | null;
 };
 
-const IngredientDetails = ({ details }: IDetails) => {
+const IngredientDetails = ({ details }: TDetails) => {
   const image = details?.image_large;
   const textDefaultClass: string =
     "text text_type_main-default text_color_inactive";

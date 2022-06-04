@@ -1,45 +1,28 @@
 import { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import { Redirect } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { makeStyles } from "@mui/styles";
+import styles from "./pages.module.css";
 
-import { SET_USER, updateUser, getUser } from "../services/actions";
+import { SET_USER, updateUser, getUser } from "../services/actions/user";
 import { ProfileMenu } from "../components/profile-menu";
-import { TRootState } from "../services/reducers";
+import {
+  wsConnectionStart,
+  wsConnectionClosed,
+} from "../services/actions/websocket";
+import { getCookie } from "../utils/cookie";
 
 export const ProfilePage = () => {
-  const useStyles = makeStyles(() => ({
-    wrapper: {
-      width: "860px",
-      margin: "120px auto 0",
-      textAlign: "left",
-      display: "flex",
-    },
-    form: {
-      width: "480px",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-end",
-    },
-    buttons: {
-      display: "flex",
-    },
-  }));
-
-  const classes = useStyles();
   const dispatch = useDispatch();
-  const form = useSelector((store: TRootState) => store.user.form);
-  const pass = useSelector((store: TRootState) => store.login.form.password);
-  const isUpdated = useSelector(
-    (store: TRootState) => store.updateUser.isUpdated
-  );
+  const form = useSelector((store) => store.user.form);
+  const pass = useSelector((store) => store.login.form.password);
+  const isUpdated = useSelector((store) => store.updateUser.isUpdated);
 
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
-  const updatedForm = useSelector((store: TRootState) => store.updateUser.form);
+  const isUser = useSelector((store) => store.user.isUser);
+  const updatedForm = useSelector((store) => store.updateUser.form);
   const [saveButton, setSaveButton] = useState(false);
 
   const [userData, setUserData] = useState({
@@ -55,6 +38,19 @@ export const ProfilePage = () => {
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (form.name && form.email) {
+      const token = getCookie("accessToken")?.split("Bearer ")[1];
+      if (token) {
+        dispatch(wsConnectionStart(token));
+
+        return () => {
+          dispatch(wsConnectionClosed());
+        };
+      }
+    }
+  }, [dispatch, form]);
 
   if (!isUser) {
     return <Redirect to='/login' />;
@@ -92,10 +88,10 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={styles.orderWrapper}>
       <ProfileMenu activeLink={"profile"} />
 
-      <form className={classes.form} onSubmit={(e) => submitForm(e)}>
+      <form className={styles.form} onSubmit={(e) => submitForm(e)}>
         <div className='mb-6'>
           <Input
             type='text'
@@ -132,7 +128,7 @@ export const ProfilePage = () => {
             ref={refPass}
           />
         </div>
-        <div className={classes.buttons}>
+        <div className={styles.buttons}>
           {saveButton && (
             <div className='mr-4'>
               <Button

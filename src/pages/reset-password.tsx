@@ -1,26 +1,21 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../services/types/index";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./reset-password.module.css";
-import { SET_PASSWORD, resetPassword } from "../services/actions";
-import { TRootState } from "../services/reducers";
+import { SET_PASSWORD, resetPassword } from "../services/actions/resetPass";
+import styles from "./pages.module.css";
 
 export const ResetPasswordPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const form = useSelector((store: TRootState) => store.resetPass.form);
-  const forgotPassForm = useSelector(
-    (store: TRootState) => store.forgotPass.form.email
-  );
-  const isPassReseted = useSelector(
-    (store: TRootState) => store.resetPass.isPassReseted
-  );
-  const isUser = useSelector((store: TRootState) => store.user.isUser);
+  const form = useSelector((store) => store.resetPass.form);
+  const forgotPassForm = useSelector((store) => store.forgotPass.form.email);
+  const isPassReseted = useSelector((store) => store.resetPass.isPassReseted);
+  const isUser = useSelector((store) => store.user.isUser);
   const [error, setError] = useState(false);
 
   if (isUser) {
@@ -50,7 +45,7 @@ export const ResetPasswordPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <form onSubmit={(e) => submitForm(e)} className={styles.form}>
+      <form onSubmit={(e) => submitForm(e)}>
         <h1 className='text text_type_main-medium mb-6'>
           {!error ? "Восстановление пароля" : "Попробуйте ещё раз :("}
         </h1>

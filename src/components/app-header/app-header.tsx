@@ -28,7 +28,7 @@ const AppHeader: FC = () => {
           <p className='text text_type_main-default'>Конструктор</p>
         </Link>
         <Link
-          to='/'
+          to='/feed'
           className={clsx(
             headerStyles.appHeaderButton,
             headerStyles.link,

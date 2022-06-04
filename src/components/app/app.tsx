@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useEffect } from "react";
-import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
+import { RootStateOrAny } from "react-redux";
+import { useSelector, useDispatch } from "../../services/types/index";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import clsx from "clsx";
 
@@ -14,14 +15,18 @@ import {
   ProfilePage,
   NotFoundPage,
   IngredientPage,
+  FeedPage,
+  FeedInfoPage,
   OrdersPage,
   OrderInfoPage,
 } from "../../pages";
 
 import appStyles from "./app.module.css";
-import { getItems, getUser } from "../../services/actions/index";
+import { getUser } from "../../services/actions/user";
+import { getItems } from "../../services/actions/items";
+
 import { ProtectedRoute } from "../protected-route/protected-route";
-import { TLocationState } from "../../utils/types";
+import { TLocationState } from "../../services/types/data";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -54,6 +59,12 @@ const App: FC = () => {
           </Route>
           <Route path='/reset-password' exact={true}>
             <ResetPasswordPage />
+          </Route>
+          <Route path='/feed' exact={true}>
+            <FeedPage />
+          </Route>
+          <Route path='/feed/:id' exact={true}>
+            <FeedInfoPage />
           </Route>
           <ProtectedRoute path='/profile' exact={true}>
             <ProfilePage />
