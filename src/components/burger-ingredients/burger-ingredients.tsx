@@ -1,6 +1,6 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/types/index";
 import { Location } from "history";
@@ -30,9 +30,18 @@ const BurgerIngredients = () => {
   const details = useSelector((store) => store.itemDetails.details);
   const showDetails = useSelector((store) => store.itemDetails.showDetails);
 
-  const buns = items.filter((elem: TIngredients) => elem.type === "bun");
-  const sauces = items.filter((elem: TIngredients) => elem.type === "sauce");
-  const mains = items.filter((elem: TIngredients) => elem.type === "main");
+  const buns = useMemo(
+    () => items.filter((elem: TIngredients) => elem.type === "bun"),
+    [items]
+  );
+  const sauces = useMemo(
+    () => items.filter((elem: TIngredients) => elem.type === "sauce"),
+    [items]
+  );
+  const mains = useMemo(
+    () => items.filter((elem: TIngredients) => elem.type === "main"),
+    [items]
+  );
 
   function handleOpenModal(elem: TIngredients) {
     dispatch(getDetails(elem));
