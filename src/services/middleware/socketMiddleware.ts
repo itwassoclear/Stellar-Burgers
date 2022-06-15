@@ -27,17 +27,14 @@ export const createSocketMiddleware = (
 
       if (socket) {
         socket.onopen = (event) => {
-          console.log("ws open");
           dispatch({ type: onOpen, payload: event });
         };
 
         socket.onerror = (event) => {
-          console.log("ws error");
           dispatch({ type: onError, payload: event });
         };
 
         socket.onmessage = (event) => {
-          console.log("ws message");
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
@@ -46,7 +43,6 @@ export const createSocketMiddleware = (
         };
 
         socket.onclose = (event) => {
-          console.log("ws close");
           socket!.close();
           socket = null;
           dispatch({ type: onClose, payload: event });

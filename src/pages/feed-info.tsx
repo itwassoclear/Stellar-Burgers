@@ -11,7 +11,7 @@ import {
 
 export function FeedInfoPage() {
   const dispatch = useDispatch();
-  const data = useSelector((store) => store.ws.messages);
+  const data = useSelector((store) => store.ws.orders);
 
   useEffect(() => {
     dispatch(getUser());

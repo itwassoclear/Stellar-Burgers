@@ -30,7 +30,7 @@ export const FeedPage = () => {
   const dispatch = useDispatch();
   const location = useLocation<TLocationState>();
   const history = useHistory();
-  const data = useSelector((store) => store.ws.messages);
+  const data = useSelector((store) => store.ws.orders);
   const total = useSelector((store) => store.ws.total);
   const totalToday = useSelector((store) => store.ws.totalToday);
 
