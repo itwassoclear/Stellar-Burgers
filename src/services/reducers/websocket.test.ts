@@ -1,6 +1,7 @@
 import { wsReducer, initialState } from "./websocket";
 import * as types from "../actions/websocket";
 import { TOrders } from "../types/data";
+import type { TWsActions } from "../actions/websocket";
 
 const orders: TOrders[] = [
   {
@@ -53,7 +54,7 @@ const orders: TOrders[] = [
 
 describe("websocket reducer", () => {
   it("should return the initial state", () => {
-    expect(wsReducer(undefined, { type: undefined })).toEqual(initialState);
+    expect(wsReducer(undefined, {} as TWsActions)).toEqual(initialState);
   });
 
   it("should handle WS_CONNECTION_SUCCESS", () => {
