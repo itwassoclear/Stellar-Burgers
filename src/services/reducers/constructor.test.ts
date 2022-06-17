@@ -64,67 +64,33 @@ const ingredients = [
 ];
 
 const bun = {
-  index: 1,
-  item: {
-    __v: 0,
-    _id: "60d3b41abdacab0026a733c6",
-    calories: 420,
-    carbohydrates: 53,
-    fat: 24,
-    image: "https://code.s3.yandex.net/react/code/bun-02.png",
-    image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-    name: "Краторная булка N-200i",
-    price: 1255,
-    proteins: 80,
+  __v: 0,
+  _id: "60d3b41abdacab0026a733c6",
+  calories: 420,
+  carbohydrates: 53,
+  fat: 24,
+  image: "https://code.s3.yandex.net/react/code/bun-02.png",
+  image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
+  image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+  name: "Краторная булка N-200i",
+  price: 1255,
+  proteins: 80,
+  type: "bun" as "bun" | "sauce" | "main",
+  dragId: "ee84be63-4fe3-4fdb-a83b-2ee5b42bcbde",
+  payload: {
+    calories: 643,
+    carbohydrates: 85,
+    fat: 26,
+    image: "https://code.s3.yandex.net/react/code/bun-01.png",
+    image_large: "https://code.s3.yandex.net/react/code/bun-01-large.png",
+    image_mobile: "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+    name: "Флюоресцентная булка R2-D3",
+    price: 988,
+    proteins: 44,
     type: "bun" as "bun" | "sauce" | "main",
-    dragId: "ee84be63-4fe3-4fdb-a83b-2ee5b42bcbde",
-    payload: {
-      calories: 643,
-      carbohydrates: 85,
-      fat: 26,
-      image: "https://code.s3.yandex.net/react/code/bun-01.png",
-      image_large: "https://code.s3.yandex.net/react/code/bun-01-large.png",
-      image_mobile: "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
-      name: "Флюоресцентная булка R2-D3",
-      price: 988,
-      proteins: 44,
-      type: "bun" as "bun" | "sauce" | "main",
-      __v: 0,
-      _id: "60d3b41abdacab0026a733c7",
-    },
+    __v: 0,
+    _id: "60d3b41abdacab0026a733c7",
   },
-  optional: [
-    {
-      __v: 0,
-      _id: "60d3b41abdacab0026a733c6",
-      calories: 420,
-      carbohydrates: 53,
-      fat: 24,
-      image: "https://code.s3.yandex.net/react/code/bun-02.png",
-      image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-      image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-      name: "Краторная булка N-200i",
-      price: 1255,
-      proteins: 80,
-      type: "bun" as "bun" | "sauce" | "main",
-      dragId: "ee84be63-4fe3-4fdb-a83b-2ee5b42bcbde",
-      payload: {
-        calories: 643,
-        carbohydrates: 85,
-        fat: 26,
-        image: "https://code.s3.yandex.net/react/code/bun-01.png",
-        image_large: "https://code.s3.yandex.net/react/code/bun-01-large.png",
-        image_mobile: "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
-        name: "Флюоресцентная булка R2-D3",
-        price: 988,
-        proteins: 44,
-        type: "bun" as "bun" | "sauce" | "main",
-        __v: 0,
-        _id: "60d3b41abdacab0026a733c7",
-      },
-    },
-  ],
 };
 
 describe("constructorItemsReducer reducer", () => {
@@ -158,7 +124,7 @@ describe("constructorItemsReducer reducer", () => {
       })
     ).toEqual({
       ...initialState,
-      bun: bun,
+      ingredients: ingredients,
     });
   });
 
@@ -172,7 +138,7 @@ describe("constructorItemsReducer reducer", () => {
       })
     ).toEqual({
       ...initialState,
-      bun: bun,
+      ingredients: [],
     });
   });
 
@@ -186,7 +152,7 @@ describe("constructorItemsReducer reducer", () => {
       })
     ).toEqual({
       ...initialState,
-      ingredients: bun,
+      ingredients: ingredients,
     });
   });
 
@@ -213,7 +179,7 @@ describe("constructorItemsReducer reducer", () => {
       })
     ).toEqual({
       ...initialState,
-      totalPrice: 88888,
+      totalPrice: 0,
     });
   });
 });
