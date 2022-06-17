@@ -15,7 +15,7 @@ type TDetailsState = {
   showOrder: boolean;
 };
 
-const initialState: TDetailsState = {
+export const initialState: TDetailsState = {
   order: null,
   orderRequest: false,
   orderFailed: false,
