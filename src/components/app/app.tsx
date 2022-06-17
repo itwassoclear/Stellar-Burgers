@@ -22,7 +22,6 @@ import {
 } from "../../pages";
 
 import appStyles from "./app.module.css";
-import { getUser } from "../../services/actions/user";
 import { getItems } from "../../services/actions/items";
 
 import { ProtectedRoute } from "../protected-route/protected-route";
@@ -38,7 +37,6 @@ const App: FC = () => {
 
   useEffect(() => {
     dispatch(getItems());
-    dispatch(getUser());
   }, [dispatch]);
 
   const { items } = useSelector((state: RootStateOrAny) => state.items);

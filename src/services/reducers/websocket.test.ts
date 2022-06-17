@@ -178,27 +178,5 @@ describe("websocket reducer", () => {
       total: 1000,
       totalToday: 10,
     });
-
-    expect(
-      wsReducer(
-        {
-          orders: orders,
-          total: 1000,
-          totalToday: 10,
-        },
-        {
-          type: types.WS_GET_ALL_MESSAGE,
-          payload: {
-            orders: orders,
-            total: 1000,
-            totalToday: 10,
-          },
-        }
-      )
-    ).toEqual({
-      orders: orders,
-      total: 1000,
-      totalToday: 10,
-    });
   });
 });

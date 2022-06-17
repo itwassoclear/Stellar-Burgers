@@ -29,7 +29,8 @@
       "react-app",
       "react-app/jest"
     ],
-    "parser": "@typescript-eslint/parser"
+    "parser": "@typescript-eslint/parser",
+    "plugin": "cypress/recommend"
   },
   "scripts": {
     "start": "react-scripts start",

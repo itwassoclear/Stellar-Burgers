@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 import styles from "./pages.module.css";
 import OrderInfo from "../components/order-info/order-info";
-import { getUser } from "../services/actions/user";
 import {
   wsConnectionClosed,
   wsConnectionStart,
@@ -14,7 +13,6 @@ export function FeedInfoPage() {
   const data = useSelector((store) => store.ws.orders);
 
   useEffect(() => {
-    dispatch(getUser());
     dispatch(wsConnectionStart());
     return () => {
       dispatch(wsConnectionClosed());

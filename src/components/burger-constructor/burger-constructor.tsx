@@ -8,7 +8,6 @@ import clsx from "clsx";
 import { useMemo } from "react";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useSelector, useDispatch } from "../../services/types/index";
-import { useHistory } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import styles from "./burger-constructor.module.css";
 
@@ -29,9 +28,7 @@ import { TIngredients } from "../../services/types/data";
 
 const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  const isUser = useSelector((state) => state.user.isUser);
   const { bun, ingredients } = useSelector((state) => state.constructorItems);
   const showOrder = useSelector((state) => state.orderDetails.showOrder);
   const order = useSelector((state) => state.orderDetails.order);
@@ -39,15 +36,11 @@ const BurgerConstructor: FC = () => {
   const types = ["sauce", "main"];
 
   function handleOpenModal() {
-    if (isUser) {
-      const itemsForOrder: string[] = ingredients.map((item) => item._id);
-      itemsForOrder.unshift(bun?._id as string);
-      itemsForOrder.push(bun?._id as string);
-      dispatch(getOrder(itemsForOrder));
-      dispatch({ type: SHOW_ORDER });
-    } else {
-      history.replace({ pathname: "/login" });
-    }
+    const itemsForOrder: string[] = ingredients.map((item) => item._id);
+    itemsForOrder.unshift(bun?._id as string);
+    itemsForOrder.push(bun?._id as string);
+    dispatch(getOrder(itemsForOrder));
+    dispatch({ type: SHOW_ORDER });
   }
 
   function handleCloseModal() {
