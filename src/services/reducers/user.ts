@@ -11,22 +11,21 @@ import type { TGetUserActions, TUpdateUserActions } from "../actions/user";
 import type { TRegisterForm } from "../types/data";
 
 type TUserState = {
-  user: null;
+  // user: null;
   form: TRegisterForm;
   isUser: boolean;
-  getUserRequest: boolean;
-  getUserFailed: boolean;
+  getUserRequest?: boolean;
+  getUserFailed?: boolean;
 };
 
 type TUpdateUserState = {
   form: TRegisterForm;
-  getUserRequest: boolean;
-  getUserFailed: boolean;
-  isUpdated: boolean;
+  getUserRequest?: boolean;
+  getUserFailed?: boolean;
+  isUpdated?: boolean;
 };
 
-const initialUserState: TUserState = {
-  user: null,
+export const initialUserState: TUserState = {
   form: {
     email: "",
     name: "",
@@ -37,7 +36,7 @@ const initialUserState: TUserState = {
   getUserFailed: false,
 };
 
-const initialUpdateUserState: TUpdateUserState = {
+export const initialUpdateUserState: TUpdateUserState = {
   form: {
     email: "",
     name: "",

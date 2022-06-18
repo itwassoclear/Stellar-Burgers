@@ -11,7 +11,7 @@ type TDetailsState = {
   showDetails: boolean;
 };
 
-const initialState: TDetailsState = {
+export const initialState: TDetailsState = {
   details: null,
   showDetails: false,
 };

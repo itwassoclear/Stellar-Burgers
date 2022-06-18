@@ -32,7 +32,7 @@ export type TIngredients = {
   readonly name: string;
   readonly price: number;
   readonly proteins: number;
-  readonly type: string;
+  readonly type: "bun" | "sauce" | "main";
   readonly __v: number;
   readonly _id: string;
   readonly id?: string;
@@ -70,8 +70,8 @@ export type TOrders = {
   ingredients: Array<string>;
   name: string;
   number: number;
-  owner: object;
-  price: number;
+  owner?: object;
+  price?: number;
   status: string;
   updatedAt: string;
   _id: string;
@@ -79,9 +79,9 @@ export type TOrders = {
 
 export type TAllOrders = {
   readonly orders: Array<TOrders>;
-  readonly success: boolean;
-  readonly total: number;
-  readonly totalToday: number;
+  readonly success?: boolean;
+  readonly total?: number;
+  readonly totalToday?: number;
 };
 
 export type TProfileMenu = {

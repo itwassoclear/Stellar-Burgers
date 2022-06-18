@@ -26,7 +26,6 @@ export const OrderInfo = ({ details }: TDetails) => {
         return { elem: elem, count: 1 };
       })
       .reduce((a: any, b: { elem: string; count: number }) => {
-        console.log(a, b);
         a[b.elem] = (a[b.elem] || 0) + b.count;
         return a;
       }, {});

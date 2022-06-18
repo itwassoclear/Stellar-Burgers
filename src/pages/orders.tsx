@@ -31,7 +31,7 @@ export const OrdersPage = () => {
   const dispatch = useDispatch();
   const location = useLocation<TLocationState>();
   const history = useHistory();
-  const data = useSelector((store) => store.ws.messages);
+  const data = useSelector((store) => store.ws.orders);
   const isUser = useSelector((store) => store.user.isUser);
 
   const showDetails = useSelector((store) => store.itemDetails.showDetails);

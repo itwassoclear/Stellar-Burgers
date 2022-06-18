@@ -141,7 +141,7 @@ export const getUser = () => {
           return Promise.reject(err);
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         dispatch({
           type: GET_USER_FAILED,
         });
@@ -165,7 +165,7 @@ export const updateUser: AppThunk = (form) => {
         });
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       try {
         if (
           err.message === "jwt expired" ||
@@ -197,7 +197,7 @@ export const updateUser: AppThunk = (form) => {
           return Promise.reject(err);
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
         dispatch({
           type: UPDATE_USER_FAILED,
         });

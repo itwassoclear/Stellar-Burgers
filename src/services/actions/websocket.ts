@@ -65,7 +65,6 @@ export const wsConnectionSuccess = (): IWsSuccessAction => {
 };
 
 export const wsConnectionError = (): IWsErrorAction => {
-  console.log("ERROR");
   return {
     type: WS_CONNECTION_ERROR,
   };

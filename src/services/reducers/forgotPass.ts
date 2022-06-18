@@ -14,7 +14,7 @@ type TForgotPassState = {
   forgotPassFailed: boolean;
 };
 
-const initialState: TForgotPassState = {
+export const initialState: TForgotPassState = {
   form: {
     email: "",
   },

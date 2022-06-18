@@ -12,7 +12,7 @@ import { getCookie } from "../utils/cookie";
 
 export function OrderInfoPage() {
   const dispatch = useDispatch();
-  const data = useSelector((store) => store.ws.messages);
+  const data = useSelector((store) => store.ws.orders);
 
   useEffect(() => {
     dispatch(getUser());
